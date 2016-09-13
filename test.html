@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{
+  background: #333;
+  margin: 0;
+
+}
+#cbsa-borders{
+  color: black;
+}
+  #map, #chart {
+    /*margin:2%;*/
+    width: 96%;
+    margin: 0;
+    padding:2%;
+    /*border:2px solid #d0d0d0;*/
+    border-radius: 5px;
+    /*display: inline-block;*/
+  }
+  .county-boundary{
+    fill: black;
+  }
+
+rect.LI{
+  fill: #1696d2;
+}
+rect.SI{
+  fill: #cfe8f3;
+}
+rect.NC{
+  fill: #d2d2d2;
+}
+rect.SL{
+  fill: #fff2cf;
+}
+rect.LL{
+  fill: #fdbf11;
+}
+</style>
+<body>
+<!-- <div id ="map"></div> -->
+<select id "topics_selector">
+  <option value = "arts">All topics</option>
+	<option value = "arts">1 Arts</option>
+	<option value = "higher_ed">2a Higher Education</option>
+	<option value = "other_ed">2b Other Education</option>
+	<option value = "environment">3 Environment and Animals</option>
+	<option value = "hospitals">4a Hospitals</option>
+	<option value = "other_health">4b Other Health</option>
+	<option value = "human_services">5 Human Services</option>
+	<option value = "international">6 International and Foreign Affairs</option>
+	<option value = "religion">7 Religion Related</option>
+	<option value = "other">8 Other</option>
+</select>
+<div id ="chart"></div>
+
+
+<script src="//d3js.org/d3.v4.0.0-rc.2.js"></script>
+<script src="//d3js.org/topojson.v1.min.js"></script>
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js'></script>
+<script>
+
+var TOPICS = {
+  "1 Arts" : "arts",
+  "2a Higher Education" : "higher_ed",
+  "2b Other Education" : "other_ed",
+  "3 Environment and Animals" : "environment",
+  "4a Hospitals" : "hospitals",
+  "4b Other Health" : "other_health",
+  "5 Human Services" : "human_services",
+  "6 International and Foreign Affairs" : "international",
+  "7 Religion Related" : "religion",
+  "8 Other" : "other",
+  "none" : "none"
+}
+
+
+// d3.select("body").on("click", function(){
+
+// d3.selectAll(".small_chart").transition()
+// .duration(1000)
+// .attr("transform","scale(100,100)")
+// })
+
+var color = d3.scaleThreshold()
+    .domain([-80, -60, -40, -20, 0, 20, 40, 60, 80])
+    .range(["rgb(255, 79, 0)", "rgb(255, 132, 0)", "rgb(253, 185, 19)", "rgb(255, 217, 144)", "rgb(255, 235, 196)", "rgb(207, 227, 245)","rgb(130, 196, 233)","rgb(22, 150, 210)","rgb(0, 118, 188)","rgb(29, 66, 129)"]);
+  d3.select(window)
+        .on("load", sizeChange)
+        .on("resize", sizeChange);
+
+  var projection = d3.geoAlbersUsa()
+    .scale(1100);
+
+  var path = d3.geoPath()
+    .projection(projection);
+    // console.log(path)
+
+//   var svg = d3.select("#map")
+//     .append("svg")
+//     .attr("width", "100%")
+//         .append("g");
+  
+//   d3.json("data/data.json", function(error, us) {
+//     if (error) throw error;
+//    //  svg.selectAll(".states")
+//    //  // .data(topojson.object(us, us.objects.cb_2015_us_cbsa_500k).geometries)
+//    //  // .data(topojson.mesh(us, us.objects.cb_2015_us_cbsa_500k, function(a, b) { console.log(a !== b && !(a.properties.GEOID != b.properties.GEOID)); return a !== b && !(a.properties.GEOID != b.properties.GEOID); }))
+//    //  .data(topojson.feature(us, us.objects.cb_2015_us_cbsa_500k))
+
+//    // .enter().append("path")
+//    //  .attr("class", "states")
+//    //  .style("stroke","black")
+//    //  .attr("d", path);
+
+
+
+// // console.log(topojson.feature(us, us.objects.cb_2015_us_cbsa_500k).features)
+// var filtered = topojson.feature(us, us.objects.cb_2015_us_cbsa_500k).features.filter(function(d){
+//   return d.properties.hasOwnProperty("growth")
+//   // console.log(d)
+
+// })
+//   svg.selectAll("path")
+//       .data(filtered)
+//       .attr("class", "county-boundary")
+//       // .attr("d", path)
+//       .enter().append("path")
+//       .attr("d",path)
+
+//       .style("fill",function(d,i){ return color(+d.properties.growth);})
+//       .style("stroke","#fff")
+//       .on("mouseover", function(d,i){console.log(d)})
+
+
+
+//   });
+
+
+var chart = d3.select("#chart")
+    .append("svg")
+    .attr("width", "100%")
+    .append("g");
+
+d3.csv("data/test.csv", function(err, data){
+  // console.log(data)
+  var data = data.filter(function(d){
+  return d.hasOwnProperty("growth") && d["growth"] != "NULL"
+  // console.log(d)
+
+  })
+  .sort(function(a, b) {
+    // if(parseFloat(a["GRREC % LI"])+parseFloat(a["GRREC % SI"]) > (parseFloat(a["GRREC % LL"]) + parseFloat(a["GRREC % SL"]))){
+    //     if( (parseFloat(a["GRREC % LI"])+parseFloat(a["GRREC % SI"]) ) - (parseFloat(b["GRREC % LL"]) + parseFloat(b["GRREC % SL"])) == 0){
+    //       return parseFloat(a["GRREC % LI"]) - parseFloat(b["GRREC % LI"])
+    //     }else{
+    //       return (parseFloat(a["GRREC % LI"])+parseFloat(a["GRREC % SI"]) ) - (parseFloat(b["GRREC % LL"]) + parseFloat(b["GRREC % SL"]))
+    //     }
+    // }else{
+      if(parseFloat(a["GRREC % NC"]) == 100) return Infinity
+      else if((parseFloat(b["GRREC % LI"])+parseFloat(b["GRREC % SI"])) == (parseFloat(a["GRREC % LI"]) + parseFloat(a["GRREC % SI"]))){
+        return parseFloat(b["GRREC % LI"]) - parseFloat(a["GRREC % LI"])
+      }else{
+          return (parseFloat(b["GRREC % LI"])+parseFloat(b["GRREC % SI"])) - (parseFloat(a["GRREC % LI"]) + parseFloat(a["GRREC % SI"]))
+      }
+    // };
+    // return parseFloat(b["growth"]) - parseFloat(a["growth"])
+  });
+  console.log(data)
+  var rowCount,
+    small_width = 9,
+    gutter = 6;
+  rowCount = Math.floor(.9*d3.select("#chart").node().getBoundingClientRect().width / (small_width + gutter))
+  var small_chart = chart.selectAll(".small_chart")
+    .data(data)
+    .enter()
+    .append("g")
+    .attr("class",function(d){
+      return "small_chart " + TOPICS[d["NTEEGROUP"]]
+    })
+    .attr("width",small_width + "px")
+    .attr("height",small_width + "px")
+    .attr("transform", function(d,i){
+      i += 1;
+      var x = ( (((i-1)%rowCount)) * (small_width+gutter) )
+      var y = ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
+      return "translate(" + x + "," + y + ")"
+    })
+  var cats = ["GRREC % LI","GRREC % SI","GRREC % NC","GRREC % SL","GRREC % LL"]
+  var start = 0;
+  for(var i = 0; i < cats.length; i++){
+    var cat = cats[i]
+    console.log(i)
+    small_chart
+      .append("rect")
+      .attr("width", function(d){ return small_width*(parseFloat(d[cat])/100)})
+      .attr("x", function(d){
+        if(isNaN(d[cat])){
+          console.log(d)
+        }
+        var start = 0;
+        for(var j =0; j < i ; j++){
+          start += small_width*parseFloat(d[cats[j]])/100
+        }
+        return start;
+      })
+      .attr("height", small_width)
+      .attr("y",0)
+      .attr("class",cat.split(" % ")[1])
+      // .attr("fill", function(d){ return color(d["growth"])})
+
+      // start += small_width*parseFloat(small_chart.datum()[cat])/100
+    
+  }
+  // small_chart.append("text").text(function(d,i){ return i})
+
+    // .attr("y", function(d,i){
+    //   i += 1;
+    //   return ( (Math.ceil(i/rowCount)) * (small_width+gutter) ) + "px"
+    // })
+    // .attr("fill",function(d){ console.log(d); return color(+d.growth) } )
+})
+
+  function sizeChange() {
+      d3.select("#map svg g").attr("transform", "scale(" + $("#map").width()/900 + ")");
+      d3.select("#chart svg g").attr("transform", "scale(" + $("#chart").width()/900 + ")");
+      // d3.select("g").attr("transform", "scale(" + $("#chart").width()/900 + ")");
+
+      $("#map svg").height($("#map").width()*0.618);
+      $("#chart svg").height($("#chart").width()*2);
+
+  }
+
+
+
+ // var map;
+
+ //  function Map(topology) {
+ //    console.log(topology)
+
+ //    // Convert the topojson to geojson
+ //    var geojson = topojson.feature(topology, topology.objects.cb_2015_us_cbsa_500k),
+ //   projection = d3.geo.albersUsa()
+ //    .scale(1100);
+
+ //    // Since we're using projected TopoJSON, we use a null projection here.
+ //        path = d3.geo.path().projection(projection),
+
+ //    // Use topojson.mesh to create a path representing county outlines.
+ //        countyMesh = topojson.mesh(topology, topology.objects.cb_2015_us_cbsa_500k, function(a, b) {
+ //          return a.properties.GEOID !== b.properties.GEOID;
+ //        }),
+
+ //        svg = d3.select("#map").append("svg")
+ //                    .attr({
+ //                      width: 615,
+ //                      height: 375
+ //                    }),
+
+ //        g = svg.append("g").attr({"class": "g-town"}),
+
+ //        colorScale = d3.scale.category20b(),
+
+ //        // Add town paths
+ //        town = g.selectAll("path.town").data(geojson.features)
+ //                  .enter().append("path")
+ //                    .attr({
+ //                      "class": "town",
+ //                      d: path
+ //                    })
+ //                    .style({
+ //                      fill: "grey",
+ //                      stroke: "black"
+ //                    }),
+
+ //        // Add county path and set its opacity to 0,
+ //        // since we don't want to show it initially.
+ //        county = g.append("path").datum(countyMesh)
+ //                  .attr({
+ //                    "class": "county",
+ //                    d: path
+ //                  })
+ //                  .style({
+ //                    opacity: 0,
+ //                    stroke: "white",
+ //                    "stroke-width": 2,
+ //                    fill: "none"
+ //                  }),
+
+ //        currentState = "town";
+
+ //        // To show the county outlines, we
+ //        // transition the town shapes to have
+ //        // a consistent stroke, and fill, in effect hiding
+ //        // them. We also transition the county
+ //        // path to be visible.
+ //        this.showCounties = function() {
+ //          var countyColors = {};
+
+ //          // Since we're using a mesh for the county outlines,
+ //          // it doesn't work well to add the fill to the county
+ //          // path. Instead, we'll set a consistent fill on all 
+ //          // the towns in each county, to give the effect of 
+ //          // filling in the county.
+ //          town.transition()
+ //            .duration(600)
+ //            .style({
+ //              fill: function(d, i) {
+ //                if (!countyColors[d.properties.GEOID]) {
+ //                  countyColors[d.properties.GEOID] = colorScale(Math.floor(Math.random()*1000));
+ //                }
+ //                return countyColors[d.properties.GEOID];
+ //              },
+ //              stroke: function(d, i) {
+ //                return "black"
+ //              }
+ //            });
+
+ //          county.transition()
+ //            .duration(600)
+ //            .style({
+ //              opacity: 1
+ //            })
+ //        };
+
+ //        // To show the town outlines, we transition
+ //        // back to our original state.
+ //        this.showTowns = function() {
+ //          town.transition()
+ //            .duration(600)
+ //            .style({
+ //              stroke: "white",
+ //              fill: function(d, i) {
+ //                return colorScale(Math.floor(Math.random()*1000));
+ //              }
+ //            });
+
+ //          county.transition()
+ //            .duration(600)
+ //            .style({
+ //              opacity: 0
+ //            })
+ //        };
+
+ //        this.toggle = function() {
+ //          if (currentState === "town") {
+ //            this.showCounties();
+ //            currentState = "county";
+ //          } else {
+ //            this.showTowns();
+ //            currentState = "town";
+ //          }
+ //        };
+ //  }
+
+ //  d3.json("data/data.json", function(err, topology) {
+ //    map = new Map(topology);
+ //  });
+
+ //  d3.select("#toggle").on("click", function() {
+ //    map.toggle();
+ //  });
+
+
+</script>
