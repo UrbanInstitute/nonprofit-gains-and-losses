@@ -238,7 +238,7 @@ else      return ( parseFloat(a["GRREC % LI"]) + parseFloat(a["GRREC % SI"]) ) -
   var margin = {"left":10,"top":10,"right":10,"bottom":10}
   var rowCount,
     small_width = 7,
-    gutter = 0;
+    gutter = 2;
   rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
   var small_chart = chart.selectAll(".small_chart")
     .data(data)
