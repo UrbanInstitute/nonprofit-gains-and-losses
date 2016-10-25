@@ -1,0 +1,93 @@
+body{
+  /*color: white;*/
+  font-family: Lato;
+  background: #fff;
+  margin: 0;
+}
+#cbsa-borders{
+  color: #333;
+}
+#map, #chart {
+  /*margin:2%;*/
+  width: calc(96% - 230px);
+  margin: 0;
+  padding:2%;
+  /*border:2px solid #d0d0d0;*/
+  border-radius: 5px;
+  float: left;
+  /*display: inline-block;*/
+}
+#controls{
+  width: 200px;
+      border: 2px solid white;
+    /* float: left; */
+    height: 900px;
+    /* display: inline; */
+    float: left;
+}
+.county-boundary{
+  fill: black;
+}
+
+rect.percent_large_loss{
+  fill: rgb(253, 185, 19);
+}
+rect.percent_slight_loss{
+  fill: rgb(255, 217, 144);
+}
+rect.percent_no_change{
+  fill: rgb(170, 170, 170);
+}
+rect.percent_slight_increase{
+  fill: rgb(130, 196, 233);;
+}
+rect.percent_large_increase{
+  fill: rgb(22, 150, 210);
+}
+rect.highlight_rect{
+  fill: none;
+  stroke-width: 2px;
+  stroke: #ec008b;
+}
+rect.bg{
+  fill: none;
+  stroke: none;
+}
+.smallMultipleLabel, .smallMultipleLabelTemp{
+  font-size: 2.5px;
+}
+.small_chart.fade{
+  opacity: .3;
+}
+.small_chart.fade.clicked{
+  opacity: .3;
+}
+.small_chart.fade.clicked rect.bg{
+  stroke: black;
+  stroke-width: 2px;
+}
+.small_chart.hovered, .small_chart.clicked{
+  opacity: 1
+}
+#tooltip{
+  background-color:rgba(255,255,255,.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100px;  
+}
+.locationMenu.disabled{
+  opacity: .3;
+}
+
+
+/************* TEMP LAYOUT STUFF ******************/
+#locationContainer, #topicContainer{
+  margin-top: 20px;
+}
+
+.menuContainer.active{
+  background-color: #1696d2;
+  color: white;
+}
