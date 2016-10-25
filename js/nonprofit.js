@@ -222,18 +222,18 @@ d3.csv("data/data.csv", function(err, input){
     var cat = cats[i]
     small_chart
       .append("rect")
-      .attr("width", function(d){ return small_width*(parseFloat(d[cat])/100)})
-      .attr("x", function(d){
+      .attr("height", function(d){ return small_width*(parseFloat(d[cat])/100)})
+      .attr("y", function(d){
         if(isNaN(d[cat])){
         }
-        var start = 0;
-        for(var j =0; j < i ; j++){
+        var start = small_width;
+        for(var j = 0; j <= i ; j++){
           start += small_width*parseFloat(d[cats[j]])/100
         }
-        return start;
+        return (small_width + small_width - start);
       })
-      .attr("height", small_width)
-      .attr("y",0)
+      .attr("width", small_width)
+      .attr("x",0)
       .attr("class",cat)
   }
   // small_chart.append("rect")
@@ -288,7 +288,7 @@ d3.select("#filter_button")
         small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
         gutter = (clicked.nodes().length < 15) ? 50 :  small_width/20
         rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-        var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + gutter
+        var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + gutter + small_width
         d3.select(this).transition().attr("height", function(){ return String(newHeight)})
         var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
         var scale = small_width/old_width
