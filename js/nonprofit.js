@@ -1,3 +1,26 @@
+function wrap(text, width, dy) {
+  text.each(function() {
+    var text = d3.select(this),
+    words = text.text().split(/\s+/).reverse(),
+    word,
+    line = [],
+    lineNumber = 0,
+    lineHeight = 1.5,
+    y = text.attr("y"),
+    tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y);
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", "14" + "px").text(word);
+      }
+    }
+  });
+}
+
 function sortData(input){
   var allYears = [];
   for(i = 2009; i <= 2014; i++ ){
@@ -50,186 +73,259 @@ function getSmallWidth(num, width, height){
   }
 }
 
-var IS_STATES = false;
-d3.csv("data/data.csv", function(err, input){
-  var sorted = sortData(input)
-  for(var ind = 0; ind < sorted.length-1; ind++){
-    var data = sorted[ind]
-    if(IS_STATES){
-      d3.select("#cbsa_selector").classed("enabled",false).classed("disabled",true)
-      d3.select("#state_selector").classed("enabled",true).classed("disabled",false)
-      data = data
-        .filter(function(d){
-          return d.location_type == "state"
-        })
+function ntees(ntee){
+  if(NTEES.hasOwnProperty(ntee)){
+    return NTEES[ntee]
+  }else{
+    for (var key in NTEES) {
+        if (NTEES[key][0] == ntee) return NTEES[key];
+    }
+  }
+}
+
+function locations(location){
+  if(location.length == 2 || location == "All USA"){
+    return location
+  }else{
+    if(CBSAS.hasOwnProperty(location)){
+      return CBSAS[location]
     }else{
-      d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
-      d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
-      data = data
-        .filter(function(d){
-          return d.location_type == "cbsa"
-        })
+      for (var key in CBSAS) {
+          if (CBSAS[key][0] == location) return CBSAS[key];
+      }
     }
+  }
+}
 
-    var yearContainer = d3.select("#chart")
-      .append("div")
-      .attr("class","yearContainer start_year-" + data[1]["start_year"])
-    yearContainer
-      .append("text")
-      .html(data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1))
-    var chart = yearContainer
-      .append("svg")
-      .attr("class","chartContainer")
-      .attr("width", window.innerWidth)
-      .attr("height", 400)
-      .append("g")
-      .attr("class","chartGroup")
-      .on("mouseout",function(){
-        if(d3.selectAll(".small_chart.clicked").nodes().length != 0){
-          d3.selectAll(".small_chart")
-            .classed("fade",true)
-          d3.selectAll(".small_chart.clicked")
-            .classed("fade",false)
-        }else{
-          d3.selectAll(".small_chart")
-            .classed("clicked",false)
-            .classed("hovered",false)
-            .classed("fade",false)
-        }
+d3.csv("data/data.csv", function(err, input){
+  var margin = {"left":10,"top":10,"right":10,"bottom":10}
+  function drawSquares(input, isStates, topicFilter, locationFilter){
+    var sorted = sortData(input)
+    for(var ind = 0; ind < sorted.length-1; ind++){
+      var data = sorted[ind]
+      if(isStates){
+        d3.select("#cbsa_selector").classed("enabled",false).classed("disabled",true)
+        d3.select("#state_selector").classed("enabled",true).classed("disabled",false)
+        data = data
+          .filter(function(d){
+            return d.location_type == "state"
+          })
+      }else{
+        d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
+        d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
+        data = data
+          .filter(function(d){
+            return d.location_type == "cbsa"
+          })
+      }
+      if(typeof(topicFilter) != "undefined" && topicFilter != false && topicFilter != "all_topics"){
+        data = data
+          .filter(function(d){
+            return ntees(topicFilter)[0] == ntees(d.topic)[0]
+          })
+      }
+      if(typeof(locationFilter) != "undefined" && locationFilter != false && locationFilter != "all_cities" && locationFilter != "all_states"){
+        data = data
+          .filter(function(d){
+            return locations(locationFilter) == locations(d.location)
+          })
+      }
 
-      });
-
-    var margin = {"left":10,"top":10,"right":10,"bottom":10}
-    var rowCount,
-    small_width = getSmallWidth(input.length,d3.select("#chart").node().getBoundingClientRect().width,window.innerHeight)
-    gutter = small_width/9;
-
-
-    rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-    d3.select(chart.node().parentNode)
-      .attr("height", function(){
-        return margin.top + margin.bottom + (small_width+gutter) * Math.ceil(data.length/rowCount) + "px"
-      })
-    var small_chart = chart.selectAll(".small_chart")
-      .data(data)
-      .enter()
-      .append("g")
-      .attr("class",function(d){
-        var returnClass = "small_chart visible "
-        returnClass += d.location_type + " "
-        returnClass += "start_year-" + d.start_year + " "
-        if (d.location_type == "cbsa"){
-          returnClass += CBSAS[d.location][0] + " "
-        }else{
-          returnClass += d.location + " "
-        }
-        if (d.topic == "aggregate"){
-          returnClass += d.topic
-        }else{
-          returnClass += NTEES[d.topic][0]
-        }
-        return returnClass
-      })
-      .attr("width",small_width + "px")
-      .attr("height",small_width + "px")
-      .attr("transform", function(d,i){
-        i += 1;
-        if(data.length > 60){
-          var offset = Math.ceil(150/(small_width+gutter))
-          i += offset
-        }
-        var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
-        var y = margin.top + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
-        return "translate(" + x + "," + y + ")"
-      })
-      .on("mouseover", function(d){
-        if(d3.select("#topicContainer").classed("active")){
-          selectionHandler(NTEES[d.topic][0], false, "hover")
-        }else{
-          if(d3.select("#cbsa_selector").classed("enabled")){
-            selectionHandler(false, CBSAS[d.location][0], "hover")  
+      var yearContainer = d3.select("#chart")
+        .append("div")
+        .attr("class","yearContainer start_year-" + data[0]["start_year"])
+      yearContainer
+        .append("text")
+        .html(data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1))
+      var chart = yearContainer
+        .append("svg")
+        .attr("class","chartContainer")
+        .attr("width", window.innerWidth)
+        .attr("height", 400)
+        .append("g")
+        .attr("class","chartGroup")
+        .on("mouseout",function(){
+          if(d3.selectAll(".small_chart.clicked").nodes().length != 0){
+            d3.selectAll(".small_chart")
+              .classed("fade",true)
+            d3.selectAll(".small_chart.clicked")
+              .classed("fade",false)
           }else{
-            selectionHandler(false, d.location, "hover")
+            d3.selectAll(".small_chart")
+              .classed("clicked",false)
+              .classed("hovered",false)
+              .classed("fade",false)
           }
-        }
-      })
-      .on("mouseout",function(d){
-        d3.selectAll(".small_chart").classed("hovered",false)
-        if(d3.selectAll(".small_chart.clicked").nodes().length != 0){
-          d3.selectAll(".small_chart")
-            .classed("fade",true)
-          d3.selectAll(".small_chart.clicked")
-            .classed("fade",false)
-        }else{
-          d3.selectAll(".small_chart")
-            .classed("clicked",false)
-            .classed("hovered",false)
-            .classed("fade",false)
-        }
-        d3.selectAll(".temp_li").remove()
-      })
-      .on("click",function(d){
-        if(d3.select("#topicContainer").classed("active")){
-          selectionHandler(NTEES[d.topic][0], false, "click")
-        }else{
-          if(d.location.length == 2 || d.location == "all_states"){
-            selectionHandler(false, d.location, "click")
-          }else{
-            selectionHandler(false, CBSAS[d.location][0], "click")
-          }
-        }
-      })
 
-    var cats = ["percent_large_increase","percent_slight_increase","percent_no_change","percent_slight_loss","percent_large_loss"]
-    var start = 0;
-    for(var i = 0; i < cats.length; i++){
-      var cat = cats[i]
-      small_chart
-        .append("rect")
-        .attr("height", function(d){ return small_width*(parseFloat(d[cat])/100)})
-        .attr("y", function(d){
-          if(isNaN(d[cat])){
-          }
-          var start = small_width;
-          for(var j = 0; j <= i ; j++){
-            start += small_width*parseFloat(d[cats[j]])/100
-          }
-          return (small_width + small_width - start);
+        });
+
+      var rowCount,
+      small_width = getSmallWidth(data.length,d3.select("#chart").node().getBoundingClientRect().width,window.innerHeight)
+      gutter = (data.length < 15) ? 50 :  small_width/9
+
+
+      rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
+      d3.select(chart.node().parentNode)
+        .attr("height", function(){
+          return margin.top + margin.bottom + (small_width+gutter) * Math.ceil(data.length/rowCount) + "px"
         })
-        .attr("width", small_width)
-        .attr("x",0)
-        .attr("class",cat)
-    }
-  }//end outer for loop on sorted data
+      var small_chart = chart.selectAll(".small_chart")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class",function(d){
+          var returnClass = "small_chart visible "
+          returnClass += d.location_type + " "
+          returnClass += "start_year-" + d.start_year + " "
+          if (d.location_type == "cbsa"){
+            returnClass += CBSAS[d.location][0] + " "
+          }else{
+            returnClass += d.location + " "
+          }
+          if (d.topic == "aggregate"){
+            returnClass += d.topic
+          }else{
+            returnClass += ntees(d.topic)[0]
+          }
+          return returnClass
+        })
+        .attr("width",small_width + "px")
+        .attr("height",small_width + "px")
+        .attr("transform", function(d,i){
+          i += 1;
+          if(data.length > 60){
+            var offset = Math.ceil(150/(small_width+gutter))
+            i += offset
+          }
+          var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
+          var y = margin.top + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
+          return "translate(" + x + "," + y + ")"
+        })
+        .on("mouseover", function(d){
+          if(d3.select("#topicContainer").classed("active")){
+            selectionHandler(ntees(d.topic)[0], false, "hover")
+          }else{
+            if(d3.select("#cbsa_selector").classed("enabled")){
+              selectionHandler(false, CBSAS[d.location][0], "hover")  
+            }else{
+              selectionHandler(false, d.location, "hover")
+            }
+          }
+        })
+        .on("mouseout",function(d){
+          d3.selectAll(".small_chart").classed("hovered",false)
+          if(d3.selectAll(".small_chart.clicked").nodes().length != 0){
+            d3.selectAll(".small_chart")
+              .classed("fade",true)
+            d3.selectAll(".small_chart.clicked")
+              .classed("fade",false)
+          }else{
+            d3.selectAll(".small_chart")
+              .classed("clicked",false)
+              .classed("hovered",false)
+              .classed("fade",false)
+          }
+          d3.selectAll(".temp_li").remove()
+        })
+        .on("click",function(d){
+          if(d3.select("#topicContainer").classed("active")){
+            selectionHandler(ntees(d.topic)[0], false, "click")
+          }else{
+            if(d.location.length == 2 || d.location == "all_states"){
+              selectionHandler(false, d.location, "click")
+            }else{
+              selectionHandler(false, CBSAS[d.location][0], "click")
+            }
+          }
+        })
 
-  d3.select("#topics_selector")
+      var cats = ["percent_large_increase","percent_slight_increase","percent_no_change","percent_slight_loss","percent_large_loss"]
+      var start = 0;
+      for(var i = 0; i < cats.length; i++){
+        var cat = cats[i]
+        small_chart
+          .append("rect")
+          .attr("height", function(d){ return small_width*(parseFloat(d[cat])/100)})
+          .attr("y", function(d){
+            if(isNaN(d[cat])){
+            }
+            var start = small_width;
+            for(var j = 0; j <= i ; j++){
+              start += small_width*parseFloat(d[cats[j]])/100
+            }
+            return (small_width + small_width - start);
+          })
+          .attr("width", small_width)
+          .attr("x",0)
+          .attr("class",cat)
+      }
+      if(data.length < 15){
+        small_chart.append("text")
+        .attr("class", "smallMultipleLabelTemp")
+        .style("opacity",0)
+        .attr("y",15+small_width)
+        .html(function(d){
+          if((d3.selectAll(".small_chart.Arts").nodes().length != 0 && d3.selectAll(".small_chart.Other").nodes().length != 0)){
+            return ntees(d.topic)[1]
+          }else{
+            return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
+          }
+        })
+        .call(wrap, small_width, small_width)
+        .transition()
+        .style("opacity",1)
+        .on("end", function(){
+          d3.select(this).attr("class","smallMultipleLabel")
+        })
+      }
+    }//end outer for loop on sorted data
+  }
+  drawSquares(input, false)
+  window.onresize = function(){
+    d3.selectAll(".yearContainer").remove()
+    drawSquares(input, d3.select("#state_selector").classed("enabled"), $("#topics_selector").val(), $(".locationMenu.enabled").val())
+  }
+
+  d3.selectAll("#topics_selector")
     .on("change", function(){
+      if(d3.selectAll(".small_chart.visible." + this.value).nodes().length == 0){
+        redrawSquares(d3.select("#state_selector").classed("enabled"), this.value, $(".locationMenu.enabled").val(), "menu")  
+      }else{
+        if($(".locationMenu.enabled").val() == "all_states" || $(".locationMenu.enabled").val() == "all_cities"){
+          selectionHandler(this.value, false, "menu")
+        }else{
+          selectionHandler(this.value, $(".locationMenu.enabled").val(), "menu")
+        }
+      } 
       d3.selectAll(".menuContainer").classed("active",false)
       d3.select("#topicContainer").classed("active",true)
-      selectionHandler(this.value, false, "menu")
     })
-  d3.select("#state_selector")
+  d3.selectAll("#state_selector")
     .on("change", function(){
       if(d3.select("#state_selector").classed("enabled")){
         selectionHandler(false, this.value, "menu")
       }else{
         d3.select("#cbsa_selector").classed("enabled",false).classed("disabled",true)
         d3.select("#state_selector").classed("enabled",true).classed("disabled",false)
-        redrawSquares(false, this.value, "menu")
+        redrawSquares(true, $("#topics_selector").val(), this.value, "menu")
       }
       d3.selectAll(".menuContainer").classed("active",false)
       d3.select("#locationContainer").classed("active",true)
     })
-  d3.select("#cbsa_selector")
+  d3.selectAll("#cbsa_selector")
     .on("change", function(){
-      d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
-      d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
+      if(d3.select("#cbsa_selector").classed("enabled")){
+        selectionHandler(false, this.value, "menu")
+      }else{
+        d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
+        d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
+        redrawSquares(false, $("#topics_selector").val(), this.value, "menu")
+      }
       d3.selectAll(".menuContainer").classed("active",false)
       d3.select("#locationContainer").classed("active",true)
-      selectionHandler(false, this.value, "menu")
     })
 
-  d3.select("#filter_button")
+  d3.selectAll("#filter_button")
     .on("click", function(){
       if(d3.select(".small_chart.clicked").nodes().length == 0){
         return false;
@@ -238,12 +334,15 @@ d3.csv("data/data.csv", function(err, input){
         .each(function(){
           var clicked = d3.select(this).selectAll(".small_chart.clicked")
           small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
-          gutter = (clicked.nodes().length < 15) ? 50 :  small_width/20
+          gutter = (clicked.nodes().length < 15) ? 50 :  small_width/9
           rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-          var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + gutter + small_width
+          var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter
+          
           d3.select(this).transition().attr("height", function(){ return String(newHeight)})
           var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
-          var scale = small_width/old_width
+          var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
+
+          // var scale = 1;
           clicked.transition()
             .duration(1000)
             .delay(function(d,i){
@@ -253,7 +352,17 @@ d3.csv("data/data.csv", function(err, input){
               i += 1;
               var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
               var y = margin.top + gutter + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
-              return "translate(" + x + "," + y + ")scale(" + scale + ")"
+              return "translate(" + x + "," + y + ")"
+            })
+          clicked.selectAll("rect")
+            .attr("width", function(){
+              return parseFloat(d3.select(this).attr("width")) * scale
+            })
+            .attr("height", function(){
+              return parseFloat(d3.select(this).attr("height")) * scale
+            })
+            .attr("y", function(){
+              return parseFloat(d3.select(this).attr("y")) * scale
             })
           d3.selectAll(".smallMultipleLabel")
             .transition()
@@ -261,47 +370,26 @@ d3.csv("data/data.csv", function(err, input){
             .on("end", function(){
               d3.select(this).remove()
             })
-          function wrap(text, width, dy) {
-            text.each(function() {
-              var text = d3.select(this),
-              words = text.text().split(/\s+/).reverse(),
-              word,
-              line = [],
-              lineNumber = 0,
-              lineHeight = 1.5,
-              y = text.attr("y"),
-              tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y+3).attr("dy", dy + "px");
-              while (word = words.pop()) {
-                line.push(word);
-                tspan.text(line.join(" "));
-                if (tspan.node().getComputedTextLength() > width) {
-                  line.pop();
-                  tspan.text(line.join(" "));
-                  line = [word];
-                  tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", "2.9" + "px").text(word);
-                }
-              }
-            });
-          }
+
 
           if(clicked.nodes().length < 15){
             clicked.append("text")
             .attr("class", "smallMultipleLabelTemp")
             .style("opacity",0)
-            .attr("dy",3+small_width/scale)
+            .attr("y",15+small_width)
             .html(function(d){
               if((d3.selectAll(".small_chart.clicked.Arts").nodes().length != 0 && d3.selectAll(".small_chart.clicked.Other").nodes().length != 0)){
-                return NTEES[d.topic][1]
+                return ntees(d.topic)[1]
               }else{
                 return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
               }
             })
-            .call(wrap, small_width/scale, small_width/scale)
+            .call(wrap, small_width, small_width)
             .transition()
             .delay(1000)
             .style("opacity",1)
             .on("end", function(){
-            d3.select(this).attr("class","smallMultipleLabel")
+              d3.select(this).attr("class","smallMultipleLabel")
             })
           }
 
@@ -311,210 +399,231 @@ d3.csv("data/data.csv", function(err, input){
       d3.selectAll(".small_chart:not(.clicked)")
         .remove()
     })//end filter button click
-})//end csv function
 
-function selectionHandler(topic, location, action){
-  if(topic != false){
-    if(topic == "all_topics"){
-      if(d3.selectAll(".small_chart.visible.Arts").nodes().length != 0 && d3.selectAll(".small_chart.visible.Other").nodes().length != 0){
-        highlightSquares(topic, location, action)
-      }else{
-        redrawSquares(topic, location, action)
-      }
-    }
-    else if(d3.selectAll(".small_chart.visible." + topic).nodes().length != 0){
-      highlightSquares(topic, location, action)
-    }else{
-      redrawSquares(topic, location, action)
-    }
-  }else{
-    if(location == "all_states"){
-      if(d3.selectAll(".small_chart.visible.NH").nodes().length != 0 && d3.selectAll(".small_chart.visible.CA").nodes().length != 0){
-        highlightSquares(topic, location, action)
-      }else{
-        redrawSquares(topic, location_type, action)
-      }
-    }
-    else if(location == "all_cities"){
-      if(d3.selectAll(".small_chart.visible.Atlanta-Sandy-Springs-Roswell").nodes().length != 0 && d3.selectAll(".small_chart.visible.Austin-Round-Rock").nodes().length != 0){
-        highlightSquares(topic, location, action)
-      }else{
-        redrawSquares(topic, location_type, action)
-      }
-    }
-    else if(d3.selectAll(".small_chart.visible." + location).nodes().length != 0){
-      highlightSquares(topic, location, action)
-    }else{
-      redrawSquares(topic, location, action)
-    }
-  }
-}
-
-function highlightSquares(topic, location, action){
-  var menuSelector = (location.length == 2) ? "#state_selector" : "#cbsa_selector";
-  var allSelector = (location.length == 2) ? "all_states" : "all_cities";
-  if(action != "hover"){
+  function selectionHandler(topic, location, action){
+    var isStates = location.length == 2
     if(topic != false){
-      d3.select("#topics_selector").node().value = topic
-      if(action == "click"){
-        d3.select(menuSelector).node().value = allSelector
+      if(topic == "all_topics"){
+        if(d3.selectAll(".small_chart.visible.Arts").nodes().length != 0 && d3.selectAll(".small_chart.visible.Other").nodes().length != 0){
+          highlightSquares(topic, location, action)
+        }else{
+          redrawSquares(isStates, topic, location, action)
+        }
+      }
+      else if(d3.selectAll(".small_chart.visible." + topic).nodes().length != 0){
+        highlightSquares(topic, location, action)
+      }else{
+        redrawSquares(isStates, topic, location, action)
       }
     }else{
-      d3.select(menuSelector).node().value = location
-      if(action == "click"){
-        d3.select("#topics_selector").node().value = "all_topics"
+      if(location == "all_states"){
+        if(d3.selectAll(".small_chart.visible.NH").nodes().length != 0 && d3.selectAll(".small_chart.visible.CA").nodes().length != 0){
+          highlightSquares(topic, location, action)
+        }else{
+          redrawSquares(isStates, topic, location, action)
+        }
+      }
+      else if(location == "all_cities"){
+        if(d3.selectAll(".small_chart.visible.Atlanta-Sandy-Springs-Roswell").nodes().length != 0 && d3.selectAll(".small_chart.visible.Austin-Round-Rock").nodes().length != 0){
+          highlightSquares(topic, location, action)
+        }else{
+          redrawSquares(isStates, topic, location, action)
+        }
+      }
+      else if(d3.selectAll(".small_chart.visible." + location).nodes().length != 0){
+        highlightSquares(topic, location, action)
+      }else{
+        console.log(topic, location)
+        if(topic == false) topic = $("#topics_selector").val()
+        if(location == false) topic = $(".locationMenu.enabled").val()
+        redrawSquares(isStates, topic, location, action)
       }
     }
   }
-  if(topic != false){
-    if(topic == "all_topics"){
-      if(d3.select(menuSelector).node().value == allSelector){
-      // Menu All topics, All USA selected
-        d3.selectAll(".small_chart")
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",false)
-      }else{
-      // Menu All topics, A state selected
-        d3.selectAll(".small_chart")
-          .classed("fade",true)
-          .classed("hovered",false)
-          .classed("clicked",false)
-        d3.selectAll(".small_chart." + d3.select(menuSelector).node().value)
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",true)
-      }
-    }else{
-      if(d3.select(menuSelector).node().value != allSelector){
-        selector = "." + d3.select(menuSelector).node().value + "." + topic
-      }else{
-        selector = "." + topic
-      }
-      if(action == "hover"){
-      // Hover, topic menu is active
-        d3.selectAll(".small_chart")
-          .classed("fade", true)
-          .classed("hovered", false)
-        d3.selectAll(".small_chart." + topic)
-          .classed("fade",false)
-          .classed("hovered",true)
-      }
-      else if(action == "click"){
-      // Click, topic menu is active
-        d3.selectAll(".small_chart")
-          .classed("fade", true)
-          .classed("hovered", false)
-          .classed("clicked", false)
-        d3.selectAll(".small_chart." + topic)
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",true)
-      }else{
-      // Select a topic, All USA selected
-        if(d3.select(menuSelector).node().value == allSelector){
-          d3.selectAll(".small_chart")
-            .classed("fade", true)
-            .classed("hovered", false)
-            .classed("clicked",false)
-          d3.selectAll(".small_chart." + topic)
-            .classed("fade",false)    
-            .classed("hovered",false)  
-            .classed("clicked",true)
-        }else{
-        // Select a topic, A state selected
-          d3.selectAll(".small_chart")
-            .classed("fade", true)
-            .classed("hovered", false)
-            .classed("clicked",false)
-          d3.selectAll(".small_chart" + selector)
-            .classed("fade",false)    
-            .classed("hovered",false)  
-            .classed("clicked",true)
-        }
-      }
-    }
-  }else{
-    if(location == allSelector){
-      if(d3.select("#topics_selector").node().value == "all_topics"){
-      // Menu All states, All USA selected
-        d3.selectAll(".small_chart")
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",false)
-      }else{
-      // Menu All topics, A state selected
-        d3.selectAll(".small_chart")
-          .classed("fade",true)
-          .classed("hovered",false)
-          .classed("clicked",false)
-        d3.selectAll(".small_chart." + d3.select("#topics_selector").node().value)
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",true)
-      }
-    }else{
-      if(d3.select("#topics_selector").node().value != "all_topics"){
-        selector = "." + d3.select("#topics_selector").node().value + "." + location
-      }else{
-        selector = "." + location
-      }
-      if(action == "hover"){
-      // Hover, topic menu is active
-        d3.selectAll(".small_chart")
-          .classed("fade", true)
-          .classed("hovered", false)
-        d3.selectAll(".small_chart." + location)
-          .classed("fade",false)
-          .classed("hovered",true)
-      }
-      else if(action == "click"){
-      // Click, topic menu is active
-        d3.selectAll(".small_chart")
-          .classed("fade", true)
-          .classed("hovered", false)
-          .classed("clicked", false)
-        d3.selectAll(".small_chart." + location)
-          .classed("fade",false)
-          .classed("hovered",false)
-          .classed("clicked",true)
-      }else{
-      // Select a topic, All USA selected
-        if(d3.select("#topics_selector").node().value == "all_topics"){
-          d3.selectAll(".small_chart")
-            .classed("fade", true)
-            .classed("hovered", false)
-            .classed("clicked",false)
-          d3.selectAll(".small_chart." + location)
-            .classed("fade",false)    
-            .classed("hovered",false)  
-            .classed("clicked",true)
-        }else{
-        // Select a topic, A state selected
-          d3.selectAll(".small_chart")
-            .classed("fade", true)
-            .classed("hovered", false)
-            .classed("clicked",false)
-          d3.selectAll(".small_chart" + selector)
-            .classed("fade",false)    
-            .classed("hovered",false)  
-            .classed("clicked",true)
-        }
-      }
-    }
-  }
-}
 
-function redrawSquares(topic, location, action){
-  console.log("redrawing")
-  d3.selectAll(".yearContainer")
-    .style("position","relative")
-    .transition()
-    .duration(800)
-    .style("left", function(){
-      return window.innerWidth * -1.5 + "px"
-    })
-}
+  function highlightSquares(topic, location, action){
+    var menuSelector = (location.length == 2) ? "#state_selector" : "#cbsa_selector";
+    var allSelector = (location.length == 2) ? "all_states" : "all_cities";
+    if(action != "hover"){
+      if(topic != false){
+        d3.select("#topics_selector").node().value = topic
+        if(action == "click"){
+          d3.select(menuSelector).node().value = allSelector
+        }
+      }else{
+        d3.select(menuSelector).node().value = location
+        if(action == "click"){
+          d3.select("#topics_selector").node().value = "all_topics"
+        }
+      }
+    }
+    if(topic != false){
+      if(topic == "all_topics"){
+        if(d3.select(menuSelector).node().value == allSelector){
+        // Menu All topics, All USA selected
+          d3.selectAll(".small_chart")
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",false)
+        }else{
+        // Menu All topics, A state selected
+          d3.selectAll(".small_chart")
+            .classed("fade",true)
+            .classed("hovered",false)
+            .classed("clicked",false)
+          d3.selectAll(".small_chart." + d3.select(menuSelector).node().value)
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",true)
+        }
+      }else{
+        if(d3.select(menuSelector).node().value != allSelector){
+          selector = "." + d3.select(menuSelector).node().value + "." + topic
+        }else{
+          selector = "." + topic
+        }
+        if(action == "hover"){
+        // Hover, topic menu is active
+          d3.selectAll(".small_chart")
+            .classed("fade", true)
+            .classed("hovered", false)
+          d3.selectAll(".small_chart." + topic)
+            .classed("fade",false)
+            .classed("hovered",true)
+        }
+        else if(action == "click"){
+        // Click, topic menu is active
+          d3.selectAll(".small_chart")
+            .classed("fade", true)
+            .classed("hovered", false)
+            .classed("clicked", false)
+          d3.selectAll(".small_chart." + topic)
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",true)
+        }else{
+        // Select a topic, All USA selected
+          if(d3.select(menuSelector).node().value == allSelector){
+            d3.selectAll(".small_chart")
+              .classed("fade", true)
+              .classed("hovered", false)
+              .classed("clicked",false)
+            d3.selectAll(".small_chart." + topic)
+              .classed("fade",false)    
+              .classed("hovered",false)  
+              .classed("clicked",true)
+          }else{
+          // Select a topic, A state selected
+            d3.selectAll(".small_chart")
+              .classed("fade", true)
+              .classed("hovered", false)
+              .classed("clicked",false)
+            d3.selectAll(".small_chart" + selector)
+              .classed("fade",false)    
+              .classed("hovered",false)  
+              .classed("clicked",true)
+          }
+        }
+      }
+    }else{
+      if(location == allSelector){
+        if(d3.select("#topics_selector").node().value == "all_topics"){
+        // Menu All states, All USA selected
+          d3.selectAll(".small_chart")
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",false)
+        }else{
+        // Menu All topics, A state selected
+          d3.selectAll(".small_chart")
+            .classed("fade",true)
+            .classed("hovered",false)
+            .classed("clicked",false)
+          d3.selectAll(".small_chart." + d3.select("#topics_selector").node().value)
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",true)
+        }
+      }else{
+        if(d3.select("#topics_selector").node().value != "all_topics"){
+          selector = "." + d3.select("#topics_selector").node().value + "." + location
+        }else{
+          selector = "." + location
+        }
+        if(action == "hover"){
+        // Hover, topic menu is active
+          d3.selectAll(".small_chart")
+            .classed("fade", true)
+            .classed("hovered", false)
+          d3.selectAll(".small_chart." + location)
+            .classed("fade",false)
+            .classed("hovered",true)
+        }
+        else if(action == "click"){
+        // Click, topic menu is active
+          d3.selectAll(".small_chart")
+            .classed("fade", true)
+            .classed("hovered", false)
+            .classed("clicked", false)
+          d3.selectAll(".small_chart." + location)
+            .classed("fade",false)
+            .classed("hovered",false)
+            .classed("clicked",true)
+        }else{
+        // Select a topic, All USA selected
+          if(d3.select("#topics_selector").node().value == "all_topics"){
+            d3.selectAll(".small_chart")
+              .classed("fade", true)
+              .classed("hovered", false)
+              .classed("clicked",false)
+            d3.selectAll(".small_chart." + location)
+              .classed("fade",false)    
+              .classed("hovered",false)  
+              .classed("clicked",true)
+          }else{
+          // Select a topic, A state selected
+            d3.selectAll(".small_chart")
+              .classed("fade", true)
+              .classed("hovered", false)
+              .classed("clicked",false)
+            d3.selectAll(".small_chart" + selector)
+              .classed("fade",false)    
+              .classed("hovered",false)  
+              .classed("clicked",true)
+          }
+        }
+      }
+    }
+  }
+
+  function redrawSquares(isStates, topic, location, action){
+    if(d3.selectAll("#loadingGif").nodes().length == 0){
+      d3.select("body")
+        .append("div")
+        .attr("id", "loadingGif")  
+    }
+    d3.select("#loadingGif")
+      .transition()
+      .style("opacity", 1);
+
+    d3.selectAll(".yearContainer")
+      .style("position","relative")
+      .transition()
+      .duration(800)
+      .style("left", function(){
+        return window.innerWidth * -1.5 + "px"
+      })
+      .on("end", function(){
+        d3.select(this).remove()
+
+        if(d3.selectAll(".yearContainer").nodes().length == 0){
+          drawSquares(input, isStates, topic, location)
+          checkReady()
+        }
+      })
+  }
+
+})//end csv function
 
 isIE = false;
 function checkReady() {
@@ -540,3 +649,5 @@ function checkReady() {
   }
 }
 checkReady();
+
+
