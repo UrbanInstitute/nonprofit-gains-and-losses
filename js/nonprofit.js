@@ -1,3 +1,11 @@
+var CBSA_SELECTOR = "#cbsa_selector"
+var STATE_SELECTOR = "#state_selector"
+var TOPIC_SELECTOR = "#topics_selector"
+var FILTER_BUTTON = "#filter_button"
+var ENABLED_SELECTOR = ".locationMenu.enabled"
+var START_YEAR_SELECTOR = "#start_year_selector"
+var END_YEAR_SELECTOR = "#end_year_selector"
+
 function wrap(text, width, dy) {
   text.each(function() {
     var text = d3.select(this),
@@ -104,15 +112,15 @@ d3.csv("data/data.csv", function(err, input){
     for(var ind = 0; ind < sorted.length-1; ind++){
       var data = sorted[ind]
       if(isStates){
-        d3.select("#cbsa_selector").classed("enabled",false).classed("disabled",true)
-        d3.select("#state_selector").classed("enabled",true).classed("disabled",false)
+        d3.select(CBSA_SELECTOR).classed("enabled",false).classed("disabled",true)
+        d3.select(STATE_SELECTOR).classed("enabled",true).classed("disabled",false)
         data = data
           .filter(function(d){
             return d.location_type == "state"
           })
       }else{
-        d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
-        d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
+        d3.select(STATE_SELECTOR).classed("enabled",false).classed("disabled",true)
+        d3.select(CBSA_SELECTOR).classed("enabled",true).classed("disabled",false)
         data = data
           .filter(function(d){
             return d.location_type == "cbsa"
@@ -140,7 +148,7 @@ d3.csv("data/data.csv", function(err, input){
       var chart = yearContainer
         .append("svg")
         .attr("class","chartContainer")
-        .attr("width", window.innerWidth)
+        .attr("width", window.innerWidth - margin.left - margin.right - 1)
         .attr("height", 400)
         .append("g")
         .attr("class","chartGroup")
@@ -205,7 +213,7 @@ d3.csv("data/data.csv", function(err, input){
           if(d3.select("#topicContainer").classed("active")){
             selectionHandler(ntees(d.topic)[0], false, "hover")
           }else{
-            if(d3.select("#cbsa_selector").classed("enabled")){
+            if(d3.select(CBSA_SELECTOR).classed("enabled")){
               selectionHandler(false, CBSAS[d.location][0], "hover")  
             }else{
               selectionHandler(false, d.location, "hover")
@@ -283,122 +291,160 @@ d3.csv("data/data.csv", function(err, input){
   drawSquares(input, false)
   window.onresize = function(){
     d3.selectAll(".yearContainer").remove()
-    drawSquares(input, d3.select("#state_selector").classed("enabled"), $("#topics_selector").val(), $(".locationMenu.enabled").val())
+    drawSquares(input, d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val())
   }
 
-  d3.selectAll("#topics_selector")
-    .on("change", function(){
-      if(d3.selectAll(".small_chart.visible." + this.value).nodes().length == 0){
-        redrawSquares(d3.select("#state_selector").classed("enabled"), this.value, $(".locationMenu.enabled").val(), "menu")  
-      }else{
-        if($(".locationMenu.enabled").val() == "all_states" || $(".locationMenu.enabled").val() == "all_cities"){
-          selectionHandler(this.value, false, "menu")
-        }else{
-          selectionHandler(this.value, $(".locationMenu.enabled").val(), "menu")
-        }
-      } 
-      d3.selectAll(".menuContainer").classed("active",false)
-      d3.select("#topicContainer").classed("active",true)
+  function listenForEvents(){
+    $( START_YEAR_SELECTOR ).selectmenu({
+      change: function(event, d){
+
+      }
     })
-  d3.selectAll("#state_selector")
-    .on("change", function(){
-      if(d3.select("#state_selector").classed("enabled")){
-        selectionHandler(false, this.value, "menu")
-      }else{
+    $( END_YEAR_SELECTOR ).selectmenu({
+      change: function(event, d){
+        
+      }
+    })
+    $( TOPIC_SELECTOR ).selectmenu({
+      change: function(event, d){
+        if(d3.selectAll(".small_chart.visible." + this.value).nodes().length == 0){
+          redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), this.value, $(ENABLED_SELECTOR).val(), "menu")  
+        }else{
+          if($(ENABLED_SELECTOR).val() == "all_states" || $(ENABLED_SELECTOR).val() == "all_cities"){
+            selectionHandler(this.value, false, "menu")
+          }else{
+            selectionHandler(this.value, $(ENABLED_SELECTOR).val(), "menu")
+          }
+        } 
+        d3.selectAll(".menuContainer").classed("active",false)
+        d3.selectAll(".scroll_menuContainer").classed("active",false)
+        d3.select("#topicContainer").classed("active",true)
+        d3.select("#scroll_topicContainer").classed("active",true)
+        if(this.id.search("scroll") != -1){ d3.select('#topics_selector option[value=' + this.value +']').node().selected = true }
+        else{ d3.select('#scroll_topics_selector option[value=' + this.value +']').node().selected = true  }
+      }
+    })
+    $( STATE_SELECTOR ).selectmenu({
+      change: function(event, d){
+        if(d3.select(STATE_SELECTOR).classed("enabled")){
+          selectionHandler(false, this.value, "menu")
+        }else{
+          redrawSquares(true, $(TOPIC_SELECTOR).val(), this.value, "menu")
+        }
+
         d3.select("#cbsa_selector").classed("enabled",false).classed("disabled",true)
         d3.select("#state_selector").classed("enabled",true).classed("disabled",false)
-        redrawSquares(true, $("#topics_selector").val(), this.value, "menu")
+        d3.select("#scroll_cbsa_selector").classed("enabled",false).classed("disabled",true)
+        d3.select("#scroll_state_selector").classed("enabled",true).classed("disabled",false)
+
+        d3.selectAll(".menuContainer").classed("active",true)
+        d3.selectAll(".scroll_menuContainer").classed("active",true)
+        d3.select("#topicContainer").classed("active",false)
+        d3.select("#scroll_topicContainer").classed("active",false)
+        if(this.id.search("scroll") != -1){ d3.select('#state_selector option[value=' + this.value +']').node().selected = true }
+        else{ d3.select('#scroll_state_selector option[value=' + this.value +']').node().selected = true  }
       }
-      d3.selectAll(".menuContainer").classed("active",false)
-      d3.select("#locationContainer").classed("active",true)
     })
-  d3.selectAll("#cbsa_selector")
-    .on("change", function(){
-      if(d3.select("#cbsa_selector").classed("enabled")){
-        selectionHandler(false, this.value, "menu")
-      }else{
+    $( CBSA_SELECTOR ).selectmenu({
+      change: function(event, d){
+        if(d3.select(CBSA_SELECTOR).classed("enabled")){
+          selectionHandler(false, this.value, "menu")
+        }else{
+          redrawSquares(false, $(TOPIC_SELECTOR).val(), this.value, "menu")
+        }
+
         d3.select("#state_selector").classed("enabled",false).classed("disabled",true)
         d3.select("#cbsa_selector").classed("enabled",true).classed("disabled",false)
-        redrawSquares(false, $("#topics_selector").val(), this.value, "menu")
+        d3.select("#scroll_state_selector").classed("enabled",false).classed("disabled",true)
+        d3.select("#scroll_cbsa_selector").classed("enabled",true).classed("disabled",false)
+
+        d3.selectAll(".menuContainer").classed("active",true)
+        d3.selectAll(".scroll_menuContainer").classed("active",true)
+        d3.select("#topicContainer").classed("active",false)
+        d3.select("#scroll_topicContainer").classed("active",false)
+        if(this.id.search("scroll") != -1){ d3.select('#cbsa_selector option[value=' + this.value +']').node().selected = true }
+        else{ d3.select('#scroll_cbsa_selector option[value=' + this.value +']').node().selected = true  }
       }
-      d3.selectAll(".menuContainer").classed("active",false)
-      d3.select("#locationContainer").classed("active",true)
     })
 
-  d3.selectAll("#filter_button")
-    .on("click", function(){
-      if(d3.select(".small_chart.clicked").nodes().length == 0){
-        return false;
-      }else{
-        d3.selectAll(".chartContainer")
-        .each(function(){
-          var clicked = d3.select(this).selectAll(".small_chart.clicked")
-          small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
-          gutter = (clicked.nodes().length < 15) ? 50 :  small_width/9
-          rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-          var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter
-          
-          d3.select(this).transition().attr("height", function(){ return String(newHeight)})
-          var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
-          var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
+    d3.select(FILTER_BUTTON)
+      .on("click", function(){
+        d3.select("#filter_button").transition().duration(800).style("opacity",0)
 
-          // var scale = 1;
-          clicked.transition()
-            .duration(1000)
-            .delay(function(d,i){
-              return 200* i/clicked.nodes().length
-            })
-            .attr("transform", function(d,i){
-              i += 1;
-              var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
-              var y = margin.top + gutter + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
-              return "translate(" + x + "," + y + ")"
-            })
-          clicked.selectAll("rect")
-            .attr("width", function(){
-              return parseFloat(d3.select(this).attr("width")) * scale
-            })
-            .attr("height", function(){
-              return parseFloat(d3.select(this).attr("height")) * scale
-            })
-            .attr("y", function(){
-              return parseFloat(d3.select(this).attr("y")) * scale
-            })
-          d3.selectAll(".smallMultipleLabel")
-            .transition()
-            .style("opacity",0)
-            .on("end", function(){
-              d3.select(this).remove()
-            })
+        if(d3.select(".small_chart.clicked").nodes().length == 0){
+          return false;
+        }else{
+          d3.selectAll(".chartContainer")
+            .each(function(){
+              var clicked = d3.select(this).selectAll(".small_chart.clicked")
+              small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
+              gutter = (clicked.nodes().length < 15) ? 50 :  small_width/9
+              rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
+              var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter
+
+              d3.select(this).transition().attr("height", function(){ return String(newHeight)})
+              var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
+              var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
+
+              // var scale = 1;
+              clicked.transition()
+              .duration(1000)
+              .delay(function(d,i){
+                return 200* i/clicked.nodes().length
+              })
+              .attr("transform", function(d,i){
+                i += 1;
+                var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
+                var y = margin.top + gutter + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
+                return "translate(" + x + "," + y + ")"
+              })
+              clicked.selectAll("rect")
+              .attr("width", function(){
+                return parseFloat(d3.select(this).attr("width")) * scale
+              })
+              .attr("height", function(){
+                return parseFloat(d3.select(this).attr("height")) * scale
+              })
+              .attr("y", function(){
+                return parseFloat(d3.select(this).attr("y")) * scale
+              })
+              d3.selectAll(".smallMultipleLabel")
+                .transition()
+                .style("opacity",0)
+                .on("end", function(){
+                  d3.select(this).remove()
+                })
 
 
-          if(clicked.nodes().length < 15){
-            clicked.append("text")
-            .attr("class", "smallMultipleLabelTemp")
-            .style("opacity",0)
-            .attr("y",15+small_width)
-            .html(function(d){
-              if((d3.selectAll(".small_chart.clicked.Arts").nodes().length != 0 && d3.selectAll(".small_chart.clicked.Other").nodes().length != 0)){
-                return ntees(d.topic)[1]
-              }else{
-                return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
+              if(clicked.nodes().length < 15){
+                clicked.append("text")
+                  .attr("class", "smallMultipleLabelTemp")
+                  .style("opacity",0)
+                  .attr("y",15+small_width)
+                  .html(function(d){
+                    if((d3.selectAll(".small_chart.clicked.Arts").nodes().length != 0 && d3.selectAll(".small_chart.clicked.Other").nodes().length != 0)){
+                      return ntees(d.topic)[1]
+                    }else{
+                      return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
+                    }
+                  })
+                  .call(wrap, small_width, small_width)
+                  .transition()
+                  .delay(1000)
+                  .style("opacity",1)
+                  .on("end", function(){
+                    d3.select(this).attr("class","smallMultipleLabel")
+                  })
               }
-            })
-            .call(wrap, small_width, small_width)
-            .transition()
-            .delay(1000)
-            .style("opacity",1)
-            .on("end", function(){
-              d3.select(this).attr("class","smallMultipleLabel")
-            })
-          }
 
-        })
-      }
+          })
+        }
 
-      d3.selectAll(".small_chart:not(.clicked)")
+        d3.selectAll(".small_chart:not(.clicked)")
         .remove()
-    })//end filter button click
+      })//end filter button click
+  }
+  listenForEvents()
 
   function selectionHandler(topic, location, action){
     var isStates = location.length == 2
@@ -433,27 +479,27 @@ d3.csv("data/data.csv", function(err, input){
       else if(d3.selectAll(".small_chart.visible." + location).nodes().length != 0){
         highlightSquares(topic, location, action)
       }else{
-        console.log(topic, location)
-        if(topic == false) topic = $("#topics_selector").val()
-        if(location == false) topic = $(".locationMenu.enabled").val()
+        if(topic == false) topic = $(TOPIC_SELECTOR).val()
+        if(location == false) topic = $(ENABLED_SELECTOR).val()
         redrawSquares(isStates, topic, location, action)
       }
     }
   }
 
   function highlightSquares(topic, location, action){
-    var menuSelector = (location.length == 2) ? "#state_selector" : "#cbsa_selector";
+    var menuSelector = (location.length == 2) ? STATE_SELECTOR : CBSA_SELECTOR;
     var allSelector = (location.length == 2) ? "all_states" : "all_cities";
     if(action != "hover"){
+      d3.select("#filter_button").transition().duration(800).style("opacity",1)
       if(topic != false){
-        d3.select("#topics_selector").node().value = topic
+        d3.select(TOPIC_SELECTOR).node().value = topic
         if(action == "click"){
           d3.select(menuSelector).node().value = allSelector
         }
       }else{
         d3.select(menuSelector).node().value = location
         if(action == "click"){
-          d3.select("#topics_selector").node().value = "all_topics"
+          d3.select(TOPIC_SELECTOR).node().value = "all_topics"
         }
       }
     }
@@ -527,7 +573,7 @@ d3.csv("data/data.csv", function(err, input){
       }
     }else{
       if(location == allSelector){
-        if(d3.select("#topics_selector").node().value == "all_topics"){
+        if(d3.select(TOPIC_SELECTOR).node().value == "all_topics"){
         // Menu All states, All USA selected
           d3.selectAll(".small_chart")
             .classed("fade",false)
@@ -539,14 +585,14 @@ d3.csv("data/data.csv", function(err, input){
             .classed("fade",true)
             .classed("hovered",false)
             .classed("clicked",false)
-          d3.selectAll(".small_chart." + d3.select("#topics_selector").node().value)
+          d3.selectAll(".small_chart." + d3.select(TOPIC_SELECTOR).node().value)
             .classed("fade",false)
             .classed("hovered",false)
             .classed("clicked",true)
         }
       }else{
-        if(d3.select("#topics_selector").node().value != "all_topics"){
-          selector = "." + d3.select("#topics_selector").node().value + "." + location
+        if(d3.select(TOPIC_SELECTOR).node().value != "all_topics"){
+          selector = "." + d3.select(TOPIC_SELECTOR).node().value + "." + location
         }else{
           selector = "." + location
         }
@@ -571,7 +617,7 @@ d3.csv("data/data.csv", function(err, input){
             .classed("clicked",true)
         }else{
         // Select a topic, All USA selected
-          if(d3.select("#topics_selector").node().value == "all_topics"){
+          if(d3.select(TOPIC_SELECTOR).node().value == "all_topics"){
             d3.selectAll(".small_chart")
               .classed("fade", true)
               .classed("hovered", false)
@@ -623,6 +669,26 @@ d3.csv("data/data.csv", function(err, input){
       })
   }
 
+
+
+  $(window).scroll(function () { 
+      var scrolled = $(window).scrollTop()
+      if(scrolled <= 400){
+        CBSA_SELECTOR = "#cbsa_selector"
+        STATE_SELECTOR = "#state_selector"
+        TOPIC_SELECTOR = "#topics_selector"
+        FILTER_BUTTON = "#filter_button"
+        ENABLED_SELECTOR = ".locationMenu.enabled"
+      }else{
+        CBSA_SELECTOR = "#scroll_cbsa_selector"
+        STATE_SELECTOR = "#scroll_state_selector"
+        TOPIC_SELECTOR = "#scroll_topics_selector"
+        FILTER_BUTTON = "#scroll_filter_button"
+        ENABLED_SELECTOR = ".scroll_locationMenu.enabled"
+      }
+      listenForEvents()
+  });
+
 })//end csv function
 
 isIE = false;
@@ -649,5 +715,3 @@ function checkReady() {
   }
 }
 checkReady();
-
-

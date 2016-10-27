@@ -1,3 +1,6 @@
+*:focus{
+  outline: none;
+}
 body{
   /*color: white;*/
   font-family: Lato;
@@ -19,7 +22,6 @@ body{
 }
 #controls{
   width: 100%;
-  height: 570px;
 }
 .county-boundary{
   fill: black;
@@ -77,6 +79,19 @@ rect.bg{
   opacity: .3;
 }
 
+.update-img{
+  width: 35px;
+}
+#filter_button{
+  cursor: pointer;
+  width: 49px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 14px;
+  top: 24px;
+  position: relative;
+  opacity: 0;
+}
 
 
 
@@ -89,11 +104,26 @@ rect.bg{
 
 
 
+.yearContainer{
+  font-size: 45px;
+  font-weight: 100;
+  margin-bottom: 20px;
+}
 
 
-
-
-
+#sentence{
+  top: 120px;
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+  text-align: center;
+  line-height: 61px;
+  margin-bottom: 120px;
+}
+span.sentence{
+  font-size: 43px;
+  font-weight: 100;
+}
 
 #bodyCopy{
   display: block;
@@ -113,12 +143,24 @@ rect.bg{
   margin-top: 20px;
 }
 
+.menuContainer{
+  display: inline;
+  margin-right: 10px;
+  margin-left: 10px;
+  top: -15px;
+  position: relative;
+}
 .menuContainer.active{
-  background-color: #1696d2;
+  /*background-color: #1696d2;*/
   color: white;
 }
 
-
+#scroll_controls{
+  display: none;
+}
+select{
+  display: none;
+}
 
 
 

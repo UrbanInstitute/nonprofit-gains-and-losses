@@ -27,6 +27,7 @@
 <link href="css/main.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/nonprofit.css">
 
+  <link rel="stylesheet" href="css/vendor/jquery-ui.css">
 
 
 <link rel="stylesheet" href="css/font-awesome.min.css">
@@ -71,9 +72,65 @@
 
  <div id = "controls">
 
-<div id = "sentence">
-<span class = "sentence">Explore how</span>
+<div>From year</div>
+  <select id = "start_year_selector">
+    <option value = "start_year-1990">1990</option>
+    <option value = "start_year-1991">1991</option>
+    <option value = "start_year-1992">1992</option>
+    <option value = "start_year-1993">1993</option>
+    <option value = "start_year-1994">1994</option>
+    <option value = "start_year-1995">1995</option>
+    <option value = "start_year-1996">1996</option>
+    <option value = "start_year-1997">1997</option>
+    <option value = "start_year-1998">1998</option>
+    <option value = "start_year-1999">1999</option>
+    <option value = "start_year-2000">2000</option>
+    <option value = "start_year-2001">2001</option>
+    <option value = "start_year-2002">2002</option>
+    <option value = "start_year-2003">2003</option>
+    <option value = "start_year-2004">2004</option>
+    <option value = "start_year-2005">2005</option>
+    <option value = "start_year-2006">2006</option>
+    <option value = "start_year-2007">2007</option>
+    <option value = "start_year-2008">2008</option>
+    <option value = "start_year-2009">2009</option>
+    <option value = "start_year-2010">2010</option>
+    <option value = "start_year-2011">2011</option>
+    <option value = "start_year-2012">2012</option>
+    <option value = "start_year-2013">2013</option>
+  </select>
+
+<div>To year</div>
+  <select id = "end_year_selector">
+    <option value = "end_year-1991">1991</option>
+    <option value = "end_year-1992">1992</option>
+    <option value = "end_year-1993">1993</option>
+    <option value = "end_year-1994">1994</option>
+    <option value = "end_year-1995">1995</option>
+    <option value = "end_year-1996">1996</option>
+    <option value = "end_year-1997">1997</option>
+    <option value = "end_year-1998">1998</option>
+    <option value = "end_year-1999">1999</option>
+    <option value = "end_year-2000">2000</option>
+    <option value = "end_year-2001">2001</option>
+    <option value = "end_year-2002">2002</option>
+    <option value = "end_year-2003">2003</option>
+    <option value = "end_year-2004">2004</option>
+    <option value = "end_year-2005">2005</option>
+    <option value = "end_year-2006">2006</option>
+    <option value = "end_year-2007">2007</option>
+    <option value = "end_year-2008">2008</option>
+    <option value = "end_year-2009">2009</option>
+    <option value = "end_year-2010">2010</option>
+    <option value = "end_year-2011">2011</option>
+    <option value = "end_year-2012">2012</option>
+    <option value = "end_year-2013">2013</option>
+    <option value = "end_year-2014">2014</option>
+  </select>
+
+
 <div class = "menuContainer active" id = "topicContainer">
+  <div>Non profit type:</div>
     <select id = "topics_selector">
       <option value = "all_topics">All topics</option>
       <option value = "aggregate">Aggregate topics</option>
@@ -90,9 +147,9 @@
     </select>
 </div>
 
-<span class = "sentence">nonprofits have changed financially in</span>
+
 <div class = "menuContainer" id = "locationContainer">
-<span id = "state_selector_wrapper">
+<div>State:</div>
   <select id = "state_selector" class = "locationMenu enabled">
     <option value = "all_states">All states</option>
     <option value = "AL">AL</option>
@@ -147,9 +204,8 @@
     <option value = "WI">WI</option>
     <option value = "WY">WY</option>
   </select>
-</span>
 
-<span id = "cbsa_selector_wrapper">
+  <div>City:</div>
   <select id = "cbsa_selector" class = "locationMenu disabled">
     <option value = "all_cities">All cities</option>
     <option value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
@@ -204,71 +260,7 @@
     <option value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
   </select>
 </div>
-</span>
-
-<span class = "sentence">between</span>
-<div class = "menuContainer">
-  <select id = "start_year_selector">
-    <option value = "start_year-1990">1990</option>
-    <option value = "start_year-1991">1991</option>
-    <option value = "start_year-1992">1992</option>
-    <option value = "start_year-1993">1993</option>
-    <option value = "start_year-1994">1994</option>
-    <option value = "start_year-1995">1995</option>
-    <option value = "start_year-1996">1996</option>
-    <option value = "start_year-1997">1997</option>
-    <option value = "start_year-1998">1998</option>
-    <option value = "start_year-1999">1999</option>
-    <option value = "start_year-2000">2000</option>
-    <option value = "start_year-2001">2001</option>
-    <option value = "start_year-2002">2002</option>
-    <option value = "start_year-2003">2003</option>
-    <option value = "start_year-2004">2004</option>
-    <option value = "start_year-2005">2005</option>
-    <option value = "start_year-2006">2006</option>
-    <option value = "start_year-2007">2007</option>
-    <option value = "start_year-2008">2008</option>
-    <option value = "start_year-2009">2009</option>
-    <option value = "start_year-2010">2010</option>
-    <option value = "start_year-2011">2011</option>
-    <option value = "start_year-2012">2012</option>
-    <option value = "start_year-2013">2013</option>
-  </select>
-  </div>
-<span class = "sentence">and</span>
-<div class = "menuContainer">
-  <select id = "end_year_selector">
-    <option value = "end_year-1991">1991</option>
-    <option value = "end_year-1992">1992</option>
-    <option value = "end_year-1993">1993</option>
-    <option value = "end_year-1994">1994</option>
-    <option value = "end_year-1995">1995</option>
-    <option value = "end_year-1996">1996</option>
-    <option value = "end_year-1997">1997</option>
-    <option value = "end_year-1998">1998</option>
-    <option value = "end_year-1999">1999</option>
-    <option value = "end_year-2000">2000</option>
-    <option value = "end_year-2001">2001</option>
-    <option value = "end_year-2002">2002</option>
-    <option value = "end_year-2003">2003</option>
-    <option value = "end_year-2004">2004</option>
-    <option value = "end_year-2005">2005</option>
-    <option value = "end_year-2006">2006</option>
-    <option value = "end_year-2007">2007</option>
-    <option value = "end_year-2008">2008</option>
-    <option value = "end_year-2009">2009</option>
-    <option value = "end_year-2010">2010</option>
-    <option value = "end_year-2011">2011</option>
-    <option value = "end_year-2012">2012</option>
-    <option value = "end_year-2013">2013</option>
-    <option value = "end_year-2014">2014</option>
-  </select>
-  </div>
-</div>
-<div id = "filter_button">
-    <img src = "images/update-button.png" class = "update-img"/>
-    Update
-</div>
+<button id = "filter_button">Filter</button>
 </div>
 
 
@@ -587,7 +579,7 @@ Research team list goes here
 
 <script src="js/vendor/d3.v4.0.0-rc.2.js"></script>
 <script src='js/vendor/jquery.min.js'></script>
-<script src="js/vendor/jquery-ui.js"></script>
+<script src="js/vendorjquery-ui.js"></script>
 <script src="data/ntees.js"></script>
 <script src="data/cbsas.js"></script>
 <script src="js/nonprofit.js"></script>
