@@ -448,6 +448,27 @@ d3.csv("data/data.csv", function(err, input){
 
   function selectionHandler(topic, location, action){
     var isStates = location.length == 2
+    if(action == "click"){
+      if(location != false){
+        if(isStates){
+          d3.select('#state_selector option[value=' + location +']').node().selected = true
+          $( "#state_selector" ).selectmenu("refresh")
+          d3.select('#scroll_state_selector option[value=' + location +']').node().selected = true
+          $( "#scroll_state_selector" ).selectmenu("refresh")
+        }else{
+          d3.select('#cbsa_selector option[value=' + location +']').node().selected = true
+          $( "#cbsa_selector" ).selectmenu("refresh")
+          d3.select('#scroll_cbsa_selector option[value=' + location +']').node().selected = true
+          $( "#scroll_cbsa_selector" ).selectmenu("refresh")
+        }
+      }
+      if(topic != false){
+        d3.select('#topics_selector option[value=' + topic +']').node().selected = true
+        $( "#topics_selector" ).selectmenu("refresh")
+        d3.select('#scroll_topics_selector option[value=' + topic +']').node().selected = true
+        $( "#scroll_topics_selector" ).selectmenu("refresh")
+      }
+    }
     if(topic != false){
       if(topic == "all_topics"){
         if(d3.selectAll(".small_chart.visible.Arts").nodes().length != 0 && d3.selectAll(".small_chart.visible.Other").nodes().length != 0){
