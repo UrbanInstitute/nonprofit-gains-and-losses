@@ -106,7 +106,7 @@ function locations(location){
 }
 
 d3.csv("data/data.csv", function(err, input){
-  var margin = {"left":10,"top":10,"right":10,"bottom":10}
+  var margin = {"left":20,"top":10,"right":10,"bottom":10}
   function drawSquares(input, isStates, topicFilter, locationFilter){
     var sorted = sortData(input)
     for(var ind = 0; ind < sorted.length-1; ind++){
@@ -190,11 +190,8 @@ d3.csv("data/data.csv", function(err, input){
           }else{
             returnClass += d.location + " "
           }
-          if (d.topic == "aggregate"){
-            returnClass += d.topic
-          }else{
-            returnClass += ntees(d.topic)[0]
-          }
+          returnClass += ntees(d.topic)[0]
+
           return returnClass
         })
         .attr("width",small_width + "px")
@@ -210,6 +207,38 @@ d3.csv("data/data.csv", function(err, input){
           return "translate(" + x + "," + y + ")"
         })
         .on("mouseover", function(d){
+          d3.select("#tt-topic").text(ntees(d.topic)[1])
+          d3.select("#tt-location").text(locations(d.location)[1])
+          d3.select("#tt-ll span").text(d.percent_large_loss + "%")
+          d3.select("#tt-sl span").text(d.percent_slight_loss + "%")
+          d3.select("#tt-nc span").text(d.percent_no_change + "%")
+          d3.select("#tt-li span").text(d.percent_large_increase + "%")
+          d3.select("#tt-si span").text(d.percent_slight_increase + "%")
+
+          var cell = this;
+          d3.select("#chartTooltip")
+            .style("display","block")
+            .style("left", function(){
+              var center = d3.select(cell).node().getBoundingClientRect().left + cell.getBoundingClientRect().width/2
+              console.log(center - 105, center + 105, window.innerWidth)
+              if(center - 105 < 0){
+                d3.select(this).classed("left-tt", true)
+                d3.select(this).classed("right-tt", false)
+                return (center - 8 - cell.getBoundingClientRect().width/2) + "px"
+              }
+              else if(center + 105 > window.innerWidth){
+                d3.select(this).classed("left-tt", false)
+                d3.select(this).classed("right-tt", true)
+                return (center - 210 + 8 + cell.getBoundingClientRect().width/2) + "px"
+              }else{
+                d3.select(this).classed("left-tt", false)
+                d3.select(this).classed("right-tt", false)
+                return (center - 105) + "px";
+              }
+              // return ((d3.select(cell).node().getBoundingClientRect().left + cell.getBoundingClientRect().width/2 -105) +"px")
+              return 0;
+            })
+            .style("top", (d3.select(this).node().getBoundingClientRect().bottom+5) +"px")
           if(d3.select("#topicContainer").classed("active")){
             selectionHandler(ntees(d.topic)[0], false, "hover")
           }else{
@@ -221,6 +250,8 @@ d3.csv("data/data.csv", function(err, input){
           }
         })
         .on("mouseout",function(d){
+          d3.select("#chartTooltip")
+            .style("display","none")
           d3.selectAll(".small_chart").classed("hovered",false)
           if(d3.selectAll(".small_chart.clicked").nodes().length != 0){
             d3.selectAll(".small_chart")
@@ -480,6 +511,7 @@ d3.csv("data/data.csv", function(err, input){
       else if(d3.selectAll(".small_chart.visible." + topic).nodes().length != 0){
         highlightSquares(topic, location, action)
       }else{
+        console.log(topic)
         redrawSquares(isStates, topic, location, action)
       }
     }else{
