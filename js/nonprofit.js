@@ -93,7 +93,7 @@ function ntees(ntee){
 
 function locations(location){
   if(location.length == 2 || location == "All USA"){
-    return location
+    return [location, location]
   }else{
     if(CBSAS.hasOwnProperty(location)){
       return CBSAS[location]
@@ -143,8 +143,65 @@ d3.csv("data/data.csv", function(err, input){
         .append("div")
         .attr("class","yearContainer start_year-" + data[0]["start_year"])
       yearContainer
-        .append("text")
+        .append("div")
+        .attr("class","yearHeader")
         .html(data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1))
+
+      var legend = yearContainer
+        .append("div")
+        .attr("class","legend")
+
+      var li = legend
+        .append("div")
+        .attr("class","legend-container")
+
+        li.insert("div")
+          .attr("class","key key-li")
+        li.append("div")
+          .attr("class","keyLabel")
+          .text("Large increase (more than 10%)")
+
+      var si = legend
+        .append("div")
+        .attr("class","legend-container")
+
+        si.insert("div")
+          .attr("class","key key-si")
+        si.append("div")
+          .attr("class","keyLabel")
+          .text("Slight increase (3 to 10%)")
+
+      var nc = legend
+        .append("div")
+        .attr("class","legend-container")
+
+        nc.insert("div")
+          .attr("class","key key-nc")
+        nc.append("div")
+          .attr("class","keyLabel")
+          .text("No change (-3 to 3%)")
+
+      var sl = legend
+        .append("div")
+        .attr("class","legend-container")
+
+        sl.insert("div")
+          .attr("class","key key-sl")
+        sl.append("div")
+          .attr("class","keyLabel")
+          .text("Slight loss (3 to 10%)")
+
+      var ll = legend
+        .append("div")
+        .attr("class","legend-container")
+
+        ll.insert("div")
+          .attr("class","key key-ll")
+        ll.append("div")
+          .attr("class","keyLabel")
+          .text("Large loss (more than 10%)")
+
+
       var chart = yearContainer
         .append("svg")
         .attr("class","chartContainer")
@@ -420,7 +477,7 @@ d3.csv("data/data.csv", function(err, input){
               small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
               gutter = (clicked.nodes().length < 15) ? 50 :  small_width/9
               rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-              var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter
+              var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter + margin.top
 
               d3.select(this).transition().attr("height", function(){ return String(newHeight)})
               var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
