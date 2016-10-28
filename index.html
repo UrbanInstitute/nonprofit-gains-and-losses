@@ -83,29 +83,29 @@
  <div id = "controls">
 
 <div id = "sentence">
-<span class = "sentence">Explore how</span>
+<span class = "sentence">Explore how<span id = "hide-np"> nonprofit</span></span>
 <div class = "menuContainer active" id = "topicContainer">
     <select id = "topics_selector">
-      <option value = "all_topics">All topics</option>
-      <option value = "aggregate">Aggregate topics</option>
-      <option value = "Arts">1 Arts</option>
-      <option value = "Higher-Education">2a Higher Education</option>
-      <option value = "Other-Education">2b Other Education</option>
-      <option value = "Environment-and-Animals">3 Environment and Animals</option>
-      <option value = "Hospitals">4a Hospitals</option>
-      <option value = "Other-Health">4b Other Health</option>
-      <option value = "Human-Services">5 Human Services</option>
-      <option value = "International-and-Foreign-Affairs">6 International and Foreign Affairs</option>
-      <option value = "Religion-Related">7 Religion Related</option>
-      <option value = "Other">8 Other</option>
+      <option value = "all_topics">all</option>
+      <option value = "aggregate">aggregate topics</option>
+      <option value = "Arts">arts</option>
+      <option value = "Higher-Education">higher education</option>
+      <option value = "Other-Education">other education</option>
+      <option value = "Environment-and-Animals">environment and animals</option>
+      <option value = "Hospitals">hospitals</option>
+      <option value = "Other-Health">other health</option>
+      <option value = "Human-Services">human services</option>
+      <option value = "International-and-Foreign-Affairs">international and foreign affairs</option>
+      <option value = "Religion-Related">religion related</option>
+      <option value = "Other">other</option>
     </select>
 </div>
 
-<span class = "sentence">nonprofits have changed financially in</span>
+<span class = "sentence"><span id = "hide-nps">nonprofits </span>have changed financially in</span>
 <div class = "menuContainer" id = "locationContainer">
 <span id = "state_selector_wrapper">
   <select id = "state_selector" class = "locationMenu enabled">
-    <option value = "all_states">All states</option>
+    <option value = "all_states">all states</option>
     <option value = "AL">AL</option>
     <option value = "AK">AK</option>
     <option value = "AZ">AZ</option>
@@ -162,7 +162,7 @@
 
 <span id = "cbsa_selector_wrapper">
   <select id = "cbsa_selector" class = "locationMenu disabled">
-    <option value = "all_cities">All cities</option>
+    <option value = "all_cities">all cities</option>
     <option value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
     <option value = "Austin-Round-Rock">Austin Area, TX</option>
     <option value = "Baltimore-Columbia-Towson">Baltimore Area, MD</option>

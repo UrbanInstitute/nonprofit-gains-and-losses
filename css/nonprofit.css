@@ -127,6 +127,9 @@ span.sentence{
   font-size: 43px;
   font-weight: 100;
 }
+#hide-np{
+  display: none;
+}
 
 #bodyCopy{
   display: block;

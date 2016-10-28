@@ -353,6 +353,13 @@ d3.csv("data/data.csv", function(err, input){
         d3.select("#scroll_topicContainer").classed("active",true)
         if(this.id.search("scroll") != -1){ d3.select('#topics_selector option[value=' + this.value +']').node().selected = true }
         else{ d3.select('#scroll_topics_selector option[value=' + this.value +']').node().selected = true  }
+        if(this.value == "Hospitals"){
+          d3.select("#hide-np").style("display","inline")
+          d3.select("#hide-nps").style("display","none")
+        }else{
+          d3.select("#hide-np").style("display","none")
+          d3.select("#hide-nps").style("display","inline")
+        }
       }
     })
     $( STATE_SELECTOR ).selectmenu({
@@ -498,6 +505,13 @@ d3.csv("data/data.csv", function(err, input){
         $( "#topics_selector" ).selectmenu("refresh")
         d3.select('#scroll_topics_selector option[value=' + topic +']').node().selected = true
         $( "#scroll_topics_selector" ).selectmenu("refresh")
+        if(topic == "Hospitals"){
+          d3.select("#hide-np").style("display","inline")
+          d3.select("#hide-nps").style("display","none")
+        }else{
+          d3.select("#hide-np").style("display","none")
+          d3.select("#hide-nps").style("display","inline")
+        }
       }
     }
     if(topic != false){
