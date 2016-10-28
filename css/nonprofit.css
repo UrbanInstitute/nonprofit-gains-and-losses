@@ -95,7 +95,53 @@ rect.bg{
   position: relative;
   opacity: 0;
 }
-
+#scroll_filter_button{
+  cursor: pointer;
+  width: 49px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 1;
+  display: inline;
+  float: right;
+  font-weight: bold;
+  position: relative;
+  top: 8px;
+  left: -2px;
+}
+#scroll_filter_button span{
+  display: block;
+}
+#scroll_lvl1{
+  width: calc(100% - 100px);
+  float: left
+}
+#scroll_lvl2{
+  width: 805px;
+  margin: 0 auto;
+  margin-top: 24px;
+}
+#scroll_lvl2 .ui-selectmenu-button{
+  top: 10px;
+}
+#ndash{
+  color: #a7a9ac;
+  font-weight: normal;
+  font-size: 21px;
+  top: 12px;
+  position: relative;
+  margin-right: 3px;
+  margin-left: 1px;
+}
+#jumpNarrative{
+  width: 100px;
+  float: right;
+  height: 100%;
+  background: #1696d2;
+  color: white;
+  text-align: center;
+  padding-top: 37px;
+  font-size: 14px;
+}
 
 
 
@@ -162,14 +208,147 @@ span.sentence{
 }
 
 #scroll_controls{
-  display: none;
+  /*display: none;*/
+  top: -134px;
+  z-index: 998;
+  width: 100%;
+  background: #f1f2f2;
+  position: fixed;
+  height: 102px;
+  -webkit-box-shadow: 0px 10px 21px -4px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 10px 21px -4px rgba(0,0,0,0.3);
+  box-shadow: 0px 10px 21px -4px rgba(0,0,0,0.3);
 }
 select{
   display: none;
 }
+.scroll_menuContainer{
+  display: inline;
+}
+.scroll_menuContainer{
+  display: inline;
+}
+#scroll_topics_selector-button{
+  width: 245px;
+  margin-right: 17px;
+}
+#scroll_state_selector-button{
+  width: 131px;
+  margin-right: 15px;
+}
+#scroll_cbsa_selector-button{
+  width: 155px;
+  margin-right: 15px;
+}
+#scroll_start_year_selector-button, #scroll_end_year_selector-button{
+  width: 62px;
+  background: #fff !important;
+  color: #1696d2 !important;
+  padding: 0 !important;
+  border: 1px solid #d1d3d4 !important;
+}
+#scroll_start_year_selector-button .ui-selectmenu-text, #scroll_end_year_selector-button .ui-selectmenu-text{
+  overflow: visible;
+  margin: 0 auto;
+  width: 26px;
+  margin-top: 7px !important;
+  font-weight: normal;
+}
+#scroll_start_year_selector-button .ui-selectmenu-icon, #scroll_end_year_selector-button .ui-selectmenu-icon{
+  display: none;
+}
 
-
-
+@media (max-width: 949px){
+  #scroll_controls{
+    /*display: none;*/
+    height: 140px;
+  }
+  #scroll_lvl2{
+    width: 418px;
+  }
+  #scroll_cbsa_selector-button{
+    margin-right: 0px;
+    margin-bottom: 25px;
+  }
+  #scroll_topics_selector-button {
+    margin-right: 14px;
+    margin-bottom: 25px;
+  }
+  #scroll_lvl2 .ui-selectmenu-button {
+    top: 2px;
+  }
+  #scroll_filter_button {
+    width: 109px;
+  }
+  #scroll_filter_button span{
+    display: inline;
+    top: -14px;
+    left: 8px;
+    position: relative;
+  }
+  #scroll_state_selector-button{
+    margin-right: 21px;
+  }
+  #ndash{
+    top: 6px;
+    position: relative;
+    margin-right: 3px;
+    margin-left: 1px;
+  }
+  #jumpNarrative{
+    padding-top: 57px;
+  }
+}
+@media (max-width: 768px){
+  #scroll_lvl2 .ui-selectmenu-button {
+    top: 70px;
+  }
+  #scroll_lvl1 {
+    width: 100%;
+  }
+  #scroll_controls{
+    height: 267px
+  }
+  #jumpNarrative{
+    clear: both;
+    width: 100%;
+    height: 41px;
+    padding: 0px;
+    margin-top: 103px;
+    padding-top: 11px;
+  }
+  #scroll_filter_button {
+    top: 70px;
+  }
+  #ndash {
+    top: 72px;
+  }
+  #hamboogerBar{
+    display: block !important;
+    width: 100%;
+    z-index: 1000;
+    background: #e6e7e8;
+    height: 47px;
+    top: 49px;
+    position: fixed;
+  }
+  #hamboogerBar img{
+    width: 37px;
+    left: 42px;
+    top: 10px;
+    position: relative;
+  }
+  #hamboogerBar span{
+    font-weight: bold;
+    position: relative;
+    left: 53px;
+    top: 4px;
+    color: #231f20;
+  }
+}
+#hamboogerBar{
+  display: none;
+}
 
 
 
@@ -560,11 +739,7 @@ footer h3, footer h4{
     top: 0;
     left: 0;
 }
-@media (max-width: 600px){
-    #isPhone{
-        display: block;
-    }
-}
+
 @media (max-width: 993px){
     #axis_label{
         top: 25px;
@@ -626,7 +801,41 @@ footer h3, footer h4{
     }
 }
 
-
+@media (max-width: 450px){
+  #isPhone{
+    display: block;
+  }
+  #scroll_controls {
+    height: 348px;
+    top: -219px;
+  }
+  #jumpNarrative{
+    margin-top: 87px;
+  }
+  #scroll_lvl2 {
+      width: 245px;
+  }
+  #scroll_lvl2 .ui-selectmenu-button {
+    top: 48px;
+  }
+  #scroll_cbsa_selector-button {
+    margin-top: -15px;
+  }
+  #scroll_state_selector-button {
+    margin-right: 60px;
+    margin-top: -19px;
+  }
+  #scroll_start_year_selector-button, #scroll_end_year_selector-button {
+    margin-top: 10px;
+  }
+  #scroll_filter_button{
+    left: -146px;
+    margin-top: -7px;
+  }
+  #ndash {
+      top: 55px;
+  }
+}
 
 @media (max-width: 1000px) {
    

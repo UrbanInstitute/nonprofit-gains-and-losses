@@ -49,7 +49,7 @@
 }
 
 .ui-front {
-	z-index: 100;
+	z-index: 1000;
 }
 
 
@@ -725,11 +725,38 @@ button.ui-button::-moz-focus-inner {
 	color: white;   	
    	/*width: 45px;*/
 }
-.locationMenu.disabled + .ui-selectmenu-button.ui-button{
+.locationMenu.disabled + .ui-selectmenu-button{
 	color: #e6e7e8;
    	background: url(../../images/urban-select-disabled.png) no-repeat right #bcbec0;
    	background-size: 53px 53px;
 }
+
+#scroll_controls .ui-selectmenu-button.ui-button {
+	text-align: left;
+	white-space: nowrap;
+	height: 36px;
+   	background: url(../../images/urban-select-2x.png) no-repeat right #1696d2;
+   	background-size: 36px 36px;
+	border: none;
+	color: white;   	
+   	/*width: 45px;*/
+}
+.scroll_locationMenu.disabled + .ui-selectmenu-button{
+	color: #e6e7e8 !important;
+   	background: url(../../images/urban-select-disabled.png) no-repeat right #bcbec0 !important;
+   	background-size: 36px 36px !important;
+}
+#scroll_controls .locationMenu.disabled + .ui-selectmenu-button.ui-button{
+	color: #e6e7e8;
+   	background: url(../../images/urban-select-disabled.png) no-repeat right #bcbec0;
+   	background-size: 36px 36px;
+}
+#scroll_controls .ui-selectmenu-text{
+	margin-top: 2px;
+    font-size: 16px;
+    left: -6px;
+}
+
 .ui-selectmenu-icon.ui-icon {
 	float: right;
 	margin-top: 0;

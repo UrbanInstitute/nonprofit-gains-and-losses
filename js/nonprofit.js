@@ -220,7 +220,6 @@ d3.csv("data/data.csv", function(err, input){
             .style("display","block")
             .style("left", function(){
               var center = d3.select(cell).node().getBoundingClientRect().left + cell.getBoundingClientRect().width/2
-              console.log(center - 105, center + 105, window.innerWidth)
               if(center - 105 < 0){
                 d3.select(this).classed("left-tt", true)
                 d3.select(this).classed("right-tt", false)
@@ -319,8 +318,11 @@ d3.csv("data/data.csv", function(err, input){
       }
     }//end outer for loop on sorted data
   }
-  drawSquares(input, false)
+  drawSquares(input, true)
+  var IS_PHONE = d3.select("#isPhone").style("display") == "block"
   window.onresize = function(){
+    IS_PHONE = d3.select("#isPhone").style("display") == "block"
+
     d3.selectAll(".yearContainer").remove()
     drawSquares(input, d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val())
   }
@@ -525,7 +527,6 @@ d3.csv("data/data.csv", function(err, input){
       else if(d3.selectAll(".small_chart.visible." + topic).nodes().length != 0){
         highlightSquares(topic, location, action)
       }else{
-        console.log(topic)
         redrawSquares(isStates, topic, location, action)
       }
     }else{
@@ -736,17 +737,40 @@ d3.csv("data/data.csv", function(err, input){
       })
   }
 
+  $("#scroll_cbsa_selector").selectmenu()
+  $("#scroll_state_selector").selectmenu()
+  $("#scroll_topics_selector").selectmenu()
+  $("#scroll_start_year_selector").selectmenu()
+  $("#scroll_end_year_selector").selectmenu()
 
+  $("#cbsa_selector").selectmenu()
+  $("#state_selector").selectmenu()
+  $("#topics_selector").selectmenu()
+  $("#start_year_selector").selectmenu()
+  $("#end_year_selector").selectmenu()
+
+  var isAnimating = false;
 
   $(window).scroll(function () { 
       var scrolled = $(window).scrollTop()
-      if(scrolled <= 400){
+      var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
+      if(scrolled <= 200){
+        d3.select("#scroll_controls")
+          .transition()
+          .duration(600)
+          .style("top",scrollTo)
+
         CBSA_SELECTOR = "#cbsa_selector"
         STATE_SELECTOR = "#state_selector"
         TOPIC_SELECTOR = "#topics_selector"
         FILTER_BUTTON = "#filter_button"
         ENABLED_SELECTOR = ".locationMenu.enabled"
       }else{
+        d3.select("#scroll_controls")
+          .transition()
+          .duration(600)
+          .style("top","40px")
+
         CBSA_SELECTOR = "#scroll_cbsa_selector"
         STATE_SELECTOR = "#scroll_state_selector"
         TOPIC_SELECTOR = "#scroll_topics_selector"
