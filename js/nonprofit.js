@@ -225,7 +225,10 @@ d3.csv("data/data.csv", function(err, input){
               .classed("fade",false)
             stickyTabText = ""
             stickyHeaderText = ""
-            d3.selectAll(".highlightShow").style("opacity",0)
+            d3.selectAll(".highlightShow")
+              .style("opacity",0)
+            d3.selectAll(".sortShow")
+              .style("opacity",1)
           }
 
         });
@@ -259,6 +262,18 @@ d3.csv("data/data.csv", function(err, input){
         .attr("class","highlightTabHeader highlightShow")
         .text("HIGHLIGHTED TYPE")
         .style("opacity",0)
+      chart.append("text")
+        .attr("x",margin.left)
+        .attr("y",margin.top)
+        .attr("class","sortShow sortText")
+        .text("Charts sorted from largest to smallest")
+        .style("opacity",1)
+      chart.append("text")
+        .attr("x",margin.left)
+        .attr("y",margin.top + 18)
+        .attr("class","sortShow sortText")
+        .html("increase (upper left &rarr; lower right)")
+        .style("opacity",1)
 
       var small_chart = chart.selectAll(".small_chart")
         .data(data)
@@ -499,6 +514,8 @@ d3.csv("data/data.csv", function(err, input){
       .on("click", function(){
         d3.selectAll(".highlightShow")
           .style("opacity",0)
+        d3.selectAll(".sortShow")
+          .style("opacity",1)
         d3.select("#filter_button").transition().duration(800).style("opacity",0)
 
         if(d3.select(".small_chart.clicked").nodes().length == 0){
@@ -647,22 +664,20 @@ d3.csv("data/data.csv", function(err, input){
   var stickyHeaderText = "";
   function highlightTab(topic, location, action){
     var tabText, headerText;
-    if(topic != false && location != false){
-      d3.selectAll(".highlightShow")
+    d3.selectAll(".sortShow")
+      .style("opacity",0)
+    d3.selectAll(".highlightShow")
         .style("opacity",1)
+    if(topic != false && location != false){
       d3.selectAll(".highlightTabHeader")
         .text("HIGHLIGHTED DATA")
       headerText = "HIGHLIGHTED DATA"
       tabText = "Multiple selections"
     }
     else if(location == false){
-      d3.selectAll(".highlightShow")
-        .style("opacity",1)
       headerText = "HIGHLIGHTED TYPE"
-     tabText = ntees(topic)[1]
+      tabText = ntees(topic)[1]
     }else{
-      d3.selectAll(".highlightShow")
-        .style("opacity",1)
       headerText = "HIGHLIGHTED LOCATION"
       tabText = locations(location)[1]
     }
@@ -838,6 +853,8 @@ d3.csv("data/data.csv", function(err, input){
   function redrawSquares(isStates, topic, location, action){
     d3.selectAll(".highlightShow")
       .style("opacity",0)
+    d3.selectAll(".sortShow")
+        .style("opacity",1)
     if(d3.selectAll("#loadingGif").nodes().length == 0){
       d3.select("body")
         .append("div")

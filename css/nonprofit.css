@@ -217,6 +217,10 @@ rect.bg{
   font-size: 14px;
   font-weight: bold;
 }
+.sortText{
+  font-size: 14px;
+  font-style: italic;
+}
 #sentence{
   top: 120px;
   position: relative;
@@ -243,6 +247,9 @@ span.sentence{
 }
 #bodyCopy p{
   line-height: 32px;
+}
+#firstLeter{
+  font-size: 43px;
 }
 
 
