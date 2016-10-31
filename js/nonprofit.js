@@ -31,7 +31,7 @@ function wrap(text, width, dy) {
 
 function sortData(input){
   var allYears = [];
-  for(i = 2009; i <= 2014; i++ ){
+  for(i = 2013; i <= 2014; i++ ){
     data = input
       .filter(function(d){
         return parseInt(d["start_year"]) == i;
@@ -71,7 +71,7 @@ function sortData(input){
 
 function getSmallWidth(num, width, height){
   if(num > 400){
-    return 20;
+    return 26.23;
   }
   else if(num > 40){
     return 50;
@@ -93,7 +93,7 @@ function ntees(ntee){
 
 function locations(location){
   if(location.length == 2 || location == "All USA"){
-    return [location, location]
+    return [location, STATES[location] ]
   }else{
     if(CBSAS.hasOwnProperty(location)){
       return CBSAS[location]
@@ -106,7 +106,7 @@ function locations(location){
 }
 
 d3.csv("data/data.csv", function(err, input){
-  var margin = {"left":20,"top":10,"right":10,"bottom":10}
+  var margin = {"left":20,"top":30,"right":10,"bottom":10}
   function drawSquares(input, isStates, topicFilter, locationFilter){
     var sorted = sortData(input)
     for(var ind = 0; ind < sorted.length-1; ind++){
@@ -215,11 +215,17 @@ d3.csv("data/data.csv", function(err, input){
               .classed("fade",true)
             d3.selectAll(".small_chart.clicked")
               .classed("fade",false)
+            console.log(stickyTabText)
+            d3.selectAll(".highlightTabText").text(stickyTabText)
+            d3.selectAll(".highlightTabHeader").text(stickyHeaderText)
           }else{
             d3.selectAll(".small_chart")
               .classed("clicked",false)
               .classed("hovered",false)
               .classed("fade",false)
+            stickyTabText = ""
+            stickyHeaderText = ""
+            d3.selectAll(".highlightShow").style("opacity",0)
           }
 
         });
@@ -234,6 +240,26 @@ d3.csv("data/data.csv", function(err, input){
         .attr("height", function(){
           return margin.top + margin.bottom + (small_width+gutter) * Math.ceil(data.length/rowCount) + "px"
         })
+      chart.append("rect")
+        .attr("width",233.16 - gutter)
+        .attr("height", 29.14 - gutter)
+        .attr("x",margin.left)
+        .attr("y",margin.top)
+        .attr("class","highlightTabBg highlightShow")
+        .style("opacity",0)
+      chart.append("text")
+        .attr("x",margin.left + 9)
+        .attr("y",margin.top + 18)
+        .attr("class","highlightTabText highlightShow")
+        .text("International and foreign affairs")
+        .style("opacity",0)
+      chart.append("text")
+        .attr("x",margin.left)
+        .attr("y",margin.top-gutter*2)
+        .attr("class","highlightTabHeader highlightShow")
+        .text("HIGHLIGHTED TYPE")
+        .style("opacity",0)
+
       var small_chart = chart.selectAll(".small_chart")
         .data(data)
         .enter()
@@ -256,7 +282,7 @@ d3.csv("data/data.csv", function(err, input){
         .attr("transform", function(d,i){
           i += 1;
           if(data.length > 60){
-            var offset = Math.ceil(150/(small_width+gutter))
+            var offset = Math.floor(233.16/(small_width+gutter))
             i += offset
           }
           var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
@@ -414,10 +440,15 @@ d3.csv("data/data.csv", function(err, input){
         else{ d3.select('#scroll_topics_selector option[value=' + this.value +']').node().selected = true  }
         if(this.value == "Hospitals"){
           d3.select("#hide-np").style("display","inline")
-          d3.select("#hide-nps").style("display","none")
-        }else{
+          d3.select("#hide-nps").text("have ")
+        }
+        else if(this.value == "all_topics"){
           d3.select("#hide-np").style("display","none")
-          d3.select("#hide-nps").style("display","inline")
+          d3.select("#hide-nps").text("nonprofit has ")
+        }
+        else{
+          d3.select("#hide-np").style("display","none")
+          d3.select("#hide-nps").text("nonprofits have ")
         }
       }
     })
@@ -466,6 +497,8 @@ d3.csv("data/data.csv", function(err, input){
 
     d3.select(FILTER_BUTTON)
       .on("click", function(){
+        d3.selectAll(".highlightShow")
+          .style("opacity",0)
         d3.select("#filter_button").transition().duration(800).style("opacity",0)
 
         if(d3.select(".small_chart.clicked").nodes().length == 0){
@@ -610,10 +643,45 @@ d3.csv("data/data.csv", function(err, input){
       }
     }
   }
+  var stickyTabText = "";
+  var stickyHeaderText = "";
+  function highlightTab(topic, location, action){
+    var tabText, headerText;
+    if(topic != false && location != false){
+      d3.selectAll(".highlightShow")
+        .style("opacity",1)
+      d3.selectAll(".highlightTabHeader")
+        .text("HIGHLIGHTED DATA")
+      headerText = "HIGHLIGHTED DATA"
+      tabText = "Multiple selections"
+    }
+    else if(location == false){
+      d3.selectAll(".highlightShow")
+        .style("opacity",1)
+      headerText = "HIGHLIGHTED TYPE"
+     tabText = ntees(topic)[1]
+    }else{
+      d3.selectAll(".highlightShow")
+        .style("opacity",1)
+      headerText = "HIGHLIGHTED LOCATION"
+      tabText = locations(location)[1]
+    }
+    d3.selectAll(".highlightTabText")
+      .text(tabText)
+    d3.selectAll(".highlightTabHeader")
+        .text(headerText)
+    if(action != "hover"){
+      stickyTabText = tabText;
+      stickyHeaderText = headerText;
+    }
+  }
 
   function highlightSquares(topic, location, action){
     var menuSelector = (location.length == 2) ? STATE_SELECTOR : CBSA_SELECTOR;
     var allSelector = (location.length == 2) ? "all_states" : "all_cities";
+    var highlightHeader = (location.length == 2) ? "HIGHLIGHTED STATE" : "HIGHLIGHTED AREA"
+    // console.log(ntees(topic)[1], locations(location))
+    highlightTab(topic, location, action)
     if(action != "hover"){
       d3.select("#filter_button").transition().duration(800).style("opacity",1)
       if(topic != false){
@@ -768,6 +836,8 @@ d3.csv("data/data.csv", function(err, input){
   }
 
   function redrawSquares(isStates, topic, location, action){
+    d3.selectAll(".highlightShow")
+      .style("opacity",0)
     if(d3.selectAll("#loadingGif").nodes().length == 0){
       d3.select("body")
         .append("div")

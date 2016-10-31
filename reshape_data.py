@@ -14,7 +14,7 @@ def cleanNTEE(ntee):
 
 output = csv.writer(open("data/data.csv","wb"))
 output.writerow(["location","location_type","topic","start_year","percent_no_change","percent_slight_loss","percent_large_loss","percent_slight_increase","percent_large_increase"])
-for i in range(2009, 2014):
+for i in range(1994, 2014):
 	fname = "data/source/Almanac Data Viz Growth %i-%i.xlsx"%(i, i+1)
 	book = xlrd.open_workbook(fname)
 
@@ -103,12 +103,12 @@ for i in range(2009, 2014):
 		outRow.append(sheet.cell(r, 17).value)
 		output.writerow(outRow)
 
-with open('data/cbsas.js', 'w') as fp:
-	fp.write("CBSAS=")
-	json.dump(cbsaJS, fp)
+# with open('data/cbsas.js', 'w') as fp:
+# 	fp.write("CBSAS=")
+# 	json.dump(cbsaJS, fp)
 
-with open('data/ntees.js', 'w') as fp:
-	fp.write("NTEES=")
-	json.dump(nteeJS, fp)
+# with open('data/ntees.js', 'w') as fp:
+# 	fp.write("NTEES=")
+# 	json.dump(nteeJS, fp)
 
 	
