@@ -69,18 +69,18 @@
                 <span class = "sentence">Explore how<span id = "hide-np"> nonprofit</span></span>
                 <div class = "menuContainer" id = "topicContainer">
                     <select id = "topics_selector">
-                        <option value = "all_topics">each type of</option>
-                        <option value = "aggregate">all</option>
-                        <option value = "Arts">arts</option>
-                        <option value = "Higher-Education">higher education</option>
-                        <option value = "Other-Education">other education</option>
-                        <option value = "Environment-and-Animals">environment and animals</option>
-                        <option value = "Hospitals">hospitals</option>
-                        <option value = "Other-Health">other health</option>
-                        <option value = "Human-Services">human services</option>
-                        <option value = "International-and-Foreign-Affairs">international and foreign affairs</option>
-                        <option value = "Religion-Related">religion related</option>
-                        <option value = "Other">other</option>
+                        <option name = "all_topics" value = "all_topics">each type of</option>
+                        <option name = "Aggregate" value = "Aggregate">all</option>
+                        <option name = "Arts" value = "Arts">arts</option>
+                        <option name = "Higher-Education" value = "Higher-Education">higher education</option>
+                        <option name = "Other-Education" value = "Other-Education">other education</option>
+                        <option name = "Environment-and-Animals" value = "Environment-and-Animals">environment and animals</option>
+                        <option name = "Hospitals" value = "Hospitals">hospitals</option>
+                        <option name = "Other-Health" value = "Other-Health">other health</option>
+                        <option name = "Human-Services" value = "Human-Services">human services</option>
+                        <option name = "International-and-Foreign-Affairs" value = "International-and-Foreign-Affairs">international and foreign affairs</option>
+                        <option name = "Religion-Related" value = "Religion-Related">religion related</option>
+                        <option name = "Other" value = "Other">other</option>
                     </select>
                 </div>
 
@@ -88,113 +88,117 @@
                 <div class = "menuContainer" id = "locationContainer">
                     <span id = "cbsa_selector_wrapper">
                         <select id = "cbsa_selector" class = "locationMenu disabled">
-                            <option value = "all_cities">all cities</option>
-                            <option value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
-                            <option value = "Austin-Round-Rock">Austin Area, TX</option>
-                            <option value = "Baltimore-Columbia-Towson">Baltimore Area, MD</option>
-                            <option value = "Birmingham-Hoover">Birmingham Area, AL</option>
-                            <option value = "Boston-Cambridge-Newton">Boston Area, MA</option>
-                            <option value = "Buffalo-Cheektowaga-Niagara-Falls">Buffalo Area, NY</option>
-                            <option value = "Charlotte-Concord-Gastonia">Charlotte Area, NC</option>
-                            <option value = "Chicago-Naperville-Elgin">Chicago Area, IL</option>
-                            <option value = "Cincinnati">Cincinnati Area, OH</option>
-                            <option value = "Cleveland-Elyria">Cleveland Area, OH</option>
-                            <option value = "Columbus">Columbus Area, OH</option>
-                            <option value = "Dallas-Fort-Worth-Arlington">Dallas Area, TX</option>
-                            <option value = "Denver-Aurora-Lakewood">Denver Area, CO</option>
-                            <option value = "Detroit-Warren-Dearborn">Detroit Area, MI</option>
-                            <option value = "Hartford-West-Hartford-East-Hartford">Hartford Area, CT</option>
-                            <option value = "Houston-The-Woodlands-Sugar-Land">Houston Area, TX</option>
-                            <option value = "Indianapolis-Carmel-Anderson">Indianapolis Area, IN</option>
-                            <option value = "Jacksonville">Jacksonville Area, FL</option>
-                            <option value = "Kansas-City">Kansas City Area, MO</option>
-                            <option value = "Las-Vegas-Henderson-Paradise">Las Vegas Area, NV</option>
-                            <option value = "Los-Angeles-Long-Beach-Anaheim">Los Angeles Area, CA</option>
-                            <option value = "Louisville-Jefferson-County">Louisville Area, KY</option>
-                            <option value = "Memphis">Memphis Area, TN</option>
-                            <option value = "Miami-Fort-Lauderdale-West-Palm-Beach">Miami Area, FL</option>
-                            <option value = "Milwaukee-Waukesha-West-Allis">Milwaukee Area, WI</option>
-                            <option value = "Minneapolis-St-Paul-Bloomington">Minneapolis Area, MN</option>
-                            <option value = "Nashville-Davidson-Murfreesboro-Franklin">Nashville Area, TN</option>
-                            <option value = "New-Orleans-Metairie">New Orleans Area, LA</option>
-                            <option value = "New-York-Newark-Jersey-City">New York Area, NY</option>
-                            <option value = "Oklahoma-City">Oklahoma City Area, OK</option>
-                            <option value = "Orlando-Kissimmee-Sanford">Orlando Area, FL</option>
-                            <option value = "Philadelphia-Camden-Wilmington">Philadelphia Area, PA</option>
-                            <option value = "Phoenix-Mesa-Scottsdale">Phoenix Area, AZ</option>
-                            <option value = "Pittsburgh">Pittsburgh Area, PA</option>
-                            <option value = "Portland-Vancouver-Hillsboro">Portland Area, OR</option>
-                            <option value = "Providence-Warwick">Providence Area, RI</option>
-                            <option value = "Raleigh">Raleigh Area, NC</option>
-                            <option value = "Richmond">Richmond Area, VA</option>
-                            <option value = "Riverside-San-Bernardino-Ontario">Riverside Area, CA</option>
-                            <option value = "Sacramento-Roseville-Arden-Arcade">Sacramento Area, CA</option>
-                            <option value = "Salt-Lake-City">Salt Lake City Area, UT</option>
-                            <option value = "St-Louis">St. Louis Area, MO</option>
-                            <option value = "San-Antonio-New-Braunfels">San Antonio Area, TX</option>
-                            <option value = "San-Diego-Carlsbad">San Diego Area, CA</option>
-                            <option value = "San-Francisco-Oakland-Hayward">San Francisco Area, CA</option>
-                            <option value = "San-Jose-Sunnyvale-Santa-Clara">San Jose Area, CA</option>
-                            <option value = "Seattle-Tacoma-Bellevue">Seattle Area, WA</option>
-                            <option value = "Tampa-St-Petersburg-Clearwater">Tampa Area, FL</option>
-                            <option value = "Virginia-Beach-Norfolk-Newport-News">Virginia Beach Area, VA</option>
-                            <option value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
+                            <option name = "none" value = "none" selected="true">Select a city...</option>
+                            <option name = "all_cities" value = "all_cities">all cities</option>
+                            <option name = "all-usa-state" value = "all-usa-state">the United States</option>
+                            <option name = "Atlanta-Sandy-Springs-Roswell" value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
+                            <option name = "Austin-Round-Rock" value = "Austin-Round-Rock">Austin Area, TX</option>
+                            <option name = "Baltimore-Columbia-Towson" value = "Baltimore-Columbia-Towson">Baltimore Area, MD</option>
+                            <option name = "Birmingham-Hoover" value = "Birmingham-Hoover">Birmingham Area, AL</option>
+                            <option name = "Boston-Cambridge-Newton" value = "Boston-Cambridge-Newton">Boston Area, MA</option>
+                            <option name = "Buffalo-Cheektowaga-Niagara-Falls" value = "Buffalo-Cheektowaga-Niagara-Falls">Buffalo Area, NY</option>
+                            <option name = "Charlotte-Concord-Gastonia" value = "Charlotte-Concord-Gastonia">Charlotte Area, NC</option>
+                            <option name = "Chicago-Naperville-Elgin" value = "Chicago-Naperville-Elgin">Chicago Area, IL</option>
+                            <option name = "Cincinnati" value = "Cincinnati">Cincinnati Area, OH</option>
+                            <option name = "Cleveland-Elyria" value = "Cleveland-Elyria">Cleveland Area, OH</option>
+                            <option name = "Columbus" value = "Columbus">Columbus Area, OH</option>
+                            <option name = "Dallas-Fort-Worth-Arlington" value = "Dallas-Fort-Worth-Arlington">Dallas Area, TX</option>
+                            <option name = "Denver-Aurora-Lakewood" value = "Denver-Aurora-Lakewood">Denver Area, CO</option>
+                            <option name = "Detroit-Warren-Dearborn" value = "Detroit-Warren-Dearborn">Detroit Area, MI</option>
+                            <option name = "Hartford-West-Hartford-East-Hartford" value = "Hartford-West-Hartford-East-Hartford">Hartford Area, CT</option>
+                            <option name = "Houston-The-Woodlands-Sugar-Land" value = "Houston-The-Woodlands-Sugar-Land">Houston Area, TX</option>
+                            <option name = "Indianapolis-Carmel-Anderson" value = "Indianapolis-Carmel-Anderson">Indianapolis Area, IN</option>
+                            <option name = "Jacksonville" value = "Jacksonville">Jacksonville Area, FL</option>
+                            <option name = "Kansas-City" value = "Kansas-City">Kansas City Area, MO</option>
+                            <option name = "Las-Vegas-Henderson-Paradise" value = "Las-Vegas-Henderson-Paradise">Las Vegas Area, NV</option>
+                            <option name = "Los-Angeles-Long-Beach-Anaheim" value = "Los-Angeles-Long-Beach-Anaheim">Los Angeles Area, CA</option>
+                            <option name = "Louisville-Jefferson-County" value = "Louisville-Jefferson-County">Louisville Area, KY</option>
+                            <option name = "Memphis" value = "Memphis">Memphis Area, TN</option>
+                            <option name = "Miami-Fort-Lauderdale-West-Palm-Beach" value = "Miami-Fort-Lauderdale-West-Palm-Beach">Miami Area, FL</option>
+                            <option name = "Milwaukee-Waukesha-West-Allis" value = "Milwaukee-Waukesha-West-Allis">Milwaukee Area, WI</option>
+                            <option name = "Minneapolis-St-Paul-Bloomington" value = "Minneapolis-St-Paul-Bloomington">Minneapolis Area, MN</option>
+                            <option name = "Nashville-Davidson-Murfreesboro-Franklin" value = "Nashville-Davidson-Murfreesboro-Franklin">Nashville Area, TN</option>
+                            <option name = "New-Orleans-Metairie" value = "New-Orleans-Metairie">New Orleans Area, LA</option>
+                            <option name = "New-York-Newark-Jersey-City" value = "New-York-Newark-Jersey-City">New York Area, NY</option>
+                            <option name = "Oklahoma-City" value = "Oklahoma-City">Oklahoma City Area, OK</option>
+                            <option name = "Orlando-Kissimmee-Sanford" value = "Orlando-Kissimmee-Sanford">Orlando Area, FL</option>
+                            <option name = "Philadelphia-Camden-Wilmington" value = "Philadelphia-Camden-Wilmington">Philadelphia Area, PA</option>
+                            <option name = "Phoenix-Mesa-Scottsdale" value = "Phoenix-Mesa-Scottsdale">Phoenix Area, AZ</option>
+                            <option name = "Pittsburgh" value = "Pittsburgh">Pittsburgh Area, PA</option>
+                            <option name = "Portland-Vancouver-Hillsboro" value = "Portland-Vancouver-Hillsboro">Portland Area, OR</option>
+                            <option name = "Providence-Warwick" value = "Providence-Warwick">Providence Area, RI</option>
+                            <option name = "Raleigh" value = "Raleigh">Raleigh Area, NC</option>
+                            <option name = "Richmond" value = "Richmond">Richmond Area, VA</option>
+                            <option name = "Riverside-San-Bernardino-Ontario" value = "Riverside-San-Bernardino-Ontario">Riverside Area, CA</option>
+                            <option name = "Sacramento-Roseville-Arden-Arcade" value = "Sacramento-Roseville-Arden-Arcade">Sacramento Area, CA</option>
+                            <option name = "Salt-Lake-City" value = "Salt-Lake-City">Salt Lake City Area, UT</option>
+                            <option name = "St-Louis" value = "St-Louis">St. Louis Area, MO</option>
+                            <option name = "San-Antonio-New-Braunfels" value = "San-Antonio-New-Braunfels">San Antonio Area, TX</option>
+                            <option name = "San-Diego-Carlsbad" value = "San-Diego-Carlsbad">San Diego Area, CA</option>
+                            <option name = "San-Francisco-Oakland-Hayward" value = "San-Francisco-Oakland-Hayward">San Francisco Area, CA</option>
+                            <option name = "San-Jose-Sunnyvale-Santa-Clara" value = "San-Jose-Sunnyvale-Santa-Clara">San Jose Area, CA</option>
+                            <option name = "Seattle-Tacoma-Bellevue" value = "Seattle-Tacoma-Bellevue">Seattle Area, WA</option>
+                            <option name = "Tampa-St-Petersburg-Clearwater" value = "Tampa-St-Petersburg-Clearwater">Tampa Area, FL</option>
+                            <option name = "Virginia-Beach-Norfolk-Newport-News" value = "Virginia-Beach-Norfolk-Newport-News">Virginia Beach Area, VA</option>
+                            <option name = "Washington-Arlington-Alexandria" value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
                         </select>
                     </span>
                     <span id = "state_selector_wrapper">
                         <select id = "state_selector" class = "locationMenu enabled">
-                            <option value = "all_states">all states</option>
-                            <option value = "AL">Alabama</option>
-                            <option value = "AK">Alaska</option>
-                            <option value = "AZ">Arizona</option>
-                            <option value = "AR">Arkansas</option>
-                            <option value = "CA">California</option>
-                            <option value = "CO">Colorado</option>
-                            <option value = "CT">Connecticut</option>
-                            <option value = "DE">Delaware</option>
-                            <option value = "DC">District of Columbia</option>
-                            <option value = "FL">Florida</option>
-                            <option value = "GA">Georgia</option>
-                            <option value = "HI">Hawaii</option>
-                            <option value = "ID">Idaho</option>
-                            <option value = "IL">Illinois</option>
-                            <option value = "IN">Indiana</option>
-                            <option value = "IA">Iowa</option>
-                            <option value = "KS">Kansas</option>
-                            <option value = "KY">Kentucky</option>
-                            <option value = "LA">Louisiana</option>
-                            <option value = "ME">Maine</option>
-                            <option value = "MD">Maryland</option>
-                            <option value = "MA">Massachusetts</option>
-                            <option value = "MI">Michigan</option>
-                            <option value = "MN">Minnesota</option>
-                            <option value = "MS">Mississippi</option>
-                            <option value = "MO">Missouri</option>
-                            <option value = "MT">Montana</option>
-                            <option value = "NE">Nebraska</option>
-                            <option value = "NV">Nevada</option>
-                            <option value = "NH">New Hampshire</option>
-                            <option value = "NJ">New Jersey</option>
-                            <option value = "NM">New Mexico</option>
-                            <option value = "NY">New York</option>
-                            <option value = "NC">North Carolina</option>
-                            <option value = "ND">North Dakota</option>
-                            <option value = "OH">Ohio</option>
-                            <option value = "OK">Oklahoma</option>
-                            <option value = "OR">Oregon</option>
-                            <option value = "PA">Pennsylvania</option>
-                            <option value = "RI">Rhode Island</option>
-                            <option value = "SC">South Carolina</option>
-                            <option value = "SD">South Dakota</option>
-                            <option value = "TN">Tennessee</option>
-                            <option value = "TX">Texas</option>
-                            <option value = "UT">Utah</option>
-                            <option value = "VT">Vermont</option>
-                            <option value = "VA">Virginia</option>
-                            <option value = "WA">Washington</option>
-                            <option value = "WV">West Virginia</option>
-                            <option value = "WI">Wisconsin</option>
-                            <option value = "WY">Wyoming</option>
+                            <option name = "none" value = "none">Select a state...</option>
+                            <option name = "all_states" value = "all_states" selected="true">all states</option>
+                            <option name = "all-usa-state" value = "all-usa-state">the United States</option>
+                            <option name = "AL" value = "AL">Alabama</option>
+                            <option name = "AK" value = "AK">Alaska</option>
+                            <option name = "AZ" value = "AZ">Arizona</option>
+                            <option name = "AR" value = "AR">Arkansas</option>
+                            <option name = "CA" value = "CA">California</option>
+                            <option name = "CO" value = "CO">Colorado</option>
+                            <option name = "CT" value = "CT">Connecticut</option>
+                            <option name = "DE" value = "DE">Delaware</option>
+                            <option name = "DC" value = "DC">District of Columbia</option>
+                            <option name = "FL" value = "FL">Florida</option>
+                            <option name = "GA" value = "GA">Georgia</option>
+                            <option name = "HI" value = "HI">Hawaii</option>
+                            <option name = "ID" value = "ID">Idaho</option>
+                            <option name = "IL" value = "IL">Illinois</option>
+                            <option name = "IN" value = "IN">Indiana</option>
+                            <option name = "IA" value = "IA">Iowa</option>
+                            <option name = "KS" value = "KS">Kansas</option>
+                            <option name = "KY" value = "KY">Kentucky</option>
+                            <option name = "LA" value = "LA">Louisiana</option>
+                            <option name = "ME" value = "ME">Maine</option>
+                            <option name = "MD" value = "MD">Maryland</option>
+                            <option name = "MA" value = "MA">Massachusetts</option>
+                            <option name = "MI" value = "MI">Michigan</option>
+                            <option name = "MN" value = "MN">Minnesota</option>
+                            <option name = "MS" value = "MS">Mississippi</option>
+                            <option name = "MO" value = "MO">Missouri</option>
+                            <option name = "MT" value = "MT">Montana</option>
+                            <option name = "NE" value = "NE">Nebraska</option>
+                            <option name = "NV" value = "NV">Nevada</option>
+                            <option name = "NH" value = "NH">New Hampshire</option>
+                            <option name = "NJ" value = "NJ">New Jersey</option>
+                            <option name = "NM" value = "NM">New Mexico</option>
+                            <option name = "NY" value = "NY">New York</option>
+                            <option name = "NC" value = "NC">North Carolina</option>
+                            <option name = "ND" value = "ND">North Dakota</option>
+                            <option name = "OH" value = "OH">Ohio</option>
+                            <option name = "OK" value = "OK">Oklahoma</option>
+                            <option name = "OR" value = "OR">Oregon</option>
+                            <option name = "PA" value = "PA">Pennsylvania</option>
+                            <option name = "RI" value = "RI">Rhode Island</option>
+                            <option name = "SC" value = "SC">South Carolina</option>
+                            <option name = "SD" value = "SD">South Dakota</option>
+                            <option name = "TN" value = "TN">Tennessee</option>
+                            <option name = "TX" value = "TX">Texas</option>
+                            <option name = "UT" value = "UT">Utah</option>
+                            <option name = "VT" value = "VT">Vermont</option>
+                            <option name = "VA" value = "VA">Virginia</option>
+                            <option name = "WA" value = "WA">Washington</option>
+                            <option name = "WV" value = "WV">West Virginia</option>
+                            <option name = "WI" value = "WI">Wisconsin</option>
+                            <option name = "WY" value = "WY">Wyoming</option>
                         </select>
                     </span>
                 </div>
@@ -203,59 +207,59 @@
                 <span class = "sentence">between</span>
                 <div class = "menuContainerYears">
                     <select id = "start_year_selector">
-                        <option value = "start_year-1990">1990</option>
-                        <option value = "start_year-1991">1991</option>
-                        <option value = "start_year-1992">1992</option>
-                        <option value = "start_year-1993">1993</option>
-                        <option value = "start_year-1994">1994</option>
-                        <option value = "start_year-1995">1995</option>
-                        <option value = "start_year-1996">1996</option>
-                        <option value = "start_year-1997">1997</option>
-                        <option value = "start_year-1998">1998</option>
-                        <option value = "start_year-1999">1999</option>
-                        <option value = "start_year-2000">2000</option>
-                        <option value = "start_year-2001">2001</option>
-                        <option value = "start_year-2002">2002</option>
-                        <option value = "start_year-2003">2003</option>
-                        <option value = "start_year-2004">2004</option>
-                        <option value = "start_year-2005">2005</option>
-                        <option value = "start_year-2006">2006</option>
-                        <option value = "start_year-2007">2007</option>
-                        <option value = "start_year-2008">2008</option>
-                        <option value = "start_year-2009">2009</option>
-                        <option value = "start_year-2010">2010</option>
-                        <option value = "start_year-2011">2011</option>
-                        <option value = "start_year-2012">2012</option>
-                        <option value = "start_year-2013">2013</option>
+                        <option name = "start_year-1990" value = "start_year-1990">1990</option>
+                        <option name = "start_year-1991" value = "start_year-1991">1991</option>
+                        <option name = "start_year-1992" value = "start_year-1992">1992</option>
+                        <option name = "start_year-1993" value = "start_year-1993">1993</option>
+                        <option name = "start_year-1994" value = "start_year-1994">1994</option>
+                        <option name = "start_year-1995" value = "start_year-1995">1995</option>
+                        <option name = "start_year-1996" value = "start_year-1996">1996</option>
+                        <option name = "start_year-1997" value = "start_year-1997">1997</option>
+                        <option name = "start_year-1998" value = "start_year-1998">1998</option>
+                        <option name = "start_year-1999" value = "start_year-1999">1999</option>
+                        <option name = "start_year-2000" value = "start_year-2000">2000</option>
+                        <option name = "start_year-2001" value = "start_year-2001">2001</option>
+                        <option name = "start_year-2002" value = "start_year-2002">2002</option>
+                        <option name = "start_year-2003" value = "start_year-2003">2003</option>
+                        <option name = "start_year-2004" value = "start_year-2004">2004</option>
+                        <option name = "start_year-2005" value = "start_year-2005">2005</option>
+                        <option name = "start_year-2006" value = "start_year-2006">2006</option>
+                        <option name = "start_year-2007" value = "start_year-2007">2007</option>
+                        <option name = "start_year-2008" value = "start_year-2008">2008</option>
+                        <option name = "start_year-2009" value = "start_year-2009">2009</option>
+                        <option name = "start_year-2010" value = "start_year-2010">2010</option>
+                        <option name = "start_year-2011" value = "start_year-2011">2011</option>
+                        <option name = "start_year-2012" value = "start_year-2012">2012</option>
+                        <option name = "start_year-2013" value = "start_year-2013">2013</option>
                     </select>
                 </div>
                 <span class = "sentence">and</span>
                 <div class = "menuContainerYears">
                     <select id = "end_year_selector">
-                        <option value = "end_year-1991">1991</option>
-                        <option value = "end_year-1992">1992</option>
-                        <option value = "end_year-1993">1993</option>
-                        <option value = "end_year-1994">1994</option>
-                        <option value = "end_year-1995">1995</option>
-                        <option value = "end_year-1996">1996</option>
-                        <option value = "end_year-1997">1997</option>
-                        <option value = "end_year-1998">1998</option>
-                        <option value = "end_year-1999">1999</option>
-                        <option value = "end_year-2000">2000</option>
-                        <option value = "end_year-2001">2001</option>
-                        <option value = "end_year-2002">2002</option>
-                        <option value = "end_year-2003">2003</option>
-                        <option value = "end_year-2004">2004</option>
-                        <option value = "end_year-2005">2005</option>
-                        <option value = "end_year-2006">2006</option>
-                        <option value = "end_year-2007">2007</option>
-                        <option value = "end_year-2008">2008</option>
-                        <option value = "end_year-2009">2009</option>
-                        <option value = "end_year-2010">2010</option>
-                        <option value = "end_year-2011">2011</option>
-                        <option value = "end_year-2012">2012</option>
-                        <option value = "end_year-2013">2013</option>
-                        <option value = "end_year-2014">2014</option>
+                        <option name = "end_year-1991" value = "end_year-1991">1991</option>
+                        <option name = "end_year-1992" value = "end_year-1992">1992</option>
+                        <option name = "end_year-1993" value = "end_year-1993">1993</option>
+                        <option name = "end_year-1994" value = "end_year-1994">1994</option>
+                        <option name = "end_year-1995" value = "end_year-1995">1995</option>
+                        <option name = "end_year-1996" value = "end_year-1996">1996</option>
+                        <option name = "end_year-1997" value = "end_year-1997">1997</option>
+                        <option name = "end_year-1998" value = "end_year-1998">1998</option>
+                        <option name = "end_year-1999" value = "end_year-1999">1999</option>
+                        <option name = "end_year-2000" value = "end_year-2000">2000</option>
+                        <option name = "end_year-2001" value = "end_year-2001">2001</option>
+                        <option name = "end_year-2002" value = "end_year-2002">2002</option>
+                        <option name = "end_year-2003" value = "end_year-2003">2003</option>
+                        <option name = "end_year-2004" value = "end_year-2004">2004</option>
+                        <option name = "end_year-2005" value = "end_year-2005">2005</option>
+                        <option name = "end_year-2006" value = "end_year-2006">2006</option>
+                        <option name = "end_year-2007" value = "end_year-2007">2007</option>
+                        <option name = "end_year-2008" value = "end_year-2008">2008</option>
+                        <option name = "end_year-2009" value = "end_year-2009">2009</option>
+                        <option name = "end_year-2010" value = "end_year-2010">2010</option>
+                        <option name = "end_year-2011" value = "end_year-2011">2011</option>
+                        <option name = "end_year-2012" value = "end_year-2012">2012</option>
+                        <option name = "end_year-2013" value = "end_year-2013">2013</option>
+                        <option name = "end_year-2014" value = "end_year-2014">2014</option>
                     </select>
                 </div>
             </div>
@@ -271,182 +275,187 @@
                 <div id = "scroll_lvl2">
                     <div class = "scroll_menuContainer active" id = "scroll_topicContainer">
                         <select id = "scroll_topics_selector">
-                            <option value = "all_topics">Each type</option>
-                            <option value = "aggregate">All types</option>
-                            <option value = "Arts">Arts</option>
-                            <option value = "Higher-Education">Higher Education</option>
-                            <option value = "Other-Education">Other Education</option>
-                            <option value = "Environment-and-Animals">Environment and Animals</option>
-                            <option value = "Hospitals">Hospitals</option>
-                            <option value = "Other-Health">Other Health</option>
-                            <option value = "Human-Services">Human Services</option>
-                            <option value = "International-and-Foreign-Affairs">International and Foreign Affairs</option>
-                            <option value = "Religion-Related">Religion Related</option>
-                            <option value = "Other">Other</option>
+                            <option name = "all_topics" value = "all_topics">Each type</option>
+                            <option name = "Aggregate" value = "Aggregate">All types</option>
+                            <option name = "Arts" value = "Arts">Arts</option>
+                            <option name = "Higher-Education" value = "Higher-Education">Higher Education</option>
+                            <option name = "Other-Education" value = "Other-Education">Other Education</option>
+                            <option name = "Environment-and-Animals" value = "Environment-and-Animals">Environment and Animals</option>
+                            <option name = "Hospitals" value = "Hospitals">Hospitals</option>
+                            <option name = "Other-Health" value = "Other-Health">Other Health</option>
+                            <option name = "Human-Services" value = "Human-Services">Human Services</option>
+                            <option name = "International-and-Foreign-Affairs" value = "International-and-Foreign-Affairs">International and Foreign Affairs</option>
+                            <option name = "Religion-Related" value = "Religion-Related">Religion Related</option>
+                            <option name = "Other" value = "Other">Other</option>
                         </select>
                     </div>
 
 
                     <div class = "scroll_menuContainer" id = "scroll_locationContainer">
                         <select id = "scroll_cbsa_selector" class = "scroll_locationMenu disabled">
-                            <option value = "all_cities">All cities</option>
-                            <option value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
-                            <option value = "Austin-Round-Rock">Austin Area, TX</option>
-                            <option value = "Baltimore-Columbia-Towson">Baltimore Area, MD</option>
-                            <option value = "Birmingham-Hoover">Birmingham Area, AL</option>
-                            <option value = "Boston-Cambridge-Newton">Boston Area, MA</option>
-                            <option value = "Buffalo-Cheektowaga-Niagara-Falls">Buffalo Area, NY</option>
-                            <option value = "Charlotte-Concord-Gastonia">Charlotte Area, NC</option>
-                            <option value = "Chicago-Naperville-Elgin">Chicago Area, IL</option>
-                            <option value = "Cincinnati">Cincinnati Area, OH</option>
-                            <option value = "Cleveland-Elyria">Cleveland Area, OH</option>
-                            <option value = "Columbus">Columbus Area, OH</option>
-                            <option value = "Dallas-Fort-Worth-Arlington">Dallas Area, TX</option>
-                            <option value = "Denver-Aurora-Lakewood">Denver Area, CO</option>
-                            <option value = "Detroit-Warren-Dearborn">Detroit Area, MI</option>
-                            <option value = "Hartford-West-Hartford-East-Hartford">Hartford Area, CT</option>
-                            <option value = "Houston-The-Woodlands-Sugar-Land">Houston Area, TX</option>
-                            <option value = "Indianapolis-Carmel-Anderson">Indianapolis Area, IN</option>
-                            <option value = "Jacksonville">Jacksonville Area, FL</option>
-                            <option value = "Kansas-City">Kansas City Area, MO</option>
-                            <option value = "Las-Vegas-Henderson-Paradise">Las Vegas Area, NV</option>
-                            <option value = "Los-Angeles-Long-Beach-Anaheim">Los Angeles Area, CA</option>
-                            <option value = "Louisville-Jefferson-County">Louisville Area, KY</option>
-                            <option value = "Memphis">Memphis Area, TN</option>
-                            <option value = "Miami-Fort-Lauderdale-West-Palm-Beach">Miami Area, FL</option>
-                            <option value = "Milwaukee-Waukesha-West-Allis">Milwaukee Area, WI</option>
-                            <option value = "Minneapolis-St-Paul-Bloomington">Minneapolis Area, MN</option>
-                            <option value = "Nashville-Davidson-Murfreesboro-Franklin">Nashville Area, TN</option>
-                            <option value = "New-Orleans-Metairie">New Orleans Area, LA</option>
-                            <option value = "New-York-Newark-Jersey-City">New York Area, NY</option>
-                            <option value = "Oklahoma-City">Oklahoma City Area, OK</option>
-                            <option value = "Orlando-Kissimmee-Sanford">Orlando Area, FL</option>
-                            <option value = "Philadelphia-Camden-Wilmington">Philadelphia Area, PA</option>
-                            <option value = "Phoenix-Mesa-Scottsdale">Phoenix Area, AZ</option>
-                            <option value = "Pittsburgh">Pittsburgh Area, PA</option>
-                            <option value = "Portland-Vancouver-Hillsboro">Portland Area, OR</option>
-                            <option value = "Providence-Warwick">Providence Area, RI</option>
-                            <option value = "Raleigh">Raleigh Area, NC</option>
-                            <option value = "Richmond">Richmond Area, VA</option>
-                            <option value = "Riverside-San-Bernardino-Ontario">Riverside Area, CA</option>
-                            <option value = "Sacramento-Roseville-Arden-Arcade">Sacramento Area, CA</option>
-                            <option value = "Salt-Lake-City">Salt Lake City Area, UT</option>
-                            <option value = "St-Louis">St. Louis Area, MO</option>
-                            <option value = "San-Antonio-New-Braunfels">San Antonio Area, TX</option>
-                            <option value = "San-Diego-Carlsbad">San Diego Area, CA</option>
-                            <option value = "San-Francisco-Oakland-Hayward">San Francisco Area, CA</option>
-                            <option value = "San-Jose-Sunnyvale-Santa-Clara">San Jose Area, CA</option>
-                            <option value = "Seattle-Tacoma-Bellevue">Seattle Area, WA</option>
-                            <option value = "Tampa-St-Petersburg-Clearwater">Tampa Area, FL</option>
-                            <option value = "Virginia-Beach-Norfolk-Newport-News">Virginia Beach Area, VA</option>
-                            <option value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
+                            <option name = "none" value = "none">Select a city...</option>
+                            <option name = "all_cities" value = "all_cities" selected="true">All cities</option>
+                            <option name = "all-usa-state" value = "all-usa-state">US</option>
+                            <option name = "Atlanta-Sandy-Springs-Roswell" value = "Atlanta-Sandy-Springs-Roswell">Atlanta Area, GA</option>
+                            <option name = "Austin-Round-Rock" value = "Austin-Round-Rock">Austin Area, TX</option>
+                            <option name = "Baltimore-Columbia-Towson" value = "Baltimore-Columbia-Towson">Baltimore Area, MD</option>
+                            <option name = "Birmingham-Hoover" value = "Birmingham-Hoover">Birmingham Area, AL</option>
+                            <option name = "Boston-Cambridge-Newton" value = "Boston-Cambridge-Newton">Boston Area, MA</option>
+                            <option name = "Buffalo-Cheektowaga-Niagara-Falls" value = "Buffalo-Cheektowaga-Niagara-Falls">Buffalo Area, NY</option>
+                            <option name = "Charlotte-Concord-Gastonia" value = "Charlotte-Concord-Gastonia">Charlotte Area, NC</option>
+                            <option name = "Chicago-Naperville-Elgin" value = "Chicago-Naperville-Elgin">Chicago Area, IL</option>
+                            <option name = "Cincinnati" value = "Cincinnati">Cincinnati Area, OH</option>
+                            <option name = "Cleveland-Elyria" value = "Cleveland-Elyria">Cleveland Area, OH</option>
+                            <option name = "Columbus" value = "Columbus">Columbus Area, OH</option>
+                            <option name = "Dallas-Fort-Worth-Arlington" value = "Dallas-Fort-Worth-Arlington">Dallas Area, TX</option>
+                            <option name = "Denver-Aurora-Lakewood" value = "Denver-Aurora-Lakewood">Denver Area, CO</option>
+                            <option name = "Detroit-Warren-Dearborn" value = "Detroit-Warren-Dearborn">Detroit Area, MI</option>
+                            <option name = "Hartford-West-Hartford-East-Hartford" value = "Hartford-West-Hartford-East-Hartford">Hartford Area, CT</option>
+                            <option name = "Houston-The-Woodlands-Sugar-Land" value = "Houston-The-Woodlands-Sugar-Land">Houston Area, TX</option>
+                            <option name = "Indianapolis-Carmel-Anderson" value = "Indianapolis-Carmel-Anderson">Indianapolis Area, IN</option>
+                            <option name = "Jacksonville" value = "Jacksonville">Jacksonville Area, FL</option>
+                            <option name = "Kansas-City" value = "Kansas-City">Kansas City Area, MO</option>
+                            <option name = "Las-Vegas-Henderson-Paradise" value = "Las-Vegas-Henderson-Paradise">Las Vegas Area, NV</option>
+                            <option name = "Los-Angeles-Long-Beach-Anaheim" value = "Los-Angeles-Long-Beach-Anaheim">Los Angeles Area, CA</option>
+                            <option name = "Louisville-Jefferson-County" value = "Louisville-Jefferson-County">Louisville Area, KY</option>
+                            <option name = "Memphis" value = "Memphis">Memphis Area, TN</option>
+                            <option name = "Miami-Fort-Lauderdale-West-Palm-Beach" value = "Miami-Fort-Lauderdale-West-Palm-Beach">Miami Area, FL</option>
+                            <option name = "Milwaukee-Waukesha-West-Allis" value = "Milwaukee-Waukesha-West-Allis">Milwaukee Area, WI</option>
+                            <option name = "Minneapolis-St-Paul-Bloomington" value = "Minneapolis-St-Paul-Bloomington">Minneapolis Area, MN</option>
+                            <option name = "Nashville-Davidson-Murfreesboro-Franklin" value = "Nashville-Davidson-Murfreesboro-Franklin">Nashville Area, TN</option>
+                            <option name = "New-Orleans-Metairie" value = "New-Orleans-Metairie">New Orleans Area, LA</option>
+                            <option name = "New-York-Newark-Jersey-City" value = "New-York-Newark-Jersey-City">New York Area, NY</option>
+                            <option name = "Oklahoma-City" value = "Oklahoma-City">Oklahoma City Area, OK</option>
+                            <option name = "Orlando-Kissimmee-Sanford" value = "Orlando-Kissimmee-Sanford">Orlando Area, FL</option>
+                            <option name = "Philadelphia-Camden-Wilmington" value = "Philadelphia-Camden-Wilmington">Philadelphia Area, PA</option>
+                            <option name = "Phoenix-Mesa-Scottsdale" value = "Phoenix-Mesa-Scottsdale">Phoenix Area, AZ</option>
+                            <option name = "Pittsburgh" value = "Pittsburgh">Pittsburgh Area, PA</option>
+                            <option name = "Portland-Vancouver-Hillsboro" value = "Portland-Vancouver-Hillsboro">Portland Area, OR</option>
+                            <option name = "Providence-Warwick" value = "Providence-Warwick">Providence Area, RI</option>
+                            <option name = "Raleigh" value = "Raleigh">Raleigh Area, NC</option>
+                            <option name = "Richmond" value = "Richmond">Richmond Area, VA</option>
+                            <option name = "Riverside-San-Bernardino-Ontario" value = "Riverside-San-Bernardino-Ontario">Riverside Area, CA</option>
+                            <option name = "Sacramento-Roseville-Arden-Arcade" value = "Sacramento-Roseville-Arden-Arcade">Sacramento Area, CA</option>
+                            <option name = "Salt-Lake-City" value = "Salt-Lake-City">Salt Lake City Area, UT</option>
+                            <option name = "St-Louis" value = "St-Louis">St. Louis Area, MO</option>
+                            <option name = "San-Antonio-New-Braunfels" value = "San-Antonio-New-Braunfels">San Antonio Area, TX</option>
+                            <option name = "San-Diego-Carlsbad" value = "San-Diego-Carlsbad">San Diego Area, CA</option>
+                            <option name = "San-Francisco-Oakland-Hayward" value = "San-Francisco-Oakland-Hayward">San Francisco Area, CA</option>
+                            <option name = "San-Jose-Sunnyvale-Santa-Clara" value = "San-Jose-Sunnyvale-Santa-Clara">San Jose Area, CA</option>
+                            <option name = "Seattle-Tacoma-Bellevue" value = "Seattle-Tacoma-Bellevue">Seattle Area, WA</option>
+                            <option name = "Tampa-St-Petersburg-Clearwater" value = "Tampa-St-Petersburg-Clearwater">Tampa Area, FL</option>
+                            <option name = "Virginia-Beach-Norfolk-Newport-News" value = "Virginia-Beach-Norfolk-Newport-News">Virginia Beach Area, VA</option>
+                            <option name = "Washington-Arlington-Alexandria" value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
                         </select>
                         <select id = "scroll_state_selector" class = "scroll_locationMenu enabled">
-                            <option value = "AL">Alabama</option>
-                            <option value = "AK">Alaska</option>
-                            <option value = "AZ">Arizona</option>
-                            <option value = "AR">Arkansas</option>
-                            <option value = "CA">California</option>
-                            <option value = "CO">Colorado</option>
-                            <option value = "CT">Connecticut</option>
-                            <option value = "DE">Delaware</option>
-                            <option value = "DC">District of Columbia</option>
-                            <option value = "FL">Florida</option>
-                            <option value = "GA">Georgia</option>
-                            <option value = "HI">Hawaii</option>
-                            <option value = "ID">Idaho</option>
-                            <option value = "IL">Illinois</option>
-                            <option value = "IN">Indiana</option>
-                            <option value = "IA">Iowa</option>
-                            <option value = "KS">Kansas</option>
-                            <option value = "KY">Kentucky</option>
-                            <option value = "LA">Louisiana</option>
-                            <option value = "ME">Maine</option>
-                            <option value = "MD">Maryland</option>
-                            <option value = "MA">Massachusetts</option>
-                            <option value = "MI">Michigan</option>
-                            <option value = "MN">Minnesota</option>
-                            <option value = "MS">Mississippi</option>
-                            <option value = "MO">Missouri</option>
-                            <option value = "MT">Montana</option>
-                            <option value = "NE">Nebraska</option>
-                            <option value = "NV">Nevada</option>
-                            <option value = "NH">New Hampshire</option>
-                            <option value = "NJ">New Jersey</option>
-                            <option value = "NM">New Mexico</option>
-                            <option value = "NY">New York</option>
-                            <option value = "NC">North Carolina</option>
-                            <option value = "ND">North Dakota</option>
-                            <option value = "OH">Ohio</option>
-                            <option value = "OK">Oklahoma</option>
-                            <option value = "OR">Oregon</option>
-                            <option value = "PA">Pennsylvania</option>
-                            <option value = "RI">Rhode Island</option>
-                            <option value = "SC">South Carolina</option>
-                            <option value = "SD">South Dakota</option>
-                            <option value = "TN">Tennessee</option>
-                            <option value = "TX">Texas</option>
-                            <option value = "UT">Utah</option>
-                            <option value = "VT">Vermont</option>
-                            <option value = "VA">Virginia</option>
-                            <option value = "WA">Washington</option>
-                            <option value = "WV">West Virginia</option>
-                            <option value = "WI">Wisconsin</option>
-                            <option value = "WY">Wyoming</option>
+                            <option name = "none" value = "none">Select a state...</option>
+                            <option name = "all_states" value = "all_states" selected="true">All states</option>
+                            <option name = "all-usa-state" value = "all-usa-state">US</option>
+                            <option name = "AL" value = "AL">Alabama</option>
+                            <option name = "AK" value = "AK">Alaska</option>
+                            <option name = "AZ" value = "AZ">Arizona</option>
+                            <option name = "AR" value = "AR">Arkansas</option>
+                            <option name = "CA" value = "CA">California</option>
+                            <option name = "CO" value = "CO">Colorado</option>
+                            <option name = "CT" value = "CT">Connecticut</option>
+                            <option name = "DE" value = "DE">Delaware</option>
+                            <option name = "DC" value = "DC">District of Columbia</option>
+                            <option name = "FL" value = "FL">Florida</option>
+                            <option name = "GA" value = "GA">Georgia</option>
+                            <option name = "HI" value = "HI">Hawaii</option>
+                            <option name = "ID" value = "ID">Idaho</option>
+                            <option name = "IL" value = "IL">Illinois</option>
+                            <option name = "IN" value = "IN">Indiana</option>
+                            <option name = "IA" value = "IA">Iowa</option>
+                            <option name = "KS" value = "KS">Kansas</option>
+                            <option name = "KY" value = "KY">Kentucky</option>
+                            <option name = "LA" value = "LA">Louisiana</option>
+                            <option name = "ME" value = "ME">Maine</option>
+                            <option name = "MD" value = "MD">Maryland</option>
+                            <option name = "MA" value = "MA">Massachusetts</option>
+                            <option name = "MI" value = "MI">Michigan</option>
+                            <option name = "MN" value = "MN">Minnesota</option>
+                            <option name = "MS" value = "MS">Mississippi</option>
+                            <option name = "MO" value = "MO">Missouri</option>
+                            <option name = "MT" value = "MT">Montana</option>
+                            <option name = "NE" value = "NE">Nebraska</option>
+                            <option name = "NV" value = "NV">Nevada</option>
+                            <option name = "NH" value = "NH">New Hampshire</option>
+                            <option name = "NJ" value = "NJ">New Jersey</option>
+                            <option name = "NM" value = "NM">New Mexico</option>
+                            <option name = "NY" value = "NY">New York</option>
+                            <option name = "NC" value = "NC">North Carolina</option>
+                            <option name = "ND" value = "ND">North Dakota</option>
+                            <option name = "OH" value = "OH">Ohio</option>
+                            <option name = "OK" value = "OK">Oklahoma</option>
+                            <option name = "OR" value = "OR">Oregon</option>
+                            <option name = "PA" value = "PA">Pennsylvania</option>
+                            <option name = "RI" value = "RI">Rhode Island</option>
+                            <option name = "SC" value = "SC">South Carolina</option>
+                            <option name = "SD" value = "SD">South Dakota</option>
+                            <option name = "TN" value = "TN">Tennessee</option>
+                            <option name = "TX" value = "TX">Texas</option>
+                            <option name = "UT" value = "UT">Utah</option>
+                            <option name = "VT" value = "VT">Vermont</option>
+                            <option name = "VA" value = "VA">Virginia</option>
+                            <option name = "WA" value = "WA">Washington</option>
+                            <option name = "WV" value = "WV">West Virginia</option>
+                            <option name = "WI" value = "WI">Wisconsin</option>
+                            <option name = "WY" value = "WY">Wyoming</option>
                         </select>
                     </div>
                     <select id = "scroll_start_year_selector">
-                        <option value = "start_year-1990">1990</option>
-                        <option value = "start_year-1991">1991</option>
-                        <option value = "start_year-1992">1992</option>
-                        <option value = "start_year-1993">1993</option>
-                        <option value = "start_year-1994">1994</option>
-                        <option value = "start_year-1995">1995</option>
-                        <option value = "start_year-1996">1996</option>
-                        <option value = "start_year-1997">1997</option>
-                        <option value = "start_year-1998">1998</option>
-                        <option value = "start_year-1999">1999</option>
-                        <option value = "start_year-2000">2000</option>
-                        <option value = "start_year-2001">2001</option>
-                        <option value = "start_year-2002">2002</option>
-                        <option value = "start_year-2003">2003</option>
-                        <option value = "start_year-2004">2004</option>
-                        <option value = "start_year-2005">2005</option>
-                        <option value = "start_year-2006">2006</option>
-                        <option value = "start_year-2007">2007</option>
-                        <option value = "start_year-2008">2008</option>
-                        <option value = "start_year-2009">2009</option>
-                        <option value = "start_year-2010">2010</option>
-                        <option value = "start_year-2011">2011</option>
-                        <option value = "start_year-2012">2012</option>
-                        <option value = "start_year-2013">2013</option>
+                        <option name = "start_year-1990" value = "start_year-1990">1990</option>
+                        <option name = "start_year-1991" value = "start_year-1991">1991</option>
+                        <option name = "start_year-1992" value = "start_year-1992">1992</option>
+                        <option name = "start_year-1993" value = "start_year-1993">1993</option>
+                        <option name = "start_year-1994" value = "start_year-1994">1994</option>
+                        <option name = "start_year-1995" value = "start_year-1995">1995</option>
+                        <option name = "start_year-1996" value = "start_year-1996">1996</option>
+                        <option name = "start_year-1997" value = "start_year-1997">1997</option>
+                        <option name = "start_year-1998" value = "start_year-1998">1998</option>
+                        <option name = "start_year-1999" value = "start_year-1999">1999</option>
+                        <option name = "start_year-2000" value = "start_year-2000">2000</option>
+                        <option name = "start_year-2001" value = "start_year-2001">2001</option>
+                        <option name = "start_year-2002" value = "start_year-2002">2002</option>
+                        <option name = "start_year-2003" value = "start_year-2003">2003</option>
+                        <option name = "start_year-2004" value = "start_year-2004">2004</option>
+                        <option name = "start_year-2005" value = "start_year-2005">2005</option>
+                        <option name = "start_year-2006" value = "start_year-2006">2006</option>
+                        <option name = "start_year-2007" value = "start_year-2007">2007</option>
+                        <option name = "start_year-2008" value = "start_year-2008">2008</option>
+                        <option name = "start_year-2009" value = "start_year-2009">2009</option>
+                        <option name = "start_year-2010" value = "start_year-2010">2010</option>
+                        <option name = "start_year-2011" value = "start_year-2011">2011</option>
+                        <option name = "start_year-2012" value = "start_year-2012">2012</option>
+                        <option name = "start_year-2013" value = "start_year-2013">2013</option>
                     </select>
                     <span id = "ndash">&ndash;</span>
                     <select id = "scroll_end_year_selector">
-                        <option value = "end_year-1991">1991</option>
-                        <option value = "end_year-1992">1992</option>
-                        <option value = "end_year-1993">1993</option>
-                        <option value = "end_year-1994">1994</option>
-                        <option value = "end_year-1995">1995</option>
-                        <option value = "end_year-1996">1996</option>
-                        <option value = "end_year-1997">1997</option>
-                        <option value = "end_year-1998">1998</option>
-                        <option value = "end_year-1999">1999</option>
-                        <option value = "end_year-2000">2000</option>
-                        <option value = "end_year-2001">2001</option>
-                        <option value = "end_year-2002">2002</option>
-                        <option value = "end_year-2003">2003</option>
-                        <option value = "end_year-2004">2004</option>
-                        <option value = "end_year-2005">2005</option>
-                        <option value = "end_year-2006">2006</option>
-                        <option value = "end_year-2007">2007</option>
-                        <option value = "end_year-2008">2008</option>
-                        <option value = "end_year-2009">2009</option>
-                        <option value = "end_year-2010">2010</option>
-                        <option value = "end_year-2011">2011</option>
-                        <option value = "end_year-2012">2012</option>
-                        <option value = "end_year-2013">2013</option>
-                        <option value = "end_year-2014">2014</option>
+                        <option name = "end_year-1991" value = "end_year-1991">1991</option>
+                        <option name = "end_year-1992" value = "end_year-1992">1992</option>
+                        <option name = "end_year-1993" value = "end_year-1993">1993</option>
+                        <option name = "end_year-1994" value = "end_year-1994">1994</option>
+                        <option name = "end_year-1995" value = "end_year-1995">1995</option>
+                        <option name = "end_year-1996" value = "end_year-1996">1996</option>
+                        <option name = "end_year-1997" value = "end_year-1997">1997</option>
+                        <option name = "end_year-1998" value = "end_year-1998">1998</option>
+                        <option name = "end_year-1999" value = "end_year-1999">1999</option>
+                        <option name = "end_year-2000" value = "end_year-2000">2000</option>
+                        <option name = "end_year-2001" value = "end_year-2001">2001</option>
+                        <option name = "end_year-2002" value = "end_year-2002">2002</option>
+                        <option name = "end_year-2003" value = "end_year-2003">2003</option>
+                        <option name = "end_year-2004" value = "end_year-2004">2004</option>
+                        <option name = "end_year-2005" value = "end_year-2005">2005</option>
+                        <option name = "end_year-2006" value = "end_year-2006">2006</option>
+                        <option name = "end_year-2007" value = "end_year-2007">2007</option>
+                        <option name = "end_year-2008" value = "end_year-2008">2008</option>
+                        <option name = "end_year-2009" value = "end_year-2009">2009</option>
+                        <option name = "end_year-2010" value = "end_year-2010">2010</option>
+                        <option name = "end_year-2011" value = "end_year-2011">2011</option>
+                        <option name = "end_year-2012" value = "end_year-2012">2012</option>
+                        <option name = "end_year-2013" value = "end_year-2013">2013</option>
+                        <option name = "end_year-2014" value = "end_year-2014">2014</option>
                     </select>
 
                     <div id = "scroll_filter_button">
@@ -522,7 +531,7 @@
 
             <div id="left">
                 <h4>About the data</h4>
-                <p>Methodological notes etc plus link to report goes here</p>
+                <p>All analyses reflect Urban Institute analysis of fiscal year (FY) 1994&ndash;2014 IRS Form 990 Data. Results and figures reflect Urban Institute analysis of the National Center for Charitable Statistics PC Fiscal Year Trend File (1998&ndash;2013) and the IRS Business Master File (December, 2015). Findings are based on changes in gross receipts for a given public charity from one given fiscal year to the next. Results reflect only active, reporting public charities. Results include only organizations filing for both years within the given two-year period. Religious congregations and other organizations not required to file are excluded from analysis. Organizations are classified by type according to their National Taxonomy of Exempt Entities (NTEE) code.</p>
 
                 </div>
             <div id="right">
@@ -532,20 +541,19 @@
                 <div class="urbanstatement">As an organization, the Urban Institute does not take positions on issues, but it does empower and support its experts in sharing their own evidence-based views and policy recommendations that have been shaped by scholarship.</div>
 
                 <h3 class="job">Research</h3>
-                Research team list goes here
+                <a href="http://www.urban.org/author/brice-mckeever">Brice McKeever</a>, <a href="http://www.urban.org/author/shena-ashley">Shena Ashley</a>, and <a href="http://www.urban.org/author/nathan-dietz">Nathan Dietz</a>
+
+                <h3 class="job">Development</h3>
+                <a href="http://www.urban.org/author/benjamin-chartoff">Ben Chartoff</a>
+
+                <h3 class="job">Writing</h3>
+                <a href="http://www.urban.org/author/serena-lei">Serena Lei</a>
 
                 <h3 class="job">Design</h3>
                 <a href="http://www.urban.org/author/christina-baird">Christina Baird</a>
 
-                <h3 class="job">Development</h3>
-                <a href="http://www.urban.org/author/benjamin-chartoff">Benjamin Chartoff</a>
-
                 <h3 class="job">Editorial</h3>
-                <a href="http://www.urban.org/author/michael-marazzi">Michael Marazzi</a>
-
-                <h3 class="job">Writing</h3>
-                <a href="http://www.urban.org/author/alexandra-tilsley">Alexandra Tilsley</a>
-
+                <a href="http://www.urban.org/author/fiona-blackshaw">Fiona Blackshaw</a> and <a href="http://www.urban.org/author/daniel-matos">Daniel Matos</a>
 
                 <div class="credits">Copyright &copy; <a href="http://www.urban.org/">Urban Institute</a> 2016. <a href="https://github.com/UrbanInstitute" target="_blank">View this project on Github.</a></div>
                 </div>

@@ -130,7 +130,7 @@ rect.bg{
   top: 12px;
   position: relative;
   margin-right: 3px;
-  margin-left: 1px;
+  margin-left: -8px;
 }
 #jumpNarrative{
   width: 100px;
@@ -141,6 +141,7 @@ rect.bg{
   text-align: center;
   padding-top: 37px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 
@@ -168,7 +169,7 @@ rect.bg{
 .legend{
   font-size: 14px;
   font-weight: bold;
-  width: calc(100% -21px);
+  width: calc(100% - 21px);
   margin-left: 21px;
   margin-top: -10px !important;
 }
@@ -188,6 +189,8 @@ rect.bg{
 }
 .keyLabel{
   margin-right: 33px;
+  position: relative;
+  top: -2px;
 }
 .key-si{
   background: rgb(130, 196, 233);
@@ -328,7 +331,7 @@ select{
     height: 140px;
   }
   #scroll_lvl2{
-    width: 418px;
+    width: 426px;
   }
   #scroll_cbsa_selector-button{
     margin-right: 0px;
@@ -357,7 +360,7 @@ select{
     top: 6px;
     position: relative;
     margin-right: 3px;
-    margin-left: 1px;
+    margin-left: -8px;
   }
   #jumpNarrative{
     padding-top: 57px;
@@ -429,7 +432,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 body, html {
-     color: #000;
+/*     color: #000;
      font-family: "Lato",sans-serif;
      font-size: 16px;
      height: 100%;
@@ -437,7 +440,7 @@ body, html {
      margin: 0px;
      padding: 0px;
      text-align: left;
-
+*/
 }
 
 ol, ul {
@@ -1003,4 +1006,12 @@ footer h3, footer h4{
 #tt-location{
   font-size: 15px;
   margin-bottom: 14px;
+}
+
+
+footer{
+  /*width: 10px;*/
+}
+#header-pinned, #controls, #chart, #bodyCopy, footer, #scroll_controls, body{
+  /*width: 10px !important;*/
 }

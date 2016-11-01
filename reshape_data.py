@@ -42,9 +42,12 @@ for i in range(1994, 2014):
 		outRow = []
 		cbsa = sheet.cell(r, 1).value
 		cbsaJS[cbsa] = cleanCBSA(cbsa)
-		outRow.append(cbsa)
 		if sheet.cell(r, 0).value == "All CBSAs":
-			outRow.append("all_cbsa")
+			outRow.append("All USA")
+		else:
+			outRow.append(cbsa)
+		if sheet.cell(r, 0).value == "All CBSAs":
+			outRow.append("all_usa-state")
 		else:
 			outRow.append("cbsa")
 		outRow.append("aggregate")
@@ -60,12 +63,12 @@ for i in range(1994, 2014):
 	nteeJS = {}
 	for r in range(1, sheet.nrows):
 		if sheet.cell(r, 0).value == "All Types":
-			continue
+			break
 		ntee = sheet.cell(r, 0).value
 		nteeJS[ntee] = cleanNTEE(ntee)
 		outRow = []
-		outRow.append("aggregate")
-		outRow.append("aggregate")
+		outRow.append("All USA")
+		outRow.append("all_usa-state")
 		outRow.append(ntee)
 		outRow.append(i)
 		outRow.append(sheet.cell(r, 10).value)
