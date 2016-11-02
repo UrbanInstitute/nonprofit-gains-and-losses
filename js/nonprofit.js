@@ -717,7 +717,7 @@ d3.csv("data/data.csv", function(err, input){
   var stickyTabText = "";
   var stickyHeaderText = "";
   function highlightTab(topic, location, action){
-    if(d3.selectAll(".small_chart").nodes().length < 200){
+    if(d3.select(".yearContainer").selectAll(".small_chart").nodes().length < 200){
       return false
     }
     var tabText, headerText;
