@@ -429,8 +429,11 @@ d3.csv("data/data.csv", function(err, input){
   }
   drawSquares(input, true)
   var IS_PHONE = d3.select("#isPhone").style("display") == "block"
+  var IS_MOBILE = d3.select("#isMobile").style("display") == "block"
+
   window.onresize = function(){
     IS_PHONE = d3.select("#isPhone").style("display") == "block"
+    IS_MOBILE = d3.select("#isMobile").style("display") == "block"
 
     d3.selectAll(".yearContainer").remove()
     drawSquares(input, d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val())
@@ -972,31 +975,52 @@ d3.csv("data/data.csv", function(err, input){
 
   var isAnimating = false;
 
-  $(window).scroll(function () { 
-      var scrolled = $(window).scrollTop()
-      var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
-      if(scrolled <= 200){
-        d3.select("#scroll_controls")
-          .transition()
-          .duration(600)
-          .style("top",scrollTo)
+  function openDrawer(){
+    var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
+    d3.select("#scroll_controls")
+      .transition()
+      .duration(600)
+      .style("top","40px")
 
-        CBSA_SELECTOR = "#cbsa_selector"
-        STATE_SELECTOR = "#state_selector"
-        TOPIC_SELECTOR = "#topics_selector"
-        FILTER_BUTTON = "#filter_button"
-        ENABLED_SELECTOR = ".locationMenu.enabled"
+    CBSA_SELECTOR = "#scroll_cbsa_selector"
+    STATE_SELECTOR = "#scroll_state_selector"
+    TOPIC_SELECTOR = "#scroll_topics_selector"
+    FILTER_BUTTON = "#scroll_filter_button"
+    ENABLED_SELECTOR = ".scroll_locationMenu.enabled"
+  }
+  function closeDrawer(){
+    var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
+    
+    d3.select("#scroll_controls")
+      .transition()
+      .duration(600)
+      .style("top",scrollTo)
+
+    CBSA_SELECTOR = "#cbsa_selector"
+    STATE_SELECTOR = "#state_selector"
+    TOPIC_SELECTOR = "#topics_selector"
+    FILTER_BUTTON = "#filter_button"
+    ENABLED_SELECTOR = ".locationMenu.enabled"
+
+  }
+  d3.select("#hamboogerBar")
+    .on("click", function(){
+      if(d3.select(this).classed("closed")){
+        openDrawer()
+        d3.select(this).attr("class", "opened")
       }else{
-        d3.select("#scroll_controls")
-          .transition()
-          .duration(600)
-          .style("top","40px")
-
-        CBSA_SELECTOR = "#scroll_cbsa_selector"
-        STATE_SELECTOR = "#scroll_state_selector"
-        TOPIC_SELECTOR = "#scroll_topics_selector"
-        FILTER_BUTTON = "#scroll_filter_button"
-        ENABLED_SELECTOR = ".scroll_locationMenu.enabled"
+        closeDrawer();
+        d3.select(this).attr("class", "closed")
+      }
+    })
+  $(window).scroll(function () { 
+      if(IS_MOBILE){
+        return false;
+      }
+      if(d3.select(".yearContainer").node().getBoundingClientRect().top - d3.select("#scroll_controls").node().getBoundingClientRect().height >  35){
+        closeDrawer()
+      }else{
+        openDrawer()
       }
       listenForEvents()
   });
