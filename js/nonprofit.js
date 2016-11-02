@@ -31,7 +31,7 @@ function wrap(text, width, dy) {
 
 function sortData(input){
   var allYears = [];
-  for(i = 2013; i <= 2014; i++ ){
+  for(i = 2005; i <= 2014; i++ ){
     data = input
       .filter(function(d){
         return parseInt(d["start_year"]) == i;
