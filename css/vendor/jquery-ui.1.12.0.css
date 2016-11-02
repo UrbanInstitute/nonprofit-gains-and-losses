@@ -1038,6 +1038,9 @@ a.ui-button:active,
 	font-weight: normal;
 	color: #ffffff;
 }
+.ui-state-disabled:hover, .ui-state-disabled, .ui-state-disabled[selected="true"]{
+	background: #fff !important;
+}
 .ui-button:active{
    	background: url(../../images/urban-select-2x.png) no-repeat right #d2d2d2;
    	background-size: 45px 45px;
@@ -1111,6 +1114,7 @@ a.ui-button:active,
 .ui-state-disabled .ui-icon {
 	filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
 }
+
 
 /* Icons
 ----------------------------------*/

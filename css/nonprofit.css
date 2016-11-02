@@ -147,9 +147,28 @@ rect.bg{
 
 
 
-
-
-
+#loadingGif{
+  position: absolute;
+  z-index: 99999;
+  background: rgba(255,255,255,.9);
+  width: 100%;
+  height: 1000px;
+  pointer-events: none;
+}
+#loadingGif img{
+  margin: 0 auto;
+  display: block;
+}
+#loadingText{
+  color: #58595b;
+  font-style: italic;
+  font-size: 20px;
+  margin: 0 auto;
+  position: relative;
+  width: 331px;
+  margin-top: 50px;
+  opacity: 0;
+}
 
 
 .yearContainer div{
@@ -236,6 +255,14 @@ rect.bg{
 span.sentence{
   font-size: 43px;
   font-weight: 100;
+}
+#slashSentence{
+  font-size: 56px;
+  position: relative;
+  top: 13px;
+  font-weight: 100;
+  left: -4px;
+  color: black;
 }
 #hide-np{
   display: none;

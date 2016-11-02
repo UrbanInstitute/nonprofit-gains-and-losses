@@ -489,7 +489,11 @@ d3.csv("data/data.csv", function(err, input){
           return false;
         }
         if(d3.select(STATE_SELECTOR).classed("enabled")){
-          selectionHandler(false, this.value, "menu")
+          if(this.value == "all_states" && d3.selectAll(".small_chart.NH").nodes().length == 0 || d3.selectAll(".small_chart.CA").nodes().length == 0){
+            redrawSquares(true, $(TOPIC_SELECTOR).val(), this.value, "menu")
+          }else{
+            selectionHandler(false, this.value, "menu")
+          }
         }else{
           redrawSquares(true, $(TOPIC_SELECTOR).val(), this.value, "menu")
         }
@@ -518,7 +522,11 @@ d3.csv("data/data.csv", function(err, input){
           return false;
         }
         if(d3.select(CBSA_SELECTOR).classed("enabled")){
-          selectionHandler(false, this.value, "menu")
+          if(this.value == "all_cities" && d3.selectAll(".small_chart.Atlanta-Sandy-Springs-Roswell").nodes().length == 0 || d3.selectAll(".small_chart.Austin-Round-Rock").nodes().length == 0){
+            redrawSquares(false, $(TOPIC_SELECTOR).val(), this.value, "menu")
+          }else{
+            selectionHandler(false, this.value, "menu")
+          }
         }else{
           redrawSquares(false, $(TOPIC_SELECTOR).val(), this.value, "menu")
         }
@@ -566,12 +574,13 @@ d3.csv("data/data.csv", function(err, input){
             .each(function(){
               var clicked = d3.select(this).selectAll(".small_chart.clicked")
               small_width = getSmallWidth(clicked.nodes().length, d3.select(this).node().getBoundingClientRect().width,d3.select(this).node().getBoundingClientRect().height)
+            
               gutter = (clicked.nodes().length < 15) ? 50 :  small_width/9
               rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
               var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter + margin.top
 
               d3.select(this).transition().attr("height", function(){ return String(newHeight)})
-              var old_width = parseFloat(d3.select(".small_chart").attr("width").replace("px",""))
+              var old_width = parseFloat(d3.select(".small_chart rect").attr("width").replace("px",""))
               var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
 
               // var scale = 1;
@@ -639,7 +648,7 @@ d3.csv("data/data.csv", function(err, input){
     if(action == "click"){
       if(location != false){
         if(isStates){
-          d3.select('#STATE_SELECTORctor option[value=' + location +']').node().selected = true
+          d3.select('#state_selector option[value=' + location +']').node().selected = true
           $( "#state_selector" ).selectmenu("refresh")
           d3.select('#scroll_state_selector option[value=' + location +']').node().selected = true
           $( "#scroll_state_selector" ).selectmenu("refresh")
@@ -665,6 +674,7 @@ d3.csv("data/data.csv", function(err, input){
       }
     }
     if(topic != false){
+
       if(topic == "all_topics"){
         if(d3.selectAll(".small_chart.visible.Arts").nodes().length != 0 && d3.selectAll(".small_chart.visible.Other").nodes().length != 0){
           highlightSquares(topic, location, action)
@@ -704,6 +714,9 @@ d3.csv("data/data.csv", function(err, input){
   var stickyTabText = "";
   var stickyHeaderText = "";
   function highlightTab(topic, location, action){
+    if(d3.selectAll(".small_chart").nodes().length < 200){
+      return false
+    }
     var tabText, headerText;
     d3.selectAll(".sortShow")
       .style("opacity",0)
@@ -733,9 +746,6 @@ d3.csv("data/data.csv", function(err, input){
   }
 
   function highlightSquares(topic, location, action){
-    if(d3.selectAll(".small_chart").nodes().length < 200){
-      return false
-    }
     var menuSelector = (location.length == 2 || location == "all_states" || location == "all-usa-state") ? STATE_SELECTOR : CBSA_SELECTOR;
     var allSelector = (location.length == 2 || location == "all_states" || location == "all-usa-state") ? "all_states" : "all_cities";
     var highlightHeader = (location.length == 2 || location == "all_states" || location == "all-usa-state") ? "HIGHLIGHTED STATE" : "HIGHLIGHTED AREA"
@@ -775,7 +785,7 @@ d3.csv("data/data.csv", function(err, input){
             .classed("clicked",true)
         }
       }else{
-        if(d3.select(menuSelector).node().value != allSelector){
+        if(d3.select(menuSelector).node().value != allSelector && d3.select(menuSelector).node().value != "none"){
           selector = "." + d3.select(menuSelector).node().value + "." + topic
         }else{
           selector = "." + topic
@@ -895,17 +905,14 @@ d3.csv("data/data.csv", function(err, input){
   }
 
   function redrawSquares(isStates, topic, location, action){
-    console.log("foo")
-
+      counter = 0;
       if(isStates){
-            console.log("bar")
 
       // d3.select('#scroll_cbsa_selector option[value=' + "all_cities" +']').node().selected = true
       $( "#scroll_cbsa_selector" ).val("none").selectmenu("refresh")
       // d3.select('#cbsa_selector option[value=' + "all_cities" +']').node().selected = true
       $( "#cbsa_selector" ).val("none").selectmenu("refresh")
     }else{
-                  console.log("baz")
 
             $( "#scroll_state_selector" ).val("none").selectmenu("refresh")
       // d3.select('#cbsa_selector option[value=' + "all_cities" +']').node().selected = true
@@ -916,6 +923,11 @@ d3.csv("data/data.csv", function(err, input){
       // // d3.select('#state_selector option[value=' + "all_states" +']').node().selected = true
       // $( "#state_selector" ).selectmenu("all_states","selected",true)
     }
+    d3.select("#loadingText")
+      .style("opacity",0)
+    d3.select("#filter_button")
+      .transition()
+      .style("opacity",0)
     d3.selectAll(".highlightShow")
       .style("opacity",0)
     d3.selectAll(".sortShow")
@@ -992,9 +1004,16 @@ d3.csv("data/data.csv", function(err, input){
 })//end csv function
 
 isIE = false;
+var counter = 0;
 function checkReady() {
+  counter += 1;
   var drawn = d3.select(".small_chart").node();
   if (drawn == null) {
+    if(counter >= 2){
+        d3.select("#loadingText")
+          .transition()
+          .style("opacity", 1);
+    }
     setTimeout("checkReady()", 100);
   } else {
     setTimeout(function(){
