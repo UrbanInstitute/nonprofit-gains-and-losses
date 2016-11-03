@@ -123,6 +123,8 @@ d3.csv("data/data.csv", function(err, input){
     var sorted = sortData(input, startYear, endYear)
     if(topicFilter != "all_topics" && locationFilter != "all_states" && locationFilter != "all_cities" && topicFilter != false && locationFilter != false && typeof(topicFilter) != "undefined" && typeof(locationFilter) != "undefined"){
       SINGLE_YEAR = true;
+      // console.log(sorted)
+      sorted.splice(-1,1)
       sorted = [[].concat.apply([], sorted) , []];
     }else{
       SINGLE_YEAR = false;
@@ -471,17 +473,12 @@ d3.csv("data/data.csv", function(err, input){
 
         if(endYear <= startYear){
           // $( END_YEAR_SELECTOR ).selectmenu("open")
-          d3.select('#end_year_selector option[value=' + "end_year-" + (startYear + 1) +']').node().selected = true
+          // d3.select('#end_year_selector option[value=' + "end_year-" + (startYear + 1) +']').node().selected = true
           $( END_YEAR_SELECTOR ).selectmenu("open")
           d3.select( END_YEAR_SELECTOR + "-button").classed("error", true)
          // d3.selectAll('#end_year_selector option').nodes().disabled = false
         }
-        d3.selectAll('#end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
-        d3.selectAll('#scroll_end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
-        for(var i = 1995; i < startYear+1; i++){
-           d3.select('#end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
-           d3.select('#scroll_end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
-        }
+
         $( "#end_year_selector" ).selectmenu("refresh")
         $( "#scroll_end_year_selector" ).selectmenu("refresh")
 
@@ -492,8 +489,9 @@ d3.csv("data/data.csv", function(err, input){
           d3.select('#scroll_start_year_selector option[value=' + this.value +']').node().selected = true
           $( "#scroll_start_year_selector" ).selectmenu("refresh")
         }
-        redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu", parseInt(this.value.replace("start_year-","")), parseInt($(END_YEAR_SELECTOR).val().replace("end_year-","")))
-
+        if(endYear > startYear){
+          redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu", parseInt(this.value.replace("start_year-","")), parseInt($(END_YEAR_SELECTOR).val().replace("end_year-","")))
+        }
 
       },
       select: function(event, d){
@@ -507,16 +505,10 @@ d3.csv("data/data.csv", function(err, input){
 
         if(endYear <= startYear){
           // $( END_YEAR_SELECTOR ).selectmenu("open")
-          d3.select('#start_year_selector option[value=' + "start_year-" + (endYear - 1) +']').node().selected = true
+          // d3.select('#start_year_selector option[value=' + "start_year-" + (endYear - 1) +']').node().selected = true
           $( START_YEAR_SELECTOR ).selectmenu("open")
           d3.select( START_YEAR_SELECTOR + "-button").classed("error", true)
          // d3.selectAll('#end_year_selector option').nodes().disabled = false
-        }
-        d3.selectAll('#start_year_selector option').nodes().forEach(function(n){ n.disabled = false })
-        d3.selectAll('#start_end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
-        for(var i = 2013; i > endYear-1; i--){
-           d3.select('#start_year_selector option[value=' + "start_year-" + i +']').node().disabled = true
-           d3.select('#scroll_start_year_selector option[value=' + "start_year-" + i +']').node().disabled = true
         }
         $( "#start_year_selector" ).selectmenu("refresh")
         $( "#scroll_start_year_selector" ).selectmenu("refresh")
@@ -528,8 +520,9 @@ d3.csv("data/data.csv", function(err, input){
           d3.select('#scroll_end_year_selector option[value=' + this.value +']').node().selected = true
           $( "#scroll_end_year_selector" ).selectmenu("refresh")
         }
-        redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu", parseInt($(START_YEAR_SELECTOR).val().replace("start_year-","")), parseInt(this.value.replace("end_year-","")))
-
+        if( endYear > startYear){
+          redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu", parseInt($(START_YEAR_SELECTOR).val().replace("start_year-","")), parseInt(this.value.replace("end_year-","")))
+        }
       },
       select: function(event, d){
         d3.selectAll(".error").classed("error", false)
@@ -657,11 +650,11 @@ d3.csv("data/data.csv", function(err, input){
             return false;
           }
           if(d3.select(".small_chart.clicked").nodes().length > 200){
-            d3.select(".sortShow")
+            d3.selectAll(".sortShow")
               .transition()
               .attr("y",margin.top+15)
           }else{
-            d3.select(".sortShow")
+            d3.selectAll(".sortShow")
               .transition()
               .attr("y",margin.top-10)
           }
@@ -1081,6 +1074,8 @@ d3.csv("data/data.csv", function(err, input){
     TOPIC_SELECTOR = "#scroll_topics_selector"
     FILTER_BUTTON = "#scroll_filter_button"
     ENABLED_SELECTOR = ".scroll_locationMenu.enabled"
+    START_YEAR_SELECTOR = "#scroll_start_year_selector"
+    END_YEAR_SELECTOR = "#scroll_end_year_selector"
   }
   function closeDrawer(){
     var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
@@ -1095,6 +1090,9 @@ d3.csv("data/data.csv", function(err, input){
     TOPIC_SELECTOR = "#topics_selector"
     FILTER_BUTTON = "#filter_button"
     ENABLED_SELECTOR = ".locationMenu.enabled"
+    START_YEAR_SELECTOR = "#start_year_selector"
+    END_YEAR_SELECTOR = "#end_year_selector"
+
 
   }
   d3.select("#hamboogerBar")

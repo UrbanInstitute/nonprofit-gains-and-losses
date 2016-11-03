@@ -244,13 +244,13 @@ rect.bg{
   font-style: italic;
 }
 #sentence{
-  top: 120px;
+  top: 160px;
   position: relative;
   margin: 0 auto;
   width: 80%;
   text-align: center;
   line-height: 61px;
-  margin-bottom: 120px;
+  margin-bottom: 160px;
 }
 span.sentence{
   font-size: 43px;

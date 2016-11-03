@@ -736,8 +736,8 @@ button.ui-button::-moz-focus-inner {
    	background-size: 53px 53px !important;
 }
 .ui-button.error{
-	color: #fdbf11;
-   	background: url(../../images/urban-select-error.png) no-repeat right #1696d2 !important;
+	color: #fff;
+   	background: url(../../images/urban-select-error.png) no-repeat right #fdbf11 !important;
    	background-size: 53px 53px !important;
 }
 .menuContainer.active .ui-selectmenu-button{
@@ -763,7 +763,8 @@ button.ui-button::-moz-focus-inner {
    	background-size: 36px 36px;
 }
 #scroll_start_year_selector-button.error, #scroll_end_year_selector-button.error{
-	color: #fdbf11;
+	background: #fdbf11 !important;
+	color: #000 !important;
    	background-size: 36px 36px !important;
 }
 .scroll_menuContainer.active .ui-selectmenu-button{
