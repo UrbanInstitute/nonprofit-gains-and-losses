@@ -107,10 +107,12 @@ function locations(location){
     }
   }
 }
-
+d3.select("#loadingGif").style("height", function(){return d3.select("body").node().getBoundingClientRect().height - d3.select("#controls").node().getBoundingClientRect().height + "px" })
 d3.csv("data/data.csv", function(err, input){
   var margin = {"left":20,"top":30,"right":10,"bottom":10}
+  var SINGLE_YEAR = false;
   function drawSquares(input, isStates, topicFilter, locationFilter){
+    d3.select("#loadingGif").style("height", function(){return d3.select("body").node().getBoundingClientRect().height - d3.select("#controls").node().getBoundingClientRect().height + "px" })
     d3.select("#jumpNarrative")
       .on("click", function(){
         $('html,body').animate({
@@ -118,6 +120,14 @@ d3.csv("data/data.csv", function(err, input){
         'slow');
       })
     var sorted = sortData(input)
+    console.log(isStates, topicFilter, locationFilter)
+    if(topicFilter != "all_topics" && locationFilter != "all_states" && locationFilter != "all_cities" && topicFilter != false && locationFilter != false && typeof(topicFilter) != "undefined" && typeof(locationFilter) != "undefined"){
+      SINGLE_YEAR = true;
+      sorted = [[].concat.apply([], sorted) , []];
+    }else{
+      SINGLE_YEAR = false;
+    }
+    console.log(sorted)
     for(var ind = 0; ind < sorted.length-1; ind++){
       var data = sorted[ind]
       if(isStates){
@@ -154,7 +164,13 @@ d3.csv("data/data.csv", function(err, input){
       yearContainer
         .append("div")
         .attr("class","yearHeader")
-        .html(data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1))
+        .html(function(){
+          if(SINGLE_YEAR){
+            return data[0]["start_year"] + "&ndash;" + (parseInt(data[data.length-1]["start_year"])+1)
+          }else{
+            return data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)
+          }
+        })
 
       var legend = yearContainer
         .append("div")
@@ -275,7 +291,13 @@ d3.csv("data/data.csv", function(err, input){
         .attr("x",margin.left)
         .attr("y",sortY)
         .attr("class","sortShow sortText")
-        .text("From biggest gains to biggest losses")
+        .text(function(){
+          if(SINGLE_YEAR){
+            return "Sorted by year"
+          }else{
+            return "From biggest gains to biggest losses"
+          }
+        })
         .style("opacity",1)
       // chart.append("text")
       //   .attr("x",margin.left)
@@ -564,6 +586,13 @@ d3.csv("data/data.csv", function(err, input){
         if(d3.select(".small_chart.clicked").nodes().length == 0){
           return false;
         }else{
+          var clickedTest = d3.select(".yearContainer").selectAll(".small_chart.clicked")
+
+          if(clickedTest.nodes().length  == 1 && (d3.selectAll(".small_chart.clicked.Arts").nodes().length == 0 || d3.selectAll(".small_chart.clicked.Other").nodes().length == 0)){
+            console.log("foo")
+            redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu") 
+            return false;
+          }
           if(d3.select(".small_chart.clicked").nodes().length > 200){
             d3.select(".sortShow")
               .transition()

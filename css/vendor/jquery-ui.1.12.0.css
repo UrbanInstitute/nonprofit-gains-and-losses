@@ -1041,10 +1041,10 @@ a.ui-button:active,
 .ui-state-disabled:hover, .ui-state-disabled, .ui-state-disabled[selected="true"]{
 	background: #fff !important;
 }
-.ui-button:active{
+/*.ui-button:active{
    	background: url(../../images/urban-select-2x.png) no-repeat right #d2d2d2;
    	background-size: 45px 45px;
-}
+}*/
 .ui-icon-background,
 .ui-state-active .ui-icon-background {
 	border: #003eff;
