@@ -120,14 +120,12 @@ d3.csv("data/data.csv", function(err, input){
         'slow');
       })
     var sorted = sortData(input)
-    console.log(isStates, topicFilter, locationFilter)
     if(topicFilter != "all_topics" && locationFilter != "all_states" && locationFilter != "all_cities" && topicFilter != false && locationFilter != false && typeof(topicFilter) != "undefined" && typeof(locationFilter) != "undefined"){
       SINGLE_YEAR = true;
       sorted = [[].concat.apply([], sorted) , []];
     }else{
       SINGLE_YEAR = false;
     }
-    console.log(sorted)
     for(var ind = 0; ind < sorted.length-1; ind++){
       var data = sorted[ind]
       if(isStates){
@@ -293,7 +291,7 @@ d3.csv("data/data.csv", function(err, input){
         .attr("class","sortShow sortText")
         .text(function(){
           if(SINGLE_YEAR){
-            return "Sorted by year"
+            return "By fiscal year"
           }else{
             return "From biggest gains to biggest losses"
           }
@@ -467,22 +465,55 @@ d3.csv("data/data.csv", function(err, input){
     $( START_YEAR_SELECTOR ).selectmenu({
       change: function(event, d){
         // d3.select('#topics_selector option[value=' + this.value +']').node().selected = true
-        var year = parseInt(this.value.replace("start_year-",""))
-         d3.selectAll('#end_year_selector option').nodes().disabled = false
-        for(var i = 1991; i < year+1; i++){
-          // console.log(i)
+        var startYear = parseInt(this.value.replace("start_year-",""))
+        var endYear = parseInt(d3.select("#end_year_selector").node().value.replace("end_year-",""))
+
+        if(endYear <= startYear){
+          // $( END_YEAR_SELECTOR ).selectmenu("open")
+          d3.select('#end_year_selector option[value=' + "end_year-" + (startYear + 1) +']').node().selected = true
+          $( END_YEAR_SELECTOR ).selectmenu("open")
+          d3.select( END_YEAR_SELECTOR + "-button").classed("error", true)
+         // d3.selectAll('#end_year_selector option').nodes().disabled = false
+        }
+        d3.selectAll('#end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
+        d3.selectAll('#scroll_end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
+        for(var i = 1991; i < startYear+1; i++){
            d3.select('#end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
            d3.select('#scroll_end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
         }
-
-
+        $( "#end_year_selector" ).selectmenu("refresh")
+        $( "#scroll_end_year_selector" ).selectmenu("refresh")
+      },
+      select: function(event, d){
+        d3.selectAll(".error").classed("error", false)
       }
     })
     $( END_YEAR_SELECTOR ).selectmenu({
       change: function(event, d){
-        
+        var endYear = parseInt(this.value.replace("end_year-",""))
+        var startYear = parseInt(d3.select("#start_year_selector").node().value.replace("start_year-",""))
+
+        if(endYear <= startYear){
+          // $( END_YEAR_SELECTOR ).selectmenu("open")
+          d3.select('#start_year_selector option[value=' + "start_year-" + (endYear - 1) +']').node().selected = true
+          $( START_YEAR_SELECTOR ).selectmenu("open")
+          d3.select( START_YEAR_SELECTOR + "-button").classed("error", true)
+         // d3.selectAll('#end_year_selector option').nodes().disabled = false
+        }
+        d3.selectAll('#start_year_selector option').nodes().forEach(function(n){ n.disabled = false })
+        d3.selectAll('#start_end_year_selector option').nodes().forEach(function(n){ n.disabled = false })
+        for(var i = 2013; i > endYear-1; i--){
+           d3.select('#start_year_selector option[value=' + "start_year-" + i +']').node().disabled = true
+           d3.select('#scroll_start_year_selector option[value=' + "start_year-" + i +']').node().disabled = true
+        }
+        $( "#start_year_selector" ).selectmenu("refresh")
+        $( "#scroll_start_year_selector" ).selectmenu("refresh")
+      },
+      select: function(event, d){
+        d3.selectAll(".error").classed("error", false)
       }
     })
+
     $( TOPIC_SELECTOR ).selectmenu({
       change: function(event, d){
         if(d3.selectAll(".small_chart.visible." + this.value).nodes().length == 0){
@@ -600,7 +631,6 @@ d3.csv("data/data.csv", function(err, input){
           var clickedTest = d3.select(".yearContainer").selectAll(".small_chart.clicked")
 
           if(clickedTest.nodes().length  == 1 && (d3.selectAll(".small_chart.clicked.Arts").nodes().length == 0 || d3.selectAll(".small_chart.clicked.Other").nodes().length == 0)){
-            console.log("foo")
             redrawSquares(d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), "menu") 
             return false;
           }

@@ -126,6 +126,9 @@
 	list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
 	font-family: Lato;
 }
+.ui-menu .ui-menu-item.yearDisabled{
+	color: blue;
+}
 .ui-menu .ui-menu-item-wrapper {
 	position: relative;
 	padding: 3px 1em 3px .4em;
@@ -732,6 +735,11 @@ button.ui-button::-moz-focus-inner {
    	background: url(../../images/urban-select-disabled.png) no-repeat right #bcbec0 !important;
    	background-size: 53px 53px !important;
 }
+.ui-button.error{
+	color: #fdbf11;
+   	background: url(../../images/urban-select-error.png) no-repeat right #1696d2 !important;
+   	background-size: 53px 53px !important;
+}
 .menuContainer.active .ui-selectmenu-button{
 	/*color: white !important;*/
    	background: url(../../images/urban-select-active.png) no-repeat right #094c6a;
@@ -753,6 +761,10 @@ button.ui-button::-moz-focus-inner {
 	color: #e6e7e8;
    	background: url(../../images/urban-select-disabled.png) no-repeat right #bcbec0;
    	background-size: 36px 36px;
+}
+#scroll_start_year_selector-button.error, #scroll_end_year_selector-button.error{
+	color: #fdbf11;
+   	background-size: 36px 36px !important;
 }
 .scroll_menuContainer.active .ui-selectmenu-button{
 	color: white !important;
