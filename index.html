@@ -57,6 +57,7 @@
         <div id = "chartTooltip">
             <div id = "tt-topic"></div>
             <div id = "tt-location"></div>
+            <div id = "tt-total_orgs"><span></span> organizations</div>
             <div id = "tt-ll"><div class = "tt-key key-ll"></div>large loss: <span></span></div>
             <div id = "tt-sl"><div class = "tt-key key-sl"></div>slight loss: <span></span></div>
             <div id = "tt-nc"><div class = "tt-key key-nc"></div>no change: <span></span></div>
@@ -237,21 +238,21 @@
                 <span class = "sentence">and</span>
                 <div class = "menuContainerYears">
                     <select id = "end_year_selector">
-                        <option name = "end_year-1991" value = "end_year-1991">1991</option>
-                        <option name = "end_year-1992" value = "end_year-1992">1992</option>
-                        <option name = "end_year-1993" value = "end_year-1993">1993</option>
-                        <option name = "end_year-1994" value = "end_year-1994">1994</option>
-                        <option name = "end_year-1995" value = "end_year-1995">1995</option>
-                        <option name = "end_year-1996" value = "end_year-1996">1996</option>
-                        <option name = "end_year-1997" value = "end_year-1997">1997</option>
-                        <option name = "end_year-1998" value = "end_year-1998">1998</option>
-                        <option name = "end_year-1999" value = "end_year-1999">1999</option>
-                        <option name = "end_year-2000" value = "end_year-2000">2000</option>
-                        <option name = "end_year-2001" value = "end_year-2001">2001</option>
-                        <option name = "end_year-2002" value = "end_year-2002">2002</option>
-                        <option name = "end_year-2003" value = "end_year-2003">2003</option>
-                        <option name = "end_year-2004" value = "end_year-2004">2004</option>
-                        <option name = "end_year-2005" value = "end_year-2005">2005</option>
+                        <option name = "end_year-1991" value = "end_year-1991" disabled="true">1991</option>
+                        <option name = "end_year-1992" value = "end_year-1992" disabled="true">1992</option>
+                        <option name = "end_year-1993" value = "end_year-1993" disabled="true">1993</option>
+                        <option name = "end_year-1994" value = "end_year-1994" disabled="true">1994</option>
+                        <option name = "end_year-1995" value = "end_year-1995" disabled="true">1995</option>
+                        <option name = "end_year-1996" value = "end_year-1996" disabled="true">1996</option>
+                        <option name = "end_year-1997" value = "end_year-1997" disabled="true">1997</option>
+                        <option name = "end_year-1998" value = "end_year-1998" disabled="true">1998</option>
+                        <option name = "end_year-1999" value = "end_year-1999" disabled="true">1999</option>
+                        <option name = "end_year-2000" value = "end_year-2000" disabled="true">2000</option>
+                        <option name = "end_year-2001" value = "end_year-2001" disabled="true">2001</option>
+                        <option name = "end_year-2002" value = "end_year-2002" disabled="true">2002</option>
+                        <option name = "end_year-2003" value = "end_year-2003" disabled="true">2003</option>
+                        <option name = "end_year-2004" value = "end_year-2004" disabled="true">2004</option>
+                        <option name = "end_year-2005" value = "end_year-2005" disabled="true">2005</option>
                         <option name = "end_year-2006" value = "end_year-2006">2006</option>
                         <option name = "end_year-2007" value = "end_year-2007">2007</option>
                         <option name = "end_year-2008" value = "end_year-2008">2008</option>
@@ -433,21 +434,21 @@
                     </select>
                     <span id = "ndash">&ndash;</span>
                     <select id = "scroll_end_year_selector">
-                        <option name = "end_year-1991" value = "end_year-1991">1991</option>
-                        <option name = "end_year-1992" value = "end_year-1992">1992</option>
-                        <option name = "end_year-1993" value = "end_year-1993">1993</option>
-                        <option name = "end_year-1994" value = "end_year-1994">1994</option>
-                        <option name = "end_year-1995" value = "end_year-1995">1995</option>
-                        <option name = "end_year-1996" value = "end_year-1996">1996</option>
-                        <option name = "end_year-1997" value = "end_year-1997">1997</option>
-                        <option name = "end_year-1998" value = "end_year-1998">1998</option>
-                        <option name = "end_year-1999" value = "end_year-1999">1999</option>
-                        <option name = "end_year-2000" value = "end_year-2000">2000</option>
-                        <option name = "end_year-2001" value = "end_year-2001">2001</option>
-                        <option name = "end_year-2002" value = "end_year-2002">2002</option>
-                        <option name = "end_year-2003" value = "end_year-2003">2003</option>
-                        <option name = "end_year-2004" value = "end_year-2004">2004</option>
-                        <option name = "end_year-2005" value = "end_year-2005">2005</option>
+                        <option name = "end_year-1991" value = "end_year-1991" disabled="true">1991</option>
+                        <option name = "end_year-1992" value = "end_year-1992" disabled="true">1992</option>
+                        <option name = "end_year-1993" value = "end_year-1993" disabled="true">1993</option>
+                        <option name = "end_year-1994" value = "end_year-1994" disabled="true">1994</option>
+                        <option name = "end_year-1995" value = "end_year-1995" disabled="true">1995</option>
+                        <option name = "end_year-1996" value = "end_year-1996" disabled="true">1996</option>
+                        <option name = "end_year-1997" value = "end_year-1997" disabled="true">1997</option>
+                        <option name = "end_year-1998" value = "end_year-1998" disabled="true">1998</option>
+                        <option name = "end_year-1999" value = "end_year-1999" disabled="true">1999</option>
+                        <option name = "end_year-2000" value = "end_year-2000" disabled="true">2000</option>
+                        <option name = "end_year-2001" value = "end_year-2001" disabled="true">2001</option>
+                        <option name = "end_year-2002" value = "end_year-2002" disabled="true">2002</option>
+                        <option name = "end_year-2003" value = "end_year-2003" disabled="true">2003</option>
+                        <option name = "end_year-2004" value = "end_year-2004" disabled="true">2004</option>
+                        <option name = "end_year-2005" value = "end_year-2005" disabled="true">2005</option>
                         <option name = "end_year-2006" value = "end_year-2006">2006</option>
                         <option name = "end_year-2007" value = "end_year-2007">2007</option>
                         <option name = "end_year-2008" value = "end_year-2008">2008</option>

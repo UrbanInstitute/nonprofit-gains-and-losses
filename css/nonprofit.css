@@ -1035,7 +1035,11 @@ footer h3, footer h4{
   font-size: 15px;
   margin-bottom: 14px;
 }
-
+#tt-total_orgs{
+  font-style: italic;
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
 
 footer{
   /*width: 10px;*/

@@ -13,7 +13,7 @@ def cleanNTEE(ntee):
 	return [nteeName.replace(" ","-"), nteeName]
 
 output = csv.writer(open("data/data.csv","wb"))
-output.writerow(["location","location_type","topic","start_year","percent_no_change","percent_slight_loss","percent_large_loss","percent_slight_increase","percent_large_increase"])
+output.writerow(["location","location_type","topic","start_year","percent_no_change","percent_slight_loss","percent_large_loss","percent_slight_increase","percent_large_increase","total_orgs"])
 for i in range(1994, 2014):
 	fname = "data/source/Almanac Data Viz Growth %i-%i.xlsx"%(i, i+1)
 	book = xlrd.open_workbook(fname)
@@ -34,6 +34,7 @@ for i in range(1994, 2014):
 		outRow.append(sheet.cell(r, 6).value)
 		outRow.append(sheet.cell(r, 12).value)
 		outRow.append(sheet.cell(r, 14).value)
+		outRow.append(sheet.cell(r, 2).value)
 		output.writerow(outRow)
 #CBSA tab
 	sheet = book.sheet_by_name("CBSA")
@@ -57,6 +58,7 @@ for i in range(1994, 2014):
 		outRow.append(sheet.cell(r, 7).value)
 		outRow.append(sheet.cell(r, 13).value)
 		outRow.append(sheet.cell(r, 15).value)
+		outRow.append(sheet.cell(r, 3).value)
 		output.writerow(outRow)
 #NTEE tab
 	sheet = book.sheet_by_name("NTEE")
@@ -76,6 +78,7 @@ for i in range(1994, 2014):
 		outRow.append(sheet.cell(r, 6).value)
 		outRow.append(sheet.cell(r, 12).value)
 		outRow.append(sheet.cell(r, 14).value)
+		outRow.append(sheet.cell(r, 2).value)
 		output.writerow(outRow)
 #State and NTEE tab
 	sheet = book.sheet_by_name("State and NTEE")
@@ -90,6 +93,7 @@ for i in range(1994, 2014):
 		outRow.append(sheet.cell(r, 8).value)
 		outRow.append(sheet.cell(r, 14).value)
 		outRow.append(sheet.cell(r, 16).value)
+		outRow.append(sheet.cell(r, 4).value)
 		output.writerow(outRow)
 # CBSA and NTEE tab
 	sheet = book.sheet_by_name("CBSA and NTEE")
@@ -104,6 +108,7 @@ for i in range(1994, 2014):
 		outRow.append(sheet.cell(r, 9).value)
 		outRow.append(sheet.cell(r, 15).value)
 		outRow.append(sheet.cell(r, 17).value)
+		outRow.append(sheet.cell(r, 5).value)
 		output.writerow(outRow)
 
 # with open('data/cbsas.js', 'w') as fp:

@@ -307,6 +307,7 @@ d3.csv("data/data.csv", function(err, input){
       //   .style("opacity",1)
 
       var PERCENT = d3.format(".2%")
+      var COMMA = d3.format(",.0f")
 
       var small_chart = chart.selectAll(".small_chart")
         .data(data)
@@ -340,6 +341,7 @@ d3.csv("data/data.csv", function(err, input){
         .on("mouseover", function(d){
           d3.select("#tt-topic").text(ntees(d.topic)[1])
           d3.select("#tt-location").text(locations(d.location)[1])
+          d3.select("#tt-total_orgs span").text(COMMA(d.total_orgs))
           d3.select("#tt-ll span").text(PERCENT(d.percent_large_loss/100) )
           d3.select("#tt-sl span").text(PERCENT(d.percent_slight_loss/100) )
           d3.select("#tt-nc span").text(PERCENT(d.percent_no_change/100) )
@@ -464,6 +466,15 @@ d3.csv("data/data.csv", function(err, input){
   function listenForEvents(){
     $( START_YEAR_SELECTOR ).selectmenu({
       change: function(event, d){
+        // d3.select('#topics_selector option[value=' + this.value +']').node().selected = true
+        var year = parseInt(this.value.replace("start_year-",""))
+         d3.selectAll('#end_year_selector option').nodes().disabled = false
+        for(var i = 1991; i < year+1; i++){
+          // console.log(i)
+           d3.select('#end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
+           d3.select('#scroll_end_year_selector option[value=' + "end_year-" + i +']').node().disabled = true
+        }
+
 
       }
     })
