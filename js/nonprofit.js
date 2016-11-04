@@ -1131,6 +1131,7 @@ d3.csv("data/data.csv", function(err, input){
 })//end csv function
 
 isIE = false;
+var firstLoad = true;
 var counter = 0;
 function checkReady() {
   counter += 1;
@@ -1144,11 +1145,14 @@ function checkReady() {
     setTimeout("checkReady()", 100);
   } else {
     setTimeout(function(){
-      d3.select("#hide-nps").text("nonprofit has ")
-      d3.select("#loadText2").text("changed financially in")
-      d3.select("#slashSentence").text("/")
-      d3.select("#loadText3").text("between")
-      d3.select("#loadText4").text("and")
+      if(firstLoad){
+        d3.select("#hide-nps").text("nonprofit has ")
+        d3.select("#loadText2").text("changed financially in")
+        d3.select("#slashSentence").text("/")
+        d3.select("#loadText3").text("between")
+        d3.select("#loadText4").text("and")
+        firstLoad = false
+      }
       if(!isIE){
         d3.select("#loadingGif")
           .transition()
