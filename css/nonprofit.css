@@ -185,6 +185,16 @@ rect.bg{
   position: relative;
   left: 18px;
 }
+.downloadData{
+  font-size: 13px;
+  font-weight: bold;
+  margin-left: 20px;
+  top: -39px;
+  position: relative;
+}
+.downloadData span{
+  text-transform: uppercase;
+}
 .legend{
   font-size: 14px;
   font-weight: bold;

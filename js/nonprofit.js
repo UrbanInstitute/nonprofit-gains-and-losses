@@ -460,6 +460,16 @@ d3.csv("data/data.csv", function(err, input){
           d3.select(this).attr("class","smallMultipleLabel")
         })
       }
+      yearContainer
+        .append("div")
+        .attr("class","downloadData")
+        .html(function(){
+            if(SINGLE_YEAR){
+              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
+            }else{
+              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth " + data[0]["start_year"] + "-" + (parseInt(data[0]["start_year"])+1) + ".xlsx'>" + data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)+"</a> | <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
+            }
+          })
     }//end outer for loop on sorted data
   }
   drawSquares(input, true, undefined, undefined, 2005, 2014)
