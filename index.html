@@ -68,7 +68,7 @@
         <div id = "controls">
             <div id = "sentence">
                 <span class = "sentence">Explore how<span id = "hide-np"> nonprofit</span></span>
-                <div class = "menuContainer" id = "topicContainer">
+                <div class = "menuContainer active onLoadClass" id = "topicContainer">
                     <select id = "topics_selector">
                         <option name = "all_topics" value = "all_topics">each type of</option>
                         <option name = "Aggregate" value = "Aggregate">all</option>
@@ -85,7 +85,7 @@
                     </select>
                 </div>
 
-                <span class = "sentence"><span id = "hide-nps">nonprofit has </span>changed financially in</span>
+                <span class = "sentence"><span id = "hide-nps">nonprofits have </span><span id = "loadText2">changed financially</span></span>
                 <div class = "menuContainer" id = "locationContainer">
                     <span id = "cbsa_selector_wrapper">
                         <select id = "cbsa_selector" class = "locationMenu disabled">
@@ -144,7 +144,7 @@
                             <option name = "Washington-Arlington-Alexandria" value = "Washington-Arlington-Alexandria">Washington Area, DC</option>
                         </select>
                     </span>
-                    <span id = "slashSentence">/</span>
+                    <span id = "slashSentence"></span>
                     <span id = "state_selector_wrapper">
                         <select id = "state_selector" class = "locationMenu enabled">
                             <option name = "none" value = "none" disabled="true">Select a state...</option>
@@ -206,7 +206,7 @@
                 </div>
                 
 
-                <span class = "sentence">between</span>
+                <span class = "sentence" id = "loadText3"></span>
                 <div class = "menuContainerYears">
                     <select id = "start_year_selector">
                         <option name = "start_year-1994" value = "start_year-1994">1994</option>
@@ -231,7 +231,7 @@
                         <option name = "start_year-2013" value = "start_year-2013">2013</option>
                     </select>
                 </div>
-                <span class = "sentence">and</span>
+                <span class = "sentence" id = "loadText4"></span>
                 <div class = "menuContainerYears">
                     <select id = "end_year_selector">
                         <option name = "end_year-1995" value = "end_year-1995">1995</option>
@@ -267,7 +267,7 @@
         <div id = "scroll_controls">
             <div id = "scroll_lvl1">
                 <div id = "scroll_lvl2">
-                    <div class = "scroll_menuContainer active" id = "scroll_topicContainer">
+                    <div class = "scroll_menuContainer active onLoadClass" id = "scroll_topicContainer">
                         <select id = "scroll_topics_selector">
                             <option name = "all_topics" value = "all_topics">Each type</option>
                             <option name = "Aggregate" value = "Aggregate">All types</option>

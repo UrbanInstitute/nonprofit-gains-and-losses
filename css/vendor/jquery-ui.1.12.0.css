@@ -745,6 +745,11 @@ button.ui-button::-moz-focus-inner {
    	background: url(../../images/urban-select-active.png) no-repeat right #094c6a;
    	background-size: 53px 53px;
 }
+.menuContainer.active.onLoadClass .ui-selectmenu-button{
+	/*color: white !important;*/
+   	background: url(../../images/urban-select-2x.png) no-repeat right #1696d2; 
+   	background-size: 53px 53px !important;
+}
 
 #scroll_controls .ui-selectmenu-button.ui-button {
 	text-align: left;
@@ -770,6 +775,11 @@ button.ui-button::-moz-focus-inner {
 .scroll_menuContainer.active .ui-selectmenu-button{
 	color: white !important;
    	background: url(../../images/urban-select-active.png) no-repeat right #094c6a !important;
+   	background-size: 36px 36px !important;
+}
+.scroll_menuContainer.active.onLoadClass .ui-selectmenu-button{
+	color: white !important;
+   	background: url(../../images/urban-select-2x.png) no-repeat right #1696d2 !important;
    	background-size: 36px 36px !important;
 }
 .scroll_locationMenu.disabled + .ui-selectmenu-button{

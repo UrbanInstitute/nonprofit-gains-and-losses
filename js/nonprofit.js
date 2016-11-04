@@ -401,8 +401,18 @@ d3.csv("data/data.csv", function(err, input){
         })
         .on("click",function(d){
           if(d3.select("#topicContainer").classed("active")){
+            if(d3.select(CBSA_SELECTOR).classed("disabled")){
+              $("#state_selector" ).val("all_states").selectmenu("refresh")
+              $("#scroll_state_selector" ).val("all_states").selectmenu("refresh")
+            }else{
+              $("#cbsa_selector" ).val("all_states").selectmenu("refresh")
+              $("#scroll_cbsa_selector" ).val("all_cities").selectmenu("refresh")
+            }
             selectionHandler(ntees(d.topic)[0], false, "click")
           }else{
+              $("#topics_selector" ).val("all_topics").selectmenu("refresh")
+              $("#scroll_topics_selector" ).val("all_topics").selectmenu("refresh")
+
             if(d.location.length == 2 || d.location == "all_states" || d.location == "all-usa-state"){
               selectionHandler(false, d.location, "click")
             }else{
@@ -732,6 +742,7 @@ d3.csv("data/data.csv", function(err, input){
   listenForEvents()
 
   function selectionHandler(topic, location, action){
+    d3.selectAll(".onLoadClass").classed("onLoadClass",false)
     var isStates = location.length == 2 || location == "all_states" || location == "all-usa-state"
     if(action == "click"){
       if(location != false){
@@ -1133,6 +1144,11 @@ function checkReady() {
     setTimeout("checkReady()", 100);
   } else {
     setTimeout(function(){
+      d3.select("#hide-nps").text("nonprofit has ")
+      d3.select("#loadText2").text("changed financially in")
+      d3.select("#slashSentence").text("/")
+      d3.select("#loadText3").text("between")
+      d3.select("#loadText4").text("and")
       if(!isIE){
         d3.select("#loadingGif")
           .transition()
