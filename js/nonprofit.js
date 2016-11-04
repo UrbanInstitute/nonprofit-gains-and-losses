@@ -1073,12 +1073,14 @@ d3.csv("data/data.csv", function(err, input){
 
   var isAnimating = false;
 
-  function openDrawer(){
+  function openDrawer(action){
     var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
-    d3.select("#scroll_controls")
-      .transition()
-      .duration(600)
-      .style("top","40px")
+    if(!IS_MOBILE || action == "click"){
+      d3.select("#scroll_controls")
+        .transition()
+        .duration(600)
+        .style("top","40px")
+    }
 
     CBSA_SELECTOR = "#scroll_cbsa_selector"
     STATE_SELECTOR = "#scroll_state_selector"
@@ -1088,13 +1090,14 @@ d3.csv("data/data.csv", function(err, input){
     START_YEAR_SELECTOR = "#scroll_start_year_selector"
     END_YEAR_SELECTOR = "#scroll_end_year_selector"
   }
-  function closeDrawer(){
+  function closeDrawer(action){
     var scrollTo = (IS_PHONE) ? "-219px" : "-134px";
-    
-    d3.select("#scroll_controls")
-      .transition()
-      .duration(600)
-      .style("top",scrollTo)
+    if(!IS_MOBILE || action == "click"){
+      d3.select("#scroll_controls")
+        .transition()
+        .duration(600)
+        .style("top",scrollTo)
+    }
 
     CBSA_SELECTOR = "#cbsa_selector"
     STATE_SELECTOR = "#state_selector"
@@ -1109,21 +1112,18 @@ d3.csv("data/data.csv", function(err, input){
   d3.select("#hamboogerBar")
     .on("click", function(){
       if(d3.select(this).classed("closed")){
-        openDrawer()
+        openDrawer("click")
         d3.select(this).attr("class", "opened")
       }else{
-        closeDrawer();
+        closeDrawer("click");
         d3.select(this).attr("class", "closed")
       }
     })
   $(window).scroll(function () { 
-      if(IS_MOBILE){
-        return false;
-      }
       if(d3.select(".yearContainer").node().getBoundingClientRect().top - d3.select("#scroll_controls").node().getBoundingClientRect().height >  35){
-        closeDrawer()
+        closeDrawer("scroll")
       }else{
-        openDrawer()
+        openDrawer("scroll")
       }
       listenForEvents()
   });
