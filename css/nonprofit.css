@@ -253,6 +253,11 @@ rect.bg{
   font-size: 14px;
   font-style: italic;
 }
+.mapShow{
+  font-size: 14px;
+  fill: #1696d2;
+  cursor: pointer;
+}
 #sentence{
   top: 160px;
   position: relative;
@@ -835,7 +840,7 @@ footer h3, footer h4{
 
 
 
-#isMobile, #isPhone{
+#isMobile, #isPhone, #isMap{
     display: none;
     pointer-events: none;
     width: 0;
@@ -843,6 +848,11 @@ footer h3, footer h4{
     position: fixed;
     top: 0;
     left: 0;
+}
+@media (max-width: 670px){
+  #isMap{
+    display: block;
+  }
 }
 
 @media (max-width: 993px){

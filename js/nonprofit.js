@@ -5,6 +5,16 @@ var FILTER_BUTTON = "#filter_button"
 var ENABLED_SELECTOR = ".locationMenu.enabled"
 var START_YEAR_SELECTOR = "#start_year_selector"
 var END_YEAR_SELECTOR = "#end_year_selector"
+var BY_STATE = true;
+
+var projection = d3.geoEquirectangular()
+  .scale(2800)
+  .center([-96.03542,41.69553])
+  .translate([300,230]);
+
+var path = d3.geoPath()
+  .projection(projection);
+
 
 function wrap(text, width, dy) {
   text.each(function() {
@@ -112,7 +122,6 @@ d3.csv("data/data.csv", function(err, input){
   var margin = {"left":20,"top":30,"right":10,"bottom":10}
   var SINGLE_YEAR = false;
   function drawSquares(input, isStates, topicFilter, locationFilter, startYear, endYear){
-    console.log(topicFilter, locationFilter, startYear, endYear)
     d3.select("#loadingGif").style("height", function(){return d3.select("body").node().getBoundingClientRect().height - d3.select("#controls").node().getBoundingClientRect().height + "px" })
     d3.select("#jumpNarrative")
       .on("click", function(){
@@ -123,7 +132,6 @@ d3.csv("data/data.csv", function(err, input){
     var sorted = sortData(input, startYear, endYear)
     if(topicFilter != "all_topics" && locationFilter != "all_states" && locationFilter != "all_cities" && topicFilter != false && locationFilter != false && typeof(topicFilter) != "undefined" && typeof(locationFilter) != "undefined"){
       SINGLE_YEAR = true;
-      // console.log(sorted)
       sorted.splice(-1,1)
       sorted = [[].concat.apply([], sorted) , []];
     }else{
@@ -232,7 +240,7 @@ d3.csv("data/data.csv", function(err, input){
         .append("svg")
         .attr("class","chartContainer")
         .attr("width", window.innerWidth - margin.left - margin.right - 1)
-        .attr("height", 400)
+        .attr("height", 0)
         .append("g")
         .attr("class","chartGroup")
         .on("mouseout",function(){
@@ -266,7 +274,11 @@ d3.csv("data/data.csv", function(err, input){
       rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
       d3.select(chart.node().parentNode)
         .attr("height", function(){
-          return margin.top + margin.bottom + (small_width+gutter) * Math.ceil(data.length/rowCount) + "px"
+          if(data.length == 52 && !IS_MAP && BY_STATE){
+            return "550px";
+          }else{
+            return margin.top + margin.bottom + (small_width+gutter) * Math.ceil(data.length/rowCount) + "px"
+          }
         })
       chart.append("rect")
         .attr("width",233.16 - gutter)
@@ -295,11 +307,104 @@ d3.csv("data/data.csv", function(err, input){
         .text(function(){
           if(SINGLE_YEAR){
             return "By fiscal year"
+          }
+          else if(data.length == 52 && !IS_MAP && BY_STATE){
+            return "By location"
           }else{
             return "From biggest gains to biggest losses"
           }
         })
         .style("opacity",1)
+
+        var mapShow = chart.append("text")
+          .attr("class","mapShow")
+          .text("(Click to sort data)")
+          .attr("x",margin.left + 70)
+          .attr("y",20)
+          .style("opacity",0)
+          .style("pointer-events","none")
+          .on("click", function(){
+            // BY_STATE = !BY_STATE
+            if( BY_STATE ){
+              d3.selectAll(".sortText").text("From biggest gains to biggest losses")
+
+              BY_STATE = false;
+              d3.selectAll(".mapShow")
+                .style("opacity",1)
+                .style("pointer-events","visible")
+                .attr("x",margin.left + 200)
+                .text("(Click for map view)")
+              d3.selectAll("svg")
+                .each(function(){
+                  var c = this
+                  rc = Math.floor((d3.select(c).node().getBoundingClientRect().width - margin.left - margin.right) / (50+50/9))
+
+                  var newHeight = (50+50/9) * Math.ceil(52/rc) + 2*50/9 + margin.top
+
+                  d3.select(c).transition().attr("height", function(){ return String(newHeight)})
+
+                  d3.select(c).selectAll(".small_chart")
+                    .transition()
+                    .duration(1000)
+                    .delay(function(d,i){
+                      return 200* i/52
+                    })
+                    .attr("transform", function(d,i){
+                      i += 1;
+                  
+                      var x = margin.left + ( (((i-1)%rc)) * (50+50/9) )
+                      var y = margin.top + ( (Math.ceil(i/rc)-1) * (50+50/9) )
+                      return "translate(" + x + "," + y + ")"
+                    })
+              })
+            }else{
+              d3.selectAll(".sortText").text("By location")
+
+              BY_STATE = true;
+              d3.selectAll(".mapShow")
+                .style("opacity",1)
+                .style("pointer-events","visible")
+                .attr("x",margin.left + 70)
+                .text("(Click to sort data)")
+              d3.selectAll("svg")
+                .each(function(){
+                  var c = this
+                  d3.select(c).transition().attr("height", "550")
+                  d3.select(c).selectAll(".small_chart")
+                    .transition()
+                    .duration(1000)
+                    .delay(function(d,i){
+                      return 200* i/52
+                    })
+                    .attr("transform", function(d,i){
+                      var tmp = stateData.features.filter(function(o) { return o.properties.abbr == d.location} )
+                      return "translate(" + path.centroid(tmp[0]) + ")"
+                    })
+              })
+            }
+          })
+
+      if(data.length == 52 && !IS_MAP && BY_STATE){
+        mapShow
+          .style("opacity",1)
+          .style("pointer-events","visible")
+          .attr("x",margin.left + 70)
+          .text("(Click to sort data)")
+
+        d3.selectAll(".sortText").text("By location")
+
+
+      }
+      if(data.length == 52 && !IS_MAP && !BY_STATE){
+        mapShow
+          .style("opacity",1)
+          .style("pointer-events","visible")
+          .attr("x",margin.left + 200)
+          .text("(Click for map view)")
+
+        d3.selectAll(".sortText").text("From biggest gains to biggest losses")
+
+      }
       // chart.append("text")
       //   .attr("x",margin.left)
       //   .attr("y",margin.top + 18)
@@ -330,6 +435,11 @@ d3.csv("data/data.csv", function(err, input){
         .attr("width",small_width + "px")
         .attr("height",small_width + "px")
         .attr("transform", function(d,i){
+          if(data.length == 52 && !IS_MAP && BY_STATE){
+            var tmp = stateData.features.filter(function(o) { return o.properties.abbr == d.location} )
+            // console.log(d.location)
+            return "translate(" + path.centroid(tmp[0]) + ")"
+          }
           i += 1;
           if(data.length > 60){
             var offset = Math.floor(233.16/(small_width+gutter))
@@ -475,10 +585,13 @@ d3.csv("data/data.csv", function(err, input){
   drawSquares(input, true, undefined, undefined, 2005, 2014)
   var IS_PHONE = d3.select("#isPhone").style("display") == "block"
   var IS_MOBILE = d3.select("#isMobile").style("display") == "block"
+  var IS_MAP = d3.select("#isMap").style("display") == "block"
 
   window.onresize = function(){
     IS_PHONE = d3.select("#isPhone").style("display") == "block"
     IS_MOBILE = d3.select("#isMobile").style("display") == "block"
+    IS_MAP = d3.select("#isMap").style("display") == "block"
+
 
     d3.selectAll(".yearContainer").remove()
     drawSquares(input, d3.select(STATE_SELECTOR).classed("enabled"), $(TOPIC_SELECTOR).val(), $(ENABLED_SELECTOR).val(), parseInt($(START_YEAR_SELECTOR).val().replace("start_year-","")), parseInt($(END_YEAR_SELECTOR).val().replace("end_year-","")))
@@ -687,6 +800,15 @@ d3.csv("data/data.csv", function(err, input){
               rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
               var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter + margin.top
 
+              if(clicked.nodes().length == 52 && !IS_MAP && BY_STATE){
+                newHeight = 550;
+                d3.select(".sortText").html("By location")
+                d3.selectAll(".mapShow").style("opacity",1).style("pointer-events","visible")
+
+              }else{
+                d3.select(".sortText").text("From biggest gains to biggest losses")
+                d3.selectAll(".mapShow").style("opacity",0).style("pointer-events","none")
+              }
               d3.select(this).transition().attr("height", function(){ return String(newHeight)})
               var old_width = parseFloat(d3.select(".small_chart rect").attr("width").replace("px",""))
               var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
@@ -698,6 +820,25 @@ d3.csv("data/data.csv", function(err, input){
                 return 200* i/clicked.nodes().length
               })
               .attr("transform", function(d,i){
+              if(clicked.nodes().length == 52 && !IS_MAP && BY_STATE){
+                var tmp = stateData.features.filter(function(o) { return o.properties.abbr == d.location} )
+                return "translate(" + path.centroid(tmp[0]) + ")"
+                d3.selectAll(".sortText").text("By location")
+                d3.selectAll(".mapShow")
+                  .style("opacity",1)
+                  .style("pointer-events","visible")
+                  .attr("x",margin.left + 70)
+                  .text("(Click to sort data)")
+              }
+              else if(clicked.nodes().length == 52 && !IS_MAP && !BY_STATE){
+                d3.selectAll(".sortText").text("From biggest gains to biggest losses")
+                d3.selectAll(".mapShow")
+                  .style("opacity",1)
+                  .style("pointer-events","visible")
+                  .attr("x",margin.left + 200)
+                  .text("(Click for map view)")
+              }
+
                 i += 1;
                 var x = margin.left + ( (((i-1)%rowCount)) * (small_width+gutter) )
                 var y = margin.top + ( (Math.ceil(i/rowCount)-1) * (small_width+gutter) )
