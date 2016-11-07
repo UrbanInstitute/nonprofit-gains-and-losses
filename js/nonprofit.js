@@ -327,8 +327,7 @@ d3.csv("data/data.csv", function(err, input){
             // BY_STATE = !BY_STATE
             if( BY_STATE ){
               d3.selectAll(".sortText").text("From biggest gains to biggest losses")
-
-              BY_STATE = false;
+              
               d3.selectAll(".mapShow")
                 .style("opacity",1)
                 .style("pointer-events","visible")
@@ -356,11 +355,13 @@ d3.csv("data/data.csv", function(err, input){
                       var y = margin.top + ( (Math.ceil(i/rc)-1) * (50+50/9) )
                       return "translate(" + x + "," + y + ")"
                     })
+                    .on("end", function(){
+                      BY_STATE = false;
+                    })
               })
             }else{
               d3.selectAll(".sortText").text("By location")
 
-              BY_STATE = true;
               d3.selectAll(".mapShow")
                 .style("opacity",1)
                 .style("pointer-events","visible")
@@ -379,6 +380,9 @@ d3.csv("data/data.csv", function(err, input){
                     .attr("transform", function(d,i){
                       var tmp = stateData.features.filter(function(o) { return o.properties.abbr == d.location} )
                       return "translate(" + path.centroid(tmp[0]) + ")"
+                    })
+                    .on("end", function(){
+                      BY_STATE = true;
                     })
               })
             }
@@ -802,16 +806,17 @@ d3.csv("data/data.csv", function(err, input){
 
               if(clicked.nodes().length == 52 && !IS_MAP && BY_STATE){
                 newHeight = 550;
-                d3.select(".sortText").html("By location")
+                d3.selectAll(".sortText").html("By location")
                 d3.selectAll(".mapShow").style("opacity",1).style("pointer-events","visible")
 
               }else{
-                d3.select(".sortText").text("From biggest gains to biggest losses")
+                d3.selectAll(".sortText").text("From biggest gains to biggest losses")
                 d3.selectAll(".mapShow").style("opacity",0).style("pointer-events","none")
               }
               d3.select(this).transition().attr("height", function(){ return String(newHeight)})
               var old_width = parseFloat(d3.select(".small_chart rect").attr("width").replace("px",""))
               var scale = (d3.selectAll(".smallMultipleLabel").nodes().length == 0) ? small_width/old_width : 1;
+              console.log(scale)
 
               // var scale = 1;
               clicked.transition()
@@ -823,7 +828,7 @@ d3.csv("data/data.csv", function(err, input){
               if(clicked.nodes().length == 52 && !IS_MAP && BY_STATE){
                 var tmp = stateData.features.filter(function(o) { return o.properties.abbr == d.location} )
                 return "translate(" + path.centroid(tmp[0]) + ")"
-                d3.selectAll(".sortText").text("By location")
+                // d3.selectAll(".sortText").text("By location")
                 d3.selectAll(".mapShow")
                   .style("opacity",1)
                   .style("pointer-events","visible")
@@ -831,7 +836,7 @@ d3.csv("data/data.csv", function(err, input){
                   .text("(Click to sort data)")
               }
               else if(clicked.nodes().length == 52 && !IS_MAP && !BY_STATE){
-                d3.selectAll(".sortText").text("From biggest gains to biggest losses")
+                // d3.selectAll(".sortText").text("From biggest gains to biggest losses")
                 d3.selectAll(".mapShow")
                   .style("opacity",1)
                   .style("pointer-events","visible")
