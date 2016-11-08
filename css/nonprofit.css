@@ -187,6 +187,7 @@ rect.bg{
 .yearHeader{
   position: relative;
   left: 18px;
+  top: -10px;
 }
 .downloadData{
   font-size: 13px;
@@ -206,7 +207,8 @@ rect.bg{
   font-weight: bold;
   width: calc(100% - 21px);
   margin-left: 21px;
-  margin-top: -10px !important;
+  margin-top: -20px !important;
+  margin-bottom: 10px;
 }
 .legend .key{
   width: 15px;
@@ -372,7 +374,15 @@ select{
 #scroll_start_year_selector-button .ui-selectmenu-icon, #scroll_end_year_selector-button .ui-selectmenu-icon{
   display: none;
 }
-
+.legend{
+  position: relative;
+  top: -10px;
+}
+@media( max-width: 1150px){
+  .legend{
+    top: 0px;
+  }
+}
 @media (max-width: 949px){
   #scroll_controls{
     /*display: none;*/
