@@ -299,7 +299,7 @@ d3.csv("data/data.csv", function(err, input){
         .attr("class","highlightTabHeader highlightShow")
         .text("HIGHLIGHTED TYPE")
         .style("opacity",0)
-      var sortY = (data.length > 200) ? margin.top + 15 : margin.top-10;
+      var sortY = (data.length > 200) ? margin.top + 15 : margin.top-15;
       chart.append("text")
         .attr("x",margin.left)
         .attr("y",sortY)
@@ -320,7 +320,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","mapShow")
           .text("(Click to sort data)")
           .attr("x",margin.left + 70)
-          .attr("y",20)
+          .attr("y",15)
           .style("opacity",0)
           .style("pointer-events","none")
           .on("click", function(){
@@ -331,7 +331,7 @@ d3.csv("data/data.csv", function(err, input){
               d3.selectAll(".mapShow")
                 .style("opacity",1)
                 .style("pointer-events","visible")
-                .attr("x",margin.left + 200)
+                .attr("x",margin.left + 205)
                 .text("(Click for map view)")
               d3.selectAll("svg")
                 .each(function(){
@@ -403,7 +403,7 @@ d3.csv("data/data.csv", function(err, input){
         mapShow
           .style("opacity",1)
           .style("pointer-events","visible")
-          .attr("x",margin.left + 200)
+          .attr("x",margin.left + 205)
           .text("(Click for map view)")
 
         d3.selectAll(".sortText").text("From biggest gains to biggest losses")
@@ -581,7 +581,7 @@ d3.csv("data/data.csv", function(err, input){
             if(SINGLE_YEAR){
               return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
             }else{
-              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth " + data[0]["start_year"] + "-" + (parseInt(data[0]["start_year"])+1) + ".xlsx'>" + data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)+"</a> | <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
+              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth " + data[0]["start_year"] + "-" + (parseInt(data[0]["start_year"])+1) + ".xlsx'>" + data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)+"</a> <span id = 'spacer'>|</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
             }
           })
     }//end outer for loop on sorted data
@@ -793,7 +793,7 @@ d3.csv("data/data.csv", function(err, input){
           }else{
             d3.selectAll(".sortShow")
               .transition()
-              .attr("y",margin.top-10)
+              .attr("y",margin.top-15)
           }
           d3.selectAll(".chartContainer")
             .each(function(){
@@ -802,7 +802,7 @@ d3.csv("data/data.csv", function(err, input){
             
               gutter = (clicked.nodes().length < 21) ? 50 :  small_width/9
               rowCount = Math.floor((d3.select("#chart svg").node().getBoundingClientRect().width - margin.left - margin.right) / (small_width + gutter))
-              var newHeight = (small_width+gutter) * Math.ceil(clicked.nodes().length/rowCount) + 2*gutter + margin.top
+              var newHeight = (small_width+gutter) * (clicked.nodes().length/rowCount) + gutter + margin.top
 
               if(clicked.nodes().length == 52 && !IS_MAP && BY_STATE){
                 newHeight = 550;
@@ -840,7 +840,7 @@ d3.csv("data/data.csv", function(err, input){
                 d3.selectAll(".mapShow")
                   .style("opacity",1)
                   .style("pointer-events","visible")
-                  .attr("x",margin.left + 200)
+                  .attr("x",margin.left + 205)
                   .text("(Click for map view)")
               }
 

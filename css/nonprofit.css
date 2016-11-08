@@ -87,7 +87,7 @@ rect.bg{
 }
 #filter_button{
   cursor: pointer;
-  width: 49px;
+  width: 53px;
   margin: 0 auto;
   text-align: center;
   font-size: 14px;
@@ -97,7 +97,7 @@ rect.bg{
 }
 #scroll_filter_button{
   cursor: pointer;
-  width: 49px;
+  width: 53px;
   text-align: center;
   font-size: 14px;
   opacity: 1;
@@ -142,6 +142,9 @@ rect.bg{
   padding-top: 37px;
   font-size: 14px;
   cursor: pointer;
+}
+#jumpNarrative:hover{
+  background: #000;
 }
 
 
@@ -194,6 +197,9 @@ rect.bg{
 }
 .downloadData span{
   text-transform: uppercase;
+}
+#spacer{
+  padding: 3px;
 }
 .legend{
   font-size: 14px;
@@ -373,7 +379,7 @@ select{
     height: 140px;
   }
   #scroll_lvl2{
-    width: 426px;
+    width: 428px;
   }
   #scroll_cbsa_selector-button{
     margin-right: 0px;
