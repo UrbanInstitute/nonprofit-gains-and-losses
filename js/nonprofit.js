@@ -770,6 +770,12 @@ d3.csv("data/data.csv", function(err, input){
     })
 
     d3.select(FILTER_BUTTON)
+      .on("mouseover", function(){
+        d3.select(this).select("img").attr("src","images/update-button-hover.png")
+      })
+      .on("mouseout", function(){
+        d3.select(this).select("img").attr("src","images/update-button.png")
+      })
       .on("click", function(){
         d3.selectAll(".highlightShow")
           .style("opacity",0)
