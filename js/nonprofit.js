@@ -175,9 +175,15 @@ d3.csv("data/data.csv", function(err, input){
         .attr("class","yearHeader")
         .html(function(){
           if(SINGLE_YEAR){
-            return data[0]["start_year"] + "&ndash;" + (parseInt(data[data.length-1]["start_year"])+1)
+            var next = String(parseInt(data[data.length-1]["start_year"])+1)
+            if(next == "2000"){ next = "2000"}
+            else{ next = next.substr(2)}
+            return data[0]["start_year"] + "&ndash;" + next
           }else{
-            return data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)
+            var next = String(parseInt(data[0]["start_year"])+1)
+            if(next == "2000"){ next = "2000"}
+            else{ next = next.substr(2)}
+            return data[0]["start_year"] + "&ndash;" + next
           }
         })
 
@@ -193,7 +199,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","key key-li")
         li.append("div")
           .attr("class","keyLabel")
-          .text("Large increase (more than 10%)")
+          .text("Large increase (10% or more)")
 
       var si = legend
         .append("div")
@@ -203,7 +209,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","key key-si")
         si.append("div")
           .attr("class","keyLabel")
-          .text("Slight increase (3 to 10%)")
+          .text("Slight increase (between 3% and 10%)")
 
       var nc = legend
         .append("div")
@@ -213,7 +219,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","key key-nc")
         nc.append("div")
           .attr("class","keyLabel")
-          .text("No change (-3 to 3%)")
+          .text("No change (between -3% and 3%)")
 
       var sl = legend
         .append("div")
@@ -223,7 +229,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","key key-sl")
         sl.append("div")
           .attr("class","keyLabel")
-          .text("Slight loss (3 to 10%)")
+          .text("Slight loss (between -3% and -10%)")
 
       var ll = legend
         .append("div")
@@ -233,7 +239,7 @@ d3.csv("data/data.csv", function(err, input){
           .attr("class","key key-ll")
         ll.append("div")
           .attr("class","keyLabel")
-          .text("Large loss (more than 10%)")
+          .text("Large loss (less than -10%)")
 
 
       var chart = yearContainer
@@ -564,7 +570,10 @@ d3.csv("data/data.csv", function(err, input){
           if((d3.selectAll(".small_chart.Arts").nodes().length != 0 && d3.selectAll(".small_chart.Other").nodes().length != 0)){
             return ntees(d.topic)[1]
           }else{
-            return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
+            var next = String((parseInt(d.start_year)+1))
+            if(next == "2000"){ next = "2000"}
+            else{ next = next.substr(2)}
+            return parseInt(d.start_year) + "&ndash;" + next
           }
         })
         .call(wrap, small_width, small_width)
@@ -581,7 +590,10 @@ d3.csv("data/data.csv", function(err, input){
             if(SINGLE_YEAR){
               return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
             }else{
-              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth " + data[0]["start_year"] + "-" + (parseInt(data[0]["start_year"])+1) + ".xlsx'>" + data[0]["start_year"] + "&ndash;" + (parseInt(data[0]["start_year"])+1)+"</a> <span id = 'spacer'>|</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
+              var next = String(parseInt(data[0]["start_year"])+1)
+              if(next == "2000"){ next = "2000"}
+              else{ next = next.substr(2)} 
+              return "<span>Download data for:</span> <a href = 'data/source/Almanac Data Viz Growth " + data[0]["start_year"] + "-" + (parseInt(data[0]["start_year"])+1) + ".xlsx'>" + data[0]["start_year"] + "&ndash;" + next+"</a> <span id = 'spacer'>|</span> <a href = 'data/source/Almanac Data Viz Growth.zip'>All years</a>"
             }
           })
     }//end outer for loop on sorted data
@@ -882,7 +894,10 @@ d3.csv("data/data.csv", function(err, input){
                     if((d3.selectAll(".small_chart.clicked.Arts").nodes().length != 0 && d3.selectAll(".small_chart.clicked.Other").nodes().length != 0)){
                       return ntees(d.topic)[1]
                     }else{
-                      return parseInt(d.start_year) + "&ndash;" + (parseInt(d.start_year)+1)
+                      var next = String((parseInt(d.start_year)+1))
+                      if(next == "2000"){ next = "2000"}
+                      else{ next = next.substr(2)}
+                      return parseInt(d.start_year) + "&ndash;" + next;
                     }
                   })
                   .call(wrap, small_width, small_width)
